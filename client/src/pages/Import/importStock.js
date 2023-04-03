@@ -24,6 +24,9 @@ const ImportStock = () => {
             });
     }
 
+    const HandleButtonClick = (key) => {
+
+    }
 
     return (
         
@@ -37,8 +40,8 @@ const ImportStock = () => {
                 <RowCol handle={HandleChange}text1="Stock status" ID1="TinhTrangHang" text2="ID Supplier" ID2="MaNCC" />
                 <ButtonSubmit/>
             </form>
-            <TableDT />
-            <ButtonBottom/>
+            <TableDT /> 
+            <ButtonBottom handle={HandleButtonClick(1)}/>
         </Container>
     )
 }

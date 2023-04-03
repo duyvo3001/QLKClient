@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import Request from '../../../api/Request'
 import Table from 'react-bootstrap/Table';
 import DropdownSetting from '../../Import/table/DropdownSetting'
-function tableDT() {
+function tableDT(props) {
     return (
         <Table striped bordered hover>
             <THeadtable />
-            <TBodytable />
+            <TBodytable   /> 
         </Table>
     )
 }
@@ -35,11 +35,16 @@ const THeadtable = () => {
 
 
 //render table body
-const TBodytable = () => {
+const TBodytable = (props) => {
 
+    const [pageIndex , SetpageIndex] = useState(1)
+
+    SetpageIndex(props.pageIndex)
+
+    // const [formData , setformData] = useState({})
     const [Data, setData] = useState(null);
     useEffect(() => {
-        Request.get('/ImportStock', {
+        Request.get(`/ImportStock/${pageIndex}`, {
             headers: { 'Authorization': sessionStorage.getItem("access_token") }
         })
             .then(response => setData(response))
