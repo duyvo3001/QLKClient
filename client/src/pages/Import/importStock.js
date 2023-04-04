@@ -7,7 +7,9 @@ import Request from '../../api/Request.js'
 import ButtonBottom from  '../Import/buttonBot/buttonBottom'
 // import InputGroup from 'react-bootstrap/InputGroup';
 const ImportStock = () => {
-
+    const [pageindex ,SetpageIndex] = useState({
+        page : 1 
+    })
     const [formData, setFormData] = useState({});
 
     const HandleChange = (event) => {
@@ -24,8 +26,8 @@ const ImportStock = () => {
             });
     }
 
-    const HandleButtonClick = (key) => {
-
+    const HandleButtonClick = (newPage) => {
+        console.log('new Page ' , newPage);
     }
 
     return (
@@ -40,8 +42,8 @@ const ImportStock = () => {
                 <RowCol handle={HandleChange}text1="Stock status" ID1="TinhTrangHang" text2="ID Supplier" ID2="MaNCC" />
                 <ButtonSubmit/>
             </form>
-            <TableDT /> 
-            <ButtonBottom handle={HandleButtonClick(1)}/>
+            <TableDT/>
+            <ButtonBottom onPageChange={HandleButtonClick}  pageindex ={pageindex}/>
         </Container>
     )
 }

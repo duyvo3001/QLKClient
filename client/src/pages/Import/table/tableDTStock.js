@@ -37,12 +37,17 @@ const THeadtable = () => {
 //render table body
 const TBodytable = (props) => {
 
-    const [pageIndex , SetpageIndex] = useState(1)
+    // const [pageIndex , SetpageIndex] = useState(1)
 
-    SetpageIndex(props.pageIndex)
+    // SetpageIndex(props.pageIndex)
 
     // const [formData , setformData] = useState({})
+    let pageIndex = 1 ; 
     const [Data, setData] = useState(null);
+    const [filters,setFilters] = useState({
+        limit : 10 ,
+        page :1
+    })
     useEffect(() => {
         Request.get(`/ImportStock/${pageIndex}`, {
             headers: { 'Authorization': sessionStorage.getItem("access_token") }
@@ -51,7 +56,7 @@ const TBodytable = (props) => {
             .catch(function (error) {
                 console.log(error);
             });
-    }, [])
+    },[filters])
 
     const datatable = Data?.data.result?.map(
         key => (<tr>
