@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import Request from '../../../api/Request'
 import Table from 'react-bootstrap/Table';
 import DropdownSetting from '../../Import/table/DropdownSetting'
-function tableDT(props) {
+function TableDT(props) {
+    const {filters } = props;
     return (
         <Table striped bordered hover>
             <THeadtable />
-            <TBodytable   /> 
+            <TBodytable  filters={filters}  />
         </Table>
     )
 }
@@ -37,26 +38,19 @@ const THeadtable = () => {
 //render table body
 const TBodytable = (props) => {
 
-    // const [pageIndex , SetpageIndex] = useState(1)
-
-    // SetpageIndex(props.pageIndex)
-
-    // const [formData , setformData] = useState({})
-    let pageIndex = 1 ; 
     const [Data, setData] = useState(null);
-    const [filters,setFilters] = useState({
-        limit : 10 ,
-        page :1
-    })
+    const {filters } = props;
+
     useEffect(() => {
-        Request.get(`/ImportStock/${pageIndex}`, {
-            headers: { 'Authorization': sessionStorage.getItem("access_token") }
-        })
+        Request
+            .get(`/ImportStock/${filters.page}`, {
+                headers: { 'Authorization': sessionStorage.getItem("access_token") }
+            })
             .then(response => setData(response))
             .catch(function (error) {
                 console.log(error);
             });
-    },[filters])
+    }, [filters])
 
     const datatable = Data?.data.result?.map(
         key => (<tr>
@@ -73,7 +67,7 @@ const TBodytable = (props) => {
             <td>{key.NgayXuat}</td>
             <td>{key.TinhTrangHang}</td>
             <td>
-                <DropdownSetting/>
+                <DropdownSetting />
             </td>
         </tr>)
     )
@@ -84,4 +78,4 @@ const TBodytable = (props) => {
         </tbody>
     )
 }
-export { tableDT }
+export { TableDT }

@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import DropdownSetting from '../../Import/table/DropdownSetting'
 
-function tableDTSupplier() {
+function tableDTSupplier(props) {
+    const {filters } = props;
     return (
         <Table striped bordered hover>
             <THeadtable />
-            <TBodytable />
+            <TBodytable filters={filters} />
         </Table>
     )
 }
@@ -27,18 +28,20 @@ const THeadtable = () => {
     )
 }
 //render table body
-const TBodytable = () => {
+const TBodytable = (props) => {
 
     const [Data, setData] = useState(null);
+    const {filters } = props;
+
     useEffect(() => {
-        Request.get('/HomeSupplier', {
+        Request.get(`/HomeSupplier/${filters.page}`, {
             headers: { 'Authorization': sessionStorage.getItem("access_token") }
         })
             .then(response => setData(response))
             .catch(function (error) {
                 console.log(error);
             });
-    }, [])
+    }, [filters])
 
     const datatable = Data?.data.result?.map(
         key => <tr>

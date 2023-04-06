@@ -9,6 +9,12 @@ import ButtonBottom from  '../Import/buttonBot/buttonBottom'
 
 
 const ImportBrand = () => {
+    const [pageindex, setpageindex] = useState({
+        page: 1,
+    });
+    const [filters, setfilters] = useState({
+        page: 1,
+    });
     const [formData, setFormData] = useState({});
 
     const HandleChange = (event) => {
@@ -26,6 +32,14 @@ const ImportBrand = () => {
         });
     };
 
+    const HandleButtonClick = (newPage) => {
+        setfilters({
+            ...filters,
+            page: newPage,
+        });
+        setpageindex({ ...pageindex, page: newPage });
+    };
+
     return (
         <Container>
             <h5>Import : Brand</h5>
@@ -39,8 +53,8 @@ const ImportBrand = () => {
                 />
                 <ButtonSubmit />
             </Form>
-            <TableDT />
-            <ButtonBottom/>
+            <TableDT  filters={filters} setfilters={setfilters}/>
+            <ButtonBottom  pageindex={pageindex} HandleButtonClick={HandleButtonClick}/>
         </Container>
     );
 };

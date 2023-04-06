@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import Request from '../../api/Request.js'
-// import AccessToken from "../../api/AccessToken.js";
+
 import { Navigate } from 'react-router-dom';
 import * as style from './Login.module.scss'
 const cx = classnames.bind(style)
