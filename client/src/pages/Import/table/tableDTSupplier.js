@@ -32,17 +32,27 @@ const TBodytable = (props) => {
 
     const [Data, setData] = useState(null);
     const {filters } = props;
-
-    useEffect(() => {
-        Request.get(`/HomeSupplier/${filters.page}`, {
+    const requestRenderTable = (filters) => {
+        Request.get(`/HomeSupplier/${filters?.page}`, {
             headers: { 'Authorization': sessionStorage.getItem("access_token") }
         })
             .then(response => setData(response))
             .catch(function (error) {
                 console.log(error);
             });
+    }
+    useEffect(() => {
+        requestRenderTable(filters)
     }, [filters])
-
+    const handleDelete = (ID, PostUrl) => {
+        Request
+            .post(`/${PostUrl}/${ID}`, {},
+                {
+                    headers: { Authorization: sessionStorage.getItem("access_token") }
+                })
+            .then(requestRenderTable(filters))
+            .catch(eror => { console.error(eror) })
+    }
     const datatable = Data?.data.result?.map(
         key => <tr>
             <td>{key.MaNCC}</td>
@@ -50,7 +60,7 @@ const TBodytable = (props) => {
             <td>{key.DiaChi}</td>
             <td>{key.SDT}</td>
             <td>{key.Email}</td>
-            <td><DropdownSetting/></td>
+            <td><DropdownSetting handleDelete={() => handleDelete(key.MaNCC, "deleteSupplier")}/></td>
         </tr>
     )
 

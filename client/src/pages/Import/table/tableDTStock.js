@@ -3,11 +3,11 @@ import Request from '../../../api/Request'
 import Table from 'react-bootstrap/Table';
 import DropdownSetting from '../../Import/table/DropdownSetting'
 function TableDT(props) {
-    const {filters } = props;
+    const { filters } = props;
     return (
         <Table striped bordered hover>
             <THeadtable />
-            <TBodytable  filters={filters}  />
+            <TBodytable filters={filters} />
         </Table>
     )
 }
@@ -39,19 +39,30 @@ const THeadtable = () => {
 const TBodytable = (props) => {
 
     const [Data, setData] = useState(null);
-    const {filters } = props;
-
-    useEffect(() => {
-        Request
-            .get(`/ImportStock/${filters.page}`, {
-                headers: { 'Authorization': sessionStorage.getItem("access_token") }
-            })
+    const { filters } = props;
+    //request render table 
+    const requestRenderTable = (filters) => {
+        Request.get(`/ImportStock/${filters?.page}`, {
+            headers: { 'Authorization': sessionStorage.getItem("access_token") }
+        })
             .then(response => setData(response))
             .catch(function (error) {
                 console.log(error);
             });
+    }
+    useEffect(() => {
+        requestRenderTable(filters)
     }, [filters])
-
+    // handle delete
+    const handleDelete = (ID, PostUrl) => {
+        Request
+            .post(`/${PostUrl}/${ID}`, {},
+                {
+                    headers: { Authorization: sessionStorage.getItem("access_token") }
+                })
+            .then(requestRenderTable(filters))
+            .catch(eror => { console.error(eror) })
+    }
     const datatable = Data?.data.result?.map(
         key => (<tr>
             <td>{key.MaLK}</td>
@@ -67,7 +78,7 @@ const TBodytable = (props) => {
             <td>{key.NgayXuat}</td>
             <td>{key.TinhTrangHang}</td>
             <td>
-                <DropdownSetting />
+                <DropdownSetting handleDelete={() => handleDelete(key.MaLK, "deleteStock")} />
             </td>
         </tr>)
     )

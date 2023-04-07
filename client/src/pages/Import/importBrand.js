@@ -53,7 +53,7 @@ const ImportBrand = () => {
                 />
                 <ButtonSubmit />
             </Form>
-            <TableDT  filters={filters} setfilters={setfilters}/>
+            <TableDT  filters={filters} setfilters={setfilters} />
             <ButtonBottom  pageindex={pageindex} HandleButtonClick={HandleButtonClick}/>
         </Container>
     );

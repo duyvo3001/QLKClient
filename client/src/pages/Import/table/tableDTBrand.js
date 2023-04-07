@@ -8,11 +8,11 @@ import * as style from '../../Import/table/TableDTBrand.module.scss'
 const cx = classnames.bind(style)
 
 function tableDTBrand(props) {
-    const {filters } = props;
+    const { filters } = props;
     return (
         <Table striped bordered hover>
             <THeadtable />
-            <TBodytable filters={filters}/>
+            <TBodytable filters={filters} />
         </Table>
     )
 }
@@ -33,9 +33,9 @@ const THeadtable = () => {
 const TBodytable = (props) => {
 
     const [Data, setData] = useState(null);
-    const {filters } = props;
-    const [hiddenItem,sethiddenItem] = useState(true);
-    useEffect(() => {
+    const { filters } = props;
+    //request render table 
+    const requestRenderTable = (filters) => {
         Request.get(`/HomeBrand/${filters?.page}`, {
             headers: { 'Authorization': sessionStorage.getItem("access_token") }
         })
@@ -43,22 +43,40 @@ const TBodytable = (props) => {
             .catch(function (error) {
                 console.log(error);
             });
-    }, [filters])
-
-    const handleChange = ()=>{
-        //xu ly text arrea
     }
 
+    //request render table State
+    useEffect(() => {
+        requestRenderTable(filters)
+    }, [filters])
+
+    // handle delete
+    const handleDelete = (ID, PostUrl) => {
+        Request
+            .post(`/${PostUrl}/${ID}`, {},
+                {
+                    headers: { Authorization: sessionStorage.getItem("access_token") }
+                })
+            .then(requestRenderTable(filters))
+            .catch(eror => { console.error(eror) })
+    }
+    const handlEdit =()=>{
+        
+    }
+    //handle data table
     const datatable = Data?.data.result?.map(
         key => <tr>
             <td key={key.MaThuongHieu}>{key.MaThuongHieu}</td>
             <td key={key.TenThuongHieu}>{key.TenThuongHieu}</td>
             <td >
                 <div className={cx("dateImport")} >{key.NgayNhap}</div>
-                <textarea on >{key.NgayNhap}
+                <textarea  >{key.NgayNhap}
                 </textarea>
             </td>
-            <td><DropdownSetting ID={key.MaThuongHieu} /></td>
+            <td>
+                <DropdownSetting
+                    handleDelete={() => handleDelete(key.MaThuongHieu, "deleteBrand")} />
+            </td>
         </tr>
     )
 
