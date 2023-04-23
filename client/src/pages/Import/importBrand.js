@@ -5,8 +5,7 @@ import RowCol from "./RowCol";
 import ButtonSubmit from "./ButtonSubmit";
 import Form from "react-bootstrap/Form";
 import Request from "../../api/Request.js";
-import ButtonBottom from  '../Import/buttonBot/buttonBottom'
-
+import ButtonBottom from '../Import/buttonBot/buttonBottom'
 
 const ImportBrand = () => {
     const [pageindex, setpageindex] = useState({
@@ -33,10 +32,7 @@ const ImportBrand = () => {
     };
 
     const HandleButtonClick = (newPage) => {
-        setfilters({
-            ...filters,
-            page: newPage,
-        });
+        setfilters({...filters,page: newPage,});
         setpageindex({ ...pageindex, page: newPage });
     };
 
@@ -53,8 +49,8 @@ const ImportBrand = () => {
                 />
                 <ButtonSubmit />
             </Form>
-            <TableDT  filters={filters} setfilters={setfilters} />
-            <ButtonBottom  pageindex={pageindex} HandleButtonClick={HandleButtonClick}/>
+            <TableDT filters={filters} setfilters={setfilters} />
+            <ButtonBottom pageindex={pageindex} HandleButtonClick={HandleButtonClick} />
         </Container>
     );
 };

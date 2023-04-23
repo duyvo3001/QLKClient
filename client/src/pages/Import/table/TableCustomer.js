@@ -13,7 +13,7 @@ import { HandleEdit } from "./ActionFunction/HandleEdit";
 import { UpdateEdit } from "./ActionFunction/UpdateEdit";
 const cx = classnames.bind(style);
 
-function tableDTBrand(props) {
+function TableCustomer(props) {
     const { filters } = props;
     return (
         <Table striped bordered hover>
@@ -27,8 +27,10 @@ const THeadtable = () => {
     return (
         <thead>
             <tr>
-                <th>ID Brand</th>
-                <th>Name Brand</th>
+                <th>ID Customer</th>
+                <th>Name Customer</th>
+                <th>Phone</th>
+                <th>Email</th>
                 <th>Date Import</th>
                 <th>Action</th>
             </tr>
@@ -43,7 +45,7 @@ const TBodytable = (props) => {
     const [_idItem, setIdItem] = useState(null);
     //request render table State
     useEffect(() => {
-        RequestRenderTable(filters, setData, "HomeBrand");
+        RequestRenderTable(filters, setData, "CustomerPage");
     }, [filters]);
 
     // handle text area change events
@@ -59,41 +61,65 @@ const TBodytable = (props) => {
             <tr>
                 <td>
                     <div className={key._id} hidden={false}>
-                        {key['MaThuongHieu']}{" "}
+                        {key['IDCustomer']}{" "}
                     </div>
                     <TextArea
                         className={key._id + "hidden"}
                         hidden={true}
                         onChange={HandleChange}
-                        name="MaThuongHieu"
-                        value={key['MaThuongHieu']}
+                        name="IDCustomer"
+                        value={key['IDCustomer']}
                     />
                 </td>
                 <td>
                     <div className={key._id} hidden={false}>
-                        {key.TenThuongHieu}
+                        {key.NameCustomer}
                     </div>
                     <TextArea
                         className={key._id + "hidden"}
                         hidden={true}
                         onChange={HandleChange}
-                        name="TenThuongHieu"
-                        value={key.TenThuongHieu}
+                        name="NameCustomer"
+                        value={key.NameCustomer}
                     />
                 </td>
                 <td>
-                    <div className={cx("dateImport")}>{key.NgayNhap}</div>
+                    <div className={key._id} hidden={false}>
+                        {key.Phone}
+                    </div>
+                    <TextArea
+                        className={key._id + "hidden"}
+                        hidden={true}
+                        onChange={HandleChange}
+                        name="Phone"
+                        value={key.Phone}
+                    />
+                </td>
+                <td>
+                    <div className={key._id} hidden={false}>
+                        {key.Email}
+                    </div>
+                    <TextArea
+                        className={key._id + "hidden"}
+                        hidden={true}
+                        onChange={HandleChange}
+                        name="Email"
+                        value={key.Email}
+                    />
+                </td>
+                <td>
+                    <div className={cx("dateImport")}>{key.NgayTao}</div>
                 </td>
                 <td>
                     <DropdownSetting
                         HandleDelete={() =>
                             HandleDelete(
-                                key.MaThuongHieu,
-                                "deleteBrand",
+                                key.IDCustomer,
+                                "deleteCustomer",
                                 RequestRenderTable,
                                 filters,
                                 setData,
-                                "HomeBrand"
+                                "ImportCustomer"
                             )
                         }
                         handleEdit={() => HandleEdit(key._id, setIdItem)}
@@ -116,7 +142,7 @@ const TBodytable = (props) => {
                             RequestRenderTable,
                             filters,
                             setData,
-                            "Brand"
+                            "Customer"
                             )}>
                     update</Button>{" "}
                 </td>
@@ -127,4 +153,4 @@ const TBodytable = (props) => {
     return <tbody>{datatable}</tbody>;
 };
 
-export { tableDTBrand };
+export { TableCustomer };

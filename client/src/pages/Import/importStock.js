@@ -42,11 +42,11 @@ const ImportStock = () => {
 
   return (
     <Container>
-      <h5>Import : Stock</h5>
+      <h5>Import : Product</h5>
       <Form onSubmit={HandleData}>
         <RowCol
           handle={HandleChange}
-          text1="ID Stock"
+          text1="ID Product"
           ID1="MaLK"
           text2="Name Stock"
           ID2="TenLK"

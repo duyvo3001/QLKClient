@@ -15,8 +15,7 @@ const Navigation = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <DropdownImort/>
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="/login">Link</Nav.Link>
+          <Nav.Link href="/ExportStock">Export</Nav.Link>
           <DropdownSetting/>
         </Nav>
       </Navbar.Collapse>
@@ -38,9 +37,11 @@ const DropdownSetting = () => {
 }
 const DropdownImort = () => {
   return <NavDropdown title="Import" id="basic-nav-dropdown1" >
-    <NavDropdown.Item href="/">Import Stock</NavDropdown.Item>
+    <NavDropdown.Item href="/">Import Product</NavDropdown.Item>
     <NavDropdown.Item href="/importBrand">Import Brand</NavDropdown.Item>
     <NavDropdown.Item href="/importSupplier">Import Supplier</NavDropdown.Item>
+    <NavDropdown.Item href="/customerPage">Import Customer</NavDropdown.Item>
+    <NavDropdown.Item href="/userPage">Import User</NavDropdown.Item>
   </NavDropdown>
 };
 
