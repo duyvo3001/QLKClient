@@ -17,10 +17,10 @@ const publicRoutes =[
     {path:'/Barcode',component :BarcodePage },
     {path:'/ExportStock',component :ExportPage },
     {path:'/UserPage',component :UserPage },
-    {path:'/customerPage',component :ImportCustomer },
+   
     {path:'*',component :ErorPage  }
 ]
 
-const privateRoutes=[]
+const privateRoutes=[ {path:'/customerPage',component :ImportCustomer , private: true },]
 
 export {publicRoutes,privateRoutes}
