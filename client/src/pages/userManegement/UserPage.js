@@ -62,6 +62,7 @@ const UserPage = () => {
   };
 
   return (
+    <>
     <Container>
       <h5>User Management</h5>
       <Form onSubmit={HandleData}>
@@ -83,12 +84,13 @@ const UserPage = () => {
         </Row>
         <ButtonSubmit />
       </Form>
+    </Container>
       <TableUser filters={filters} setfilters={setfilters} />
       <ButtonBottom
         pageindex={pageindex}
         HandleButtonClick={HandleButtonClick}
-      />
-    </Container>
+        />
+    </>
   )
 }
 

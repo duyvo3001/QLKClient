@@ -41,52 +41,56 @@ const ImportStock = () => {
   };
 
   return (
-    <Container>
-      <h5>Import : Product</h5>
-      <Form onSubmit={HandleData}>
-        <RowCol
-          handle={HandleChange}
-          text1="ID Product"
-          ID1="MaLK"
-          text2="Name Stock"
-          ID2="TenLK"
+    <>
+      <Container>
+        <h5>Import : Product</h5>
+        <Form onSubmit={HandleData}>
+          <RowCol
+            handle={HandleChange}
+            text1="ID Product"
+            ID1="MaLK"
+            text2="Name Stock"
+            ID2="TenLK"
+          />
+          <RowCol
+            handle={HandleChange}
+            text1="ID Brand"
+            ID1="MaThuongHieu"
+            text2="Color"
+            ID2="Color"
+          />
+          <RowCol
+            handle={HandleChange}
+            text1="Unit"
+            ID1="Donvi"
+            text2="Quantity"
+            ID2="Soluong"
+          />
+          <RowCol
+            handle={HandleChange}
+            text1="Retail price"
+            ID1="GiaBanLe"
+            text2="ID Warehouse"
+            ID2="MaKho"
+          />
+          <RowCol
+            handle={HandleChange}
+            text1="Stock status"
+            ID1="TinhTrangHang"
+            text2="ID Supplier"
+            ID2="MaNCC"
+          />
+          <ButtonSubmit />
+        </Form>
+      </Container>
+      <div>
+        <TableDT filters={filters} setfilters={setfilters} />
+        <ButtonBottom
+          pageindex={pageindex}
+          HandleButtonClick={HandleButtonClick}
         />
-        <RowCol
-          handle={HandleChange}
-          text1="ID Brand"
-          ID1="MaThuongHieu"
-          text2="Color"
-          ID2="Color"
-        />
-        <RowCol
-          handle={HandleChange}
-          text1="Unit"
-          ID1="Donvi"
-          text2="Quantity"
-          ID2="Soluong"
-        />
-        <RowCol
-          handle={HandleChange}
-          text1="Retail price"
-          ID1="GiaBanLe"
-          text2="ID Warehouse"
-          ID2="MaKho"
-        />
-        <RowCol
-          handle={HandleChange}
-          text1="Stock status"
-          ID1="TinhTrangHang"
-          text2="ID Supplier"
-          ID2="MaNCC"
-        />
-        <ButtonSubmit />
-      </Form>
-      <TableDT filters={filters} setfilters={setfilters} />
-      <ButtonBottom
-        pageindex={pageindex}
-        HandleButtonClick={HandleButtonClick}
-      />
-    </Container>
+      </div>
+    </>
   );
 };
 

@@ -26,7 +26,9 @@ const ImportBrand = () => {
             "/PostBrand",
             { formData },
             { headers: { Authorization: sessionStorage.getItem("access_token") } }
-        ).catch((error) => {
+        ).then(respone => console.log(respone)
+        )
+        .catch((error) => {
             console.log(error);
         });
     };

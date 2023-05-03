@@ -15,7 +15,7 @@ const Navigation = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <DropdownImort/>
-          <Nav.Link href="/ExportStock">Export</Nav.Link>
+          <Nav.Link href="/ExportProduct">Export</Nav.Link>
           <DropdownSetting/>
         </Nav>
       </Navbar.Collapse>
@@ -42,6 +42,7 @@ const DropdownImort = () => {
     <NavDropdown.Item href="/importSupplier">Import Supplier</NavDropdown.Item>
     <NavDropdown.Item href="/customerPage">Import Customer</NavDropdown.Item>
     <NavDropdown.Item href="/userPage">Import User</NavDropdown.Item>
+    <NavDropdown.Item href="/ImportWareHouse">Import WareHouse</NavDropdown.Item>
   </NavDropdown>
 };
 

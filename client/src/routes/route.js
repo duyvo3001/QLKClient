@@ -8,6 +8,7 @@ import ExportPage from '../pages/export/ExportPage';
 import UserPage from '../pages/userManegement/UserPage';
 import ImportCustomer from '../pages/customer/ImportCustomer';
 import ErorPage from '../pages/erorPage/ErorPage';
+import ImportWareHouse from '../pages/warehouse/ImportWareHouse';
 //public Route
 const publicRoutes =[
     {path:'/login',component :Login , layout : null},
@@ -15,12 +16,13 @@ const publicRoutes =[
     {path:'/importBrand',component :ImportBrand },
     {path:'/importSupplier',component :ImportSupplier },
     {path:'/Barcode',component :BarcodePage },
-    {path:'/ExportStock',component :ExportPage },
+    {path:'/ExportProduct',component :ExportPage },
     {path:'/UserPage',component :UserPage },
-   
+    {path:'/customerPage',component :ImportCustomer  },
+    {path:'/ImportWareHouse',component :ImportWareHouse  },
     {path:'*',component :ErorPage  }
 ]
 
-const privateRoutes=[ {path:'/customerPage',component :ImportCustomer , private: true },]
+const privateRoutes=[ ]
 
 export {publicRoutes,privateRoutes}

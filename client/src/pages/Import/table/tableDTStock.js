@@ -54,13 +54,12 @@ const TBodytable = (props) => {
 
     const HandleChange = (event) => {
         const { name, value } = event.target;
-        console.log( name, value)
         const _id = _idItem;
         setFormData({ ...formData, [name]: value, _id });
     };
 
 
-    const datatable = Data?.data.result?.map((key) => (
+    const datatable = Data?.data?.result?.map((key) => (
         <tr>
             <td>
                 <div className={key._id} hidden={false}>
