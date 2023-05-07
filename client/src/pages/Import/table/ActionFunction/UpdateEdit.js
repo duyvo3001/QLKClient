@@ -14,6 +14,10 @@ class serviceUrl {
                 return new serviceUrl('/editStock', 'ImportStock')
             case "Supplier" :
                 return new serviceUrl('/editSupplier',"HomeSupplier")
+            case "Customer" :
+                return new serviceUrl('/UpdateCustomer',"CustomerPage")
+            case "User" :
+                return new serviceUrl('/editSupplier',"StaffPage")
         }
     }
 }

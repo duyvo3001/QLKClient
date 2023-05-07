@@ -219,7 +219,7 @@ const TBodytable = (props) => {
                         RequestRenderTable,
                         filters,
                         setData,
-                        "Supplier"
+                        "User"
                     )}>
                     update</Button>{" "}
             </td>

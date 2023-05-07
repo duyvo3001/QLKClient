@@ -135,16 +135,14 @@ const TBodytable = (props) => {
 
                     <Button variant="warning" onClick={
                         () => UpdateEdit( 
-                            key._id ,
-                            formData ,
+                            key._id,
+                            formData,
                             setIdItem,
                             CancelEdit,
                             RequestRenderTable,
                             filters,
                             setData,
-                            "Customer"
-                            )}>
-                    update</Button>{" "}
+                            "Customer")}>update</Button>{" "}
                 </td>
             </tr>
         </>
