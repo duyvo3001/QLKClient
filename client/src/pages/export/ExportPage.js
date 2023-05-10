@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import TableExport from './TableExport'
 import {Navigate } from 'react-router-dom';
 import Request from '../../api/Request';
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import PdfExportPage from './PdfExportPage';
 //get data from localStorage
 export const getDataForm =()=>{
   const data = localStorage.getItem('dataExport');
@@ -42,6 +44,12 @@ const ExportPage = () => {
       <SearchProduct setData={setData} Data={Data} />
       <TableExport Data={Data} />
       <ButtonSubmit HandleExportProduct={HandleExportProduct} />
+      <div className="App">
+       <button>
+        <PDFDownloadLink document={<PdfExportPage />} filename="FORM">
+        </PDFDownloadLink>
+        Download</button> 
+    </div>
     </>
   )
 }
