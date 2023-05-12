@@ -104,7 +104,7 @@ const TBodytable =(props)=>{
                     />
                 </td>
                 <td>
-                    <div className={cx("dateImport")}>{key.NgayNhap}</div>
+                    <div className={cx("dateImport")}>{key.NgayTao}</div>
                 </td>
                 <td>
                     <DropdownSetting

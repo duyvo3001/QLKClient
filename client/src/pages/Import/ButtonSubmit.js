@@ -7,7 +7,7 @@ const ButtonSubmit = () => {
   return (
     <Row className='mb-2 row'>
       <Col md={1}>
-        <Button  type="submit" variant="danger">Create</Button>
+        <Button  type="submit" variant="success">Create</Button>
       </Col>
       <Col md={11}></Col>
     </Row>

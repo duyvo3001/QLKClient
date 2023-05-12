@@ -7,6 +7,7 @@ export const HandleDelete = (ID, PostUrl, RequestRenderTable, filters, setData, 
                 headers: { Authorization: sessionStorage.getItem("access_token") }
             })
         .then(Response => {
+            console.log(Response)
             RequestRenderTable(filters, setData, url)
         }
         )

@@ -10,10 +10,14 @@ import UserPage from '../pages/userManegement/UserPage';
 import ImportCustomer from '../pages/customer/ImportCustomer';
 import ErorPage from '../pages/erorPage/ErorPage';
 import ImportWareHouse from '../pages/warehouse/ImportWareHouse';
+import DashBoard from '../pages/dashBoard/DashBoard';
+import ProductView from '../pages/dashBoard/ProductView/ProductView';
+import UserView from '../pages/dashBoard/UserView/UserView';
+import WareHouseView from '../pages/dashBoard/WareHouseView/WareHouseView';
 //public Route
 const publicRoutes =[
     {path:'/login',component :Login , layout : null},
-    {path:'/',component :ImportStock },
+    {path:'/',component :DashBoard },
     {path:'/importBrand',component :ImportBrand },
     {path:'/importSupplier',component :ImportSupplier },
     {path:'/Barcode',component :BarcodePage },
@@ -22,6 +26,10 @@ const publicRoutes =[
     {path:'/UserPage',component :UserPage },
     {path:'/customerPage',component :ImportCustomer  },
     {path:'/ImportWareHouse',component :ImportWareHouse  },
+    {path:'/ImportStock',component :ImportStock  },
+    {path:'/ProductView',component :ProductView  },
+    {path:'/UserView',component :UserView  },
+    {path:'/WareHouseView',component :WareHouseView  },
     {path:'*',component :ErorPage  }
 ]
 

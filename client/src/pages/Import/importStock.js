@@ -43,13 +43,13 @@ const ImportStock = () => {
   return (
     <>
       <Container>
-        <h5>Import : Product</h5>
+        <h4>Import : Product</h4>
         <Form onSubmit={HandleData}>
           <RowCol
             handle={HandleChange}
             text1="ID Product"
             ID1="MaLK"
-            text2="Name Stock"
+            text2="Name Product"
             ID2="TenLK"
           />
           <RowCol

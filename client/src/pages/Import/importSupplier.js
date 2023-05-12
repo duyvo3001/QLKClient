@@ -41,7 +41,7 @@ const ImportSupplier = () => {
     };
     return (
         <Container>
-            <h5>Import : Supplier</h5>
+            <h4>Import : Supplier</h4>
             <Form onSubmit={HandleData}>
                 <RowCol
                     handle={HandleChange}

@@ -1,5 +1,7 @@
 import React from 'react'
 import Table from "react-bootstrap/Table";
+import Button from 'react-bootstrap/Button';
+import Badge from 'react-bootstrap/Badge';
 
 const TableExport = (props) => {
     const { Data } = props
@@ -71,8 +73,13 @@ const TBodytable = (props) => {
             </td>
             <td>
                 <div className={key._id} >
-                    {key.TinhTrangHang}{" "}
+                    <Badge pill  bg="info">
+                        {key.TinhTrangHang}{" "}
+                    </Badge>{' '}
                 </div>
+            </td>
+            <td>
+                <Button type='button' variant="danger">delete</Button>
             </td>
         </tr>
     ))

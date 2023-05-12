@@ -94,7 +94,7 @@ const UserPage = () => {
   return (
     <>
       <Container>
-        <h5>User Management</h5>
+        <h4>User Management</h4>
         <Form onSubmit={HandleData}>
           <RowCol handle={HandleChange} text1="ID Staff" ID1="MaNV" text2="Name Staff" ID2="TenNV" />
           <RowCol handle={HandleChange} text1="Sex" ID1="GioiTinh" text2="Address" ID2="DiaChi" />

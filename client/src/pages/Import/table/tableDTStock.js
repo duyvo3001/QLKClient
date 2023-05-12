@@ -23,7 +23,7 @@ const THeadtable = () => {
         <thead>
             <tr>
                 <th>ID Product</th>
-                <th>Name Stock</th>
+                <th>Name Product</th>
                 <th>ID Brand</th>
                 <th>ID Warehouse</th>
                 <th>ID Supplier</th>

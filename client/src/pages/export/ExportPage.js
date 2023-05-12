@@ -1,24 +1,24 @@
 /* eslint-disable no-unused-vars */
-import { React, useState , useEffect } from 'react'
+import { React, useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import TableExport from './TableExport'
-import {Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Request from '../../api/Request';
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PdfExportPage from './PdfExportPage';
 //get data from localStorage
-export const getDataForm =()=>{
+export const getDataForm = () => {
   const data = localStorage.getItem('dataExport');
-  if(data){
+  if (data) {
     return JSON.parse(data)
   }
   else return []
 }
-function HandleExportProduct(){
+function HandleExportProduct() {
   console.log('export')
   return (
-      <Navigate to="/" replace={true} />
+    <Navigate to="/" replace={true} />
   );
   // let keyMaLK = [];
   // Data?.map((key) => (
@@ -37,19 +37,17 @@ function HandleExportProduct(){
 // page export
 const ExportPage = () => {
   const [Data, setData] = useState(getDataForm())
-  
+
   return (
     <>
-      <div>Export Product</div>
+      <h4>
+        Export Product
+      </h4>
       <SearchProduct setData={setData} Data={Data} />
       <TableExport Data={Data} />
       <ButtonSubmit HandleExportProduct={HandleExportProduct} />
       <div className="App">
-       <button>
-        <PDFDownloadLink document={<PdfExportPage />} filename="FORM">
-        </PDFDownloadLink>
-        Download</button> 
-    </div>
+      </div>
     </>
   )
 }
@@ -76,22 +74,21 @@ const SearchProduct = (props) => {
     })
       .catch((error) => {
         console.log(error);
-      }); 
-      setFormData('')  
-    };
+      });
+    setFormData('')
+  };
 
-    useEffect(()=>{
-      localStorage.setItem('dataExport',JSON.stringify(Data))
-    },[Data])
+  useEffect(() => {
+    localStorage.setItem('dataExport', JSON.stringify(Data))
+  }, [Data])
 
   return (
     <>
       <Form onSubmit={HandleData}>
-        <p>eror</p>
         <Form.Control className="me-auto"
           placeholder="Search item here ..."
           name="search"
-          onChange={HandleChange} 
+          onChange={HandleChange}
         />
         <Button type="submit" variant="secondary">Submit</Button>
       </Form>
@@ -102,7 +99,7 @@ const SearchProduct = (props) => {
 const ButtonSubmit = (props) => {
   const { HandleExportProduct } = props
   return (
-    <Button type="submit" variant="danger" href="/PdfExportPage">Export Product</Button>
+    <Button type="submit" variant="success" href="/PdfExportPage">Export Product</Button>
   )
 }
 export default ExportPage

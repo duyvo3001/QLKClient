@@ -38,7 +38,7 @@ const ImportWareHouse = () => {
   };
   return (
     <Container>
-      <h5>Import : Warehouse</h5>
+      <h4>Import : Warehouse</h4>
       <Form onSubmit={HandleData}>
         <RowCol
           handle={HandleChange}
