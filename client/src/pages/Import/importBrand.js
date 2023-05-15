@@ -40,7 +40,7 @@ const ImportBrand = () => {
 
     return (
         <Container>
-            <h4>Import : Brand</h4>
+            <h4 className="mb-3">Import : Brand</h4>
             <Form onSubmit={HandleData}>
                 <RowCol
                     handle={HandleChange}

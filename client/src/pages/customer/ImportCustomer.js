@@ -38,7 +38,7 @@ const ImportCustomer = () => {
   };
   return (
     <Container>
-      <h4>Import : Customer</h4>
+      <h4 className="mb-3">Import : Customer</h4>
       <Form onSubmit={HandleData}>
         <RowCol handle={HandleChange} text1="ID Customer" ID1="IDCustomer" text2="Name Customer" ID2="NameCustomer" />
         <RowCol handle={HandleChange} text1="Phone" ID1="Phone" text2="Email" ID2="Email" />

@@ -43,7 +43,7 @@ const TBodytable = (props) => {
                 <td><Form.Control className="mb-3" as="textarea" type="text"/></td>
                 <td><Form.Control className="mb-3" as="textarea" type="text"/></td>
                 <td><Form.Control className="mb-3" as="textarea" type="text"/></td>
-                <td><Form.Control className="mb-3" as="textarea" type="text"/></td>
+                <td><Button type='button' variant="danger">Delete</Button></td>
             </tr>
             {datatable}
         </tbody>
@@ -54,10 +54,10 @@ const THeadtable = () => {
         <thead>
             <tr>
                 <th>Name Product</th>
-                <th>Color</th>
                 <th>Quantity</th>
+                <th>Rate</th>
                 <th>
-                    <Button type='button' variant="danger">+</Button>
+                    <Button type='button' variant="danger">Add</Button>
                 </th>
             </tr>
         </thead>

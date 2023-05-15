@@ -45,29 +45,42 @@ const ExportPage = () => {
     <>
       <Container>
         <Row>
-          <Col md={4}> <h4>
+          <Col className="mb-3" md={5}> <h4>
             Export Product
           </h4></Col>
         </Row>
         <Row>
           <Col md={2}>Customer name  </Col>
-          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
+          <Col className="mb-3" md={5}><Form.Control size="sm" type="text" /></Col>
         </Row>
         <Row>
           <Col md={2}>Customer address  </Col>
-          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
+          <Col className="mb-3" md={5}><Form.Control size="sm" type="text" /></Col>
         </Row>
         <Row>
           <Col md={2}>Customer phone  </Col>
-          <Col className="mb-3"  md={2}><Form.Control size="sm" type="text" /></Col>
+          <Col className="mb-3" md={5}><Form.Control size="sm" type="text" /></Col>
         </Row>
+        {/* <SearchProduct setData={setData} Data={Data} /> */}
+        <TableExport Data={Data} />
+        <Row>
+          <Col className="mb-3" md={2}>Gross Amount</Col>
+          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
+        </Row>
+        <Row>
+          <Col md={2}>Vat</Col>
+          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
+        </Row>
+        <Row>
+          <Col md={2}>Disount</Col>
+          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
+        </Row>
+        <Row>
+          <Col md={2}>Net Amount</Col>
+          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
+        </Row>
+        <ButtonSubmit HandleExportProduct={HandleExportProduct} />
       </Container>
-
-      {/* <SearchProduct setData={setData} Data={Data} /> */}
-      <TableExport Data={Data} />
-      <ButtonSubmit HandleExportProduct={HandleExportProduct} />
-      <div className="App">
-      </div>
     </>
   )
 }
