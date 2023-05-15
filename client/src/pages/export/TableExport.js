@@ -17,28 +17,8 @@ const TBodytable = (props) => {
     const datatable = Data?.map((key) => (
         <tr>
             <td>
-                <div className={key._id}>
-                    {key.MaLK}{" "}
-                </div>
-            </td>
-            <td>
                 <div className={key._id} >
                     {key.TenLK}{" "}
-                </div>
-            </td>
-            <td>
-                <div className={key._id} >
-                    {key.MaThuongHieu}{" "}
-                </div>
-            </td>
-            <td>
-                <div className={key._id} >
-                    {key.MaKho}{" "}
-                </div>
-            </td>
-            <td>
-                <div className={key._id} >
-                    {key.MaNCC}{" "}
                 </div>
             </td>
             <td>
@@ -48,34 +28,7 @@ const TBodytable = (props) => {
             </td>
             <td>
                 <div className={key._id} >
-                    {key.Donvi}{" "}
-                </div>
-            </td>
-            <td>
-                <div className={key._id} >
                     {key.Soluong}{" "}
-                </div>
-            </td>
-            <td>
-                <div className={key._id} >
-                    {key.GiaBanLe}{" "}
-                </div>
-            </td>
-            <td>
-                <div className={key._id} >
-                    {key.NgayNhap}{" "}
-                </div>
-            </td>
-            <td>
-                <div className={key._id} >
-                    {key.NgayXuat}{" "}
-                </div>
-            </td>
-            <td>
-                <div className={key._id} >
-                    <Badge pill  bg="info">
-                        {key.TinhTrangHang}{" "}
-                    </Badge>{' '}
                 </div>
             </td>
             <td>
@@ -91,18 +44,9 @@ const THeadtable = () => {
     return (
         <thead>
             <tr>
-                <th>ID Product</th>
-                <th>Name Stock</th>
-                <th>ID Brand</th>
-                <th>ID Warehouse</th>
-                <th>ID Supplier</th>
+                <th>Name Product</th>
                 <th>Color</th>
-                <th>Unit</th>
                 <th>Quantity</th>
-                <th>Retail price</th>
-                <th>Day Export</th>
-                <th>Day Import</th>
-                <th>Stock status</th>
                 <th>Action</th>
             </tr>
         </thead>

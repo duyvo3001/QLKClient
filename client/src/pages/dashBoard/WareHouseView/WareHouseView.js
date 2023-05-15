@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { TableWareHouse } from "../../warehouse/TableWareHouse";
 import ButtonBottom from "../../Import/buttonBot/buttonBottom";
-
+import Button from "react-bootstrap/esm/Button";
 const WareHouseView = () => {
     const [filters, setfilters] = useState({
         page: 1,
@@ -17,15 +17,16 @@ const WareHouseView = () => {
         setpageindex({ ...pageindex, page: newPage });
     };
     return (
-        <>
-            <h4>Mange : WareHouse</h4>
-            <TableWareHouse filters={filters} setfilters={setfilters} />
-            <ButtonBottom
-                pageindex={pageindex}
-                HandleButtonClick={HandleButtonClick}
-            />
-        </>
-    )
+        <>  
+                <h4>Mange : WareHouse</h4>
+                <Button href="ImportWareHouse" variant="success">Manage</Button>
+                <TableWareHouse filters={filters} setfilters={setfilters} />
+                <ButtonBottom
+                    pageindex={pageindex}
+                    HandleButtonClick={HandleButtonClick}
+                />
+            </>
+            )
 }
 
-export default WareHouseView
+            export default WareHouseView

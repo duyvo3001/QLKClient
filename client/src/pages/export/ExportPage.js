@@ -5,8 +5,11 @@ import Form from 'react-bootstrap/Form';
 import TableExport from './TableExport'
 import { Navigate } from 'react-router-dom';
 import Request from '../../api/Request';
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import PdfExportPage from './PdfExportPage';
+// import { PDFDownloadLink } from "@react-pdf/renderer";
+// import PdfExportPage from './PdfExportPage';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 //get data from localStorage
 export const getDataForm = () => {
   const data = localStorage.getItem('dataExport');
@@ -40,9 +43,26 @@ const ExportPage = () => {
 
   return (
     <>
-      <h4>
-        Export Product
-      </h4>
+      <Container>
+        <Row>
+          <Col md={4}> <h4>
+            Export Product
+          </h4></Col>
+        </Row>
+        <Row>
+          <Col md={2}>Customer name  </Col>
+          <Col md={2}><Form.Control size="sm" type="text" /></Col>
+        </Row>
+        <Row>
+          <Col md={2}>Customer address  </Col>
+          <Col md={2}><Form.Control size="sm" type="text" /></Col>
+        </Row>
+        <Row>
+          <Col md={2}>Customer phone  </Col>
+          <Col  md={2}><Form.Control size="sm" type="text" /></Col>
+        </Row>
+      </Container>
+
       <SearchProduct setData={setData} Data={Data} />
       <TableExport Data={Data} />
       <ButtonSubmit HandleExportProduct={HandleExportProduct} />
