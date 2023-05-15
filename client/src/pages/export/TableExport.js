@@ -1,7 +1,8 @@
 import React from 'react'
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button';
-import Badge from 'react-bootstrap/Badge';
+import Form from 'react-bootstrap/Form';
+
 
 const TableExport = (props) => {
     const { Data } = props
@@ -37,7 +38,15 @@ const TBodytable = (props) => {
         </tr>
     ))
     return (
-        <tbody>{datatable}</tbody>
+        <tbody>
+            <tr>
+                <td><Form.Control className="mb-3" as="textarea" type="text"/></td>
+                <td><Form.Control className="mb-3" as="textarea" type="text"/></td>
+                <td><Form.Control className="mb-3" as="textarea" type="text"/></td>
+                <td><Form.Control className="mb-3" as="textarea" type="text"/></td>
+            </tr>
+            {datatable}
+        </tbody>
     );
 };
 const THeadtable = () => {
@@ -47,7 +56,9 @@ const THeadtable = () => {
                 <th>Name Product</th>
                 <th>Color</th>
                 <th>Quantity</th>
-                <th>Action</th>
+                <th>
+                    <Button type='button' variant="danger">+</Button>
+                </th>
             </tr>
         </thead>
     );

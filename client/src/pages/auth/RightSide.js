@@ -80,6 +80,7 @@ const RightSide = () => {
               id="inputPassword5"
               onChange={handleChange}
               ref={userRef}
+              className="mb-3"
             />
             <Form.Label htmlFor="inputPassword5">Password</Form.Label>
             <Form.Control
@@ -88,6 +89,7 @@ const RightSide = () => {
               id="inputPassword5"
               aria-describedby="passwordHelpBlock"
               onChange={handleChange}
+              className="mb-3"
             />
             <Stack className="col-md-7 mx-auto d-flex">
               <Button type='submit' variant="outline-success">Save changes</Button>

@@ -51,19 +51,19 @@ const ExportPage = () => {
         </Row>
         <Row>
           <Col md={2}>Customer name  </Col>
-          <Col md={2}><Form.Control size="sm" type="text" /></Col>
+          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
         </Row>
         <Row>
           <Col md={2}>Customer address  </Col>
-          <Col md={2}><Form.Control size="sm" type="text" /></Col>
+          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
         </Row>
         <Row>
           <Col md={2}>Customer phone  </Col>
-          <Col  md={2}><Form.Control size="sm" type="text" /></Col>
+          <Col className="mb-3"  md={2}><Form.Control size="sm" type="text" /></Col>
         </Row>
       </Container>
 
-      <SearchProduct setData={setData} Data={Data} />
+      {/* <SearchProduct setData={setData} Data={Data} /> */}
       <TableExport Data={Data} />
       <ButtonSubmit HandleExportProduct={HandleExportProduct} />
       <div className="App">
