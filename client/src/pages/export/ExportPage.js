@@ -11,35 +11,32 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 //get data from localStorage
-export const getDataForm = () => {
-  const data = localStorage.getItem('dataExport');
-  if (data) {
-    return JSON.parse(data)
-  }
-  else return []
-}
-function HandleExportProduct() {
-  console.log('export')
-  return (
-    <Navigate to="/" replace={true} />
-  );
-  // let keyMaLK = [];
-  // Data?.map((key) => (
-  //   keyMaLK.push(key.MaLK)
-  //   ))
-  // console.log(keyMaLK)
-  // Request.post(
-  //   "/exportfile",
-  //   { keyMaLK },
-  //   { headers: { Authorization: sessionStorage.getItem("access_token") } }
-  // )
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
-}
+
+
 // page export
 const ExportPage = () => {
-  const [Data, setData] = useState(getDataForm())
+  const [Data, setData] = useState('')
+  const [formData, setFormData] = useState('')
+  const [Value,setValue] = useState('')
+
+  const Onchange = (event) => {
+    const { name, value } = event.target;
+    console.log(name, value)
+    setFormData({ ...formData, [name]: value });
+  }
+
+  const onSearch = (item) => {
+    setValue(item)
+  }
+
+  useEffect(() => {
+    Request.post('/SearchStockExport', { formData }, {
+      headers: { 'Authorization': sessionStorage.getItem("access_token") }
+    }).then(response => {
+      console.log(response)
+      setData(response)
+    })
+  }, [formData])
 
   return (
     <>
@@ -62,7 +59,12 @@ const ExportPage = () => {
           <Col className="mb-3" md={5}><Form.Control size="sm" type="text" /></Col>
         </Row>
         {/* <SearchProduct setData={setData} Data={Data} /> */}
-        <TableExport Data={Data} />
+        <TableExport
+          formData={formData}
+          Data={Data}
+          Onchange={Onchange} 
+          Value={Value}
+          onSearch={onSearch} />
         <Row>
           <Col className="mb-3" md={2}>Gross Amount</Col>
           <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
@@ -79,60 +81,9 @@ const ExportPage = () => {
           <Col md={2}>Net Amount</Col>
           <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
         </Row>
-        <ButtonSubmit HandleExportProduct={HandleExportProduct} />
       </Container>
     </>
   )
 }
-const SearchProduct = (props) => {
 
-  const [formData, setFormData] = useState('');
-  const { Data, setData } = props
-
-  const HandleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const HandleData = (event) => {
-    event.preventDefault();
-    Request.post(
-      "/SearchStockExport",
-      { formData },
-      { headers: { Authorization: sessionStorage.getItem("access_token") } }
-    ).then((response) => {
-      let dataRes = response?.data?.result[0]
-      setData([...Data, dataRes]);
-      // cookie
-    })
-      .catch((error) => {
-        console.log(error);
-      });
-    setFormData('')
-  };
-
-  useEffect(() => {
-    localStorage.setItem('dataExport', JSON.stringify(Data))
-  }, [Data])
-
-  return (
-    <>
-      <Form onSubmit={HandleData}>
-        <Form.Control className="me-auto"
-          placeholder="Search item here ..."
-          name="search"
-          onChange={HandleChange}
-        />
-        <Button type="submit" variant="secondary">Submit</Button>
-      </Form>
-    </>
-  )
-}
-
-const ButtonSubmit = (props) => {
-  const { HandleExportProduct } = props
-  return (
-    <Button type="submit" variant="success" href="/PdfExportPage">Export Product</Button>
-  )
-}
 export default ExportPage
