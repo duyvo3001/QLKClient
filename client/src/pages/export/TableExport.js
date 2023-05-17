@@ -1,77 +1,83 @@
-import React from 'react'
+import { React, useState, useEffect } from 'react'
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
+import "./table.style.scss"
 
 const TableExport = (props) => {
-    const { Data , Onchange ,onSearch ,Value } = props
-    return (
-        <Table striped bordered hover>
-            <THeadtable />
-            <TBodytable Data={Data} Onchange={Onchange}onSearch={onSearch} />
-        </Table>
-    )
-}
-const TBodytable = (props) => {
-    const { Data, Onchange ,onSearch ,Value  } = props
-    console.log(Data)
-    // const datatable = Data?.map((key) => (
-    //     <tr>
-    //         <td>
-    //             <div className={key._id}  >
-    //                 {key.TenLK}{" "}
-    //             </div>
-    //         </td>
-    //         <td>
-    //             <div className={key._id}>
-    //                 {key.Color}{" "}
-    //             </div>
-    //         </td>
-    //         <td>
-    //             <div className={key._id}>
-    //                 {key.Soluong}{" "}
-    //             </div>
-    //         </td>
-    //         <td>
-    //             <Button type='button' variant="danger">delete</Button>
-    //         </td>
-    //     </tr>
-    // ))
-    return (
-        <tbody>
-            <tr>
-                <td>
-                    <Form.Control name="search" value={Value} className="mb-3" as="textarea" type="text" onChange={Onchange} />
-                    <div>
-                        {
-                            Data?.data?.result?.map((key) => (
-                                <div
-                                    onClick={()=>onSearch(key.MaLK)}
+    const { Data, Onchange, onSearch, Value } = props
+    const [CountTable, setCountTable] = useState(1)
+    const [render, setRendet] = useState(
+        <tr>
+            <td>
+                <Form.Control name="search" value={Value} className="mb-3" type="text" onChange={Onchange} />
+                <div className="dropdowntable">
+                    {
+                        Data?.data?.result
+                            ?.filter((key) => {
+                                const searchTerm = Value?.toLowerCase();
+                                const MaLK = key.MaLK?.toLowerCase();
+                                return searchTerm && MaLK?.startsWith(searchTerm) && MaLK !== searchTerm
+                            })
+                            ?.map((key) => (
+                                <div className="dropdowntable-row" key={key.MaLK} target="-blank"
+                                    onClick={() => onSearch(key.MaLK)}
                                 >
                                     {key.MaLK}
                                 </div>
                             ))
-                        }
-                    </div>
-                </td>
-                <td><Form.Control className="mb-3" as="textarea" type="text" onChange={Onchange} /></td>
-                <td><Form.Control className="mb-3" as="textarea" type="text" onChange={Onchange} /></td>
-                <td><Button type='button' variant="danger">Delete</Button></td>
-            </tr>
-            {/* {datatable} */}
+                    }
+                </div>
+            </td>
+            <td><Form.Control className="mb-3" type="text" onChange={Onchange} /></td>
+            <td><Form.Control className="mb-3" type="text" onChange={Onchange} disabled /></td>
+            <td><Form.Control className="mb-3" type="text" onChange={Onchange} disabled /></td>
+            <td><Button type='button' variant="danger">Delete</Button></td>
+        </tr>
+    )
+
+    const AddTable = () => {
+        setCountTable(CountTable + 1)
+    }
+
+    return (
+        <Table striped bordered hover>
+            <THeadtable AddTable={AddTable} />
+            <TBodytable  CountTable={CountTable} setRendet={setRendet} render={render} />
+        </Table>
+    )
+}
+
+const TBodytable = (props) => {
+    const {  CountTable, setRendet, render } = props
+
+
+    useEffect(() => {
+        for (let i = 1; i <= CountTable; i++) {
+            setRendet(...render)
+        }
+    }, [CountTable])
+
+    return (
+        <tbody>
+            {
+                render
+            }
+
         </tbody>
     );
 };
-const THeadtable = () => {
+const THeadtable = (props) => {
+    const { AddTable } = props
     return (
         <thead>
             <tr>
                 <th>Name Product</th>
                 <th>Quantity</th>
                 <th>Rate</th>
+                <th>Amount</th>
                 <th>
-                    <Button type='button' variant="danger">Add</Button>
+                    <Button type='button' onClick={() => AddTable()} variant="danger">Add</Button>
                 </th>
             </tr>
         </thead>

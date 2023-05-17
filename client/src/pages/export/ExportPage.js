@@ -16,13 +16,10 @@ import Col from 'react-bootstrap/Col';
 // page export
 const ExportPage = () => {
   const [Data, setData] = useState('')
-  const [formData, setFormData] = useState('')
-  const [Value,setValue] = useState('')
+  const [Value, setValue] = useState('')
 
   const Onchange = (event) => {
-    const { name, value } = event.target;
-    console.log(name, value)
-    setFormData({ ...formData, [name]: value });
+    setValue(event.target.value)
   }
 
   const onSearch = (item) => {
@@ -30,13 +27,12 @@ const ExportPage = () => {
   }
 
   useEffect(() => {
-    Request.post('/SearchStockExport', { formData }, {
+    Request.get('/SearchStockExport', {
       headers: { 'Authorization': sessionStorage.getItem("access_token") }
     }).then(response => {
-      console.log(response)
       setData(response)
     })
-  }, [formData])
+  }, [])
 
   return (
     <>
@@ -60,26 +56,25 @@ const ExportPage = () => {
         </Row>
         {/* <SearchProduct setData={setData} Data={Data} /> */}
         <TableExport
-          formData={formData}
           Data={Data}
-          Onchange={Onchange} 
+          Onchange={Onchange}
           Value={Value}
           onSearch={onSearch} />
         <Row>
-          <Col className="mb-3" md={2}>Gross Amount</Col>
-          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
+          <Col md={2}>Gross Amount</Col>
+          <Col className="mb-3" md={3}><Form.Control size="sm" type="text" disabled /></Col>
         </Row>
         <Row>
           <Col md={2}>Vat</Col>
-          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
+          <Col className="mb-3" md={3}><Form.Control size="sm" value="10%" type="text" disabled /></Col>
         </Row>
         <Row>
           <Col md={2}>Disount</Col>
-          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
+          <Col className="mb-3" md={3}><Form.Control size="sm" type="text" /></Col>
         </Row>
         <Row>
           <Col md={2}>Net Amount</Col>
-          <Col className="mb-3" md={2}><Form.Control size="sm" type="text" /></Col>
+          <Col className="mb-3" md={3}><Form.Control size="sm" type="text" disabled /></Col>
         </Row>
       </Container>
     </>

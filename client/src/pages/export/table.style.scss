@@ -1,0 +1,17 @@
+.dropdowntable{
+    background-color: whitesmoke;
+    display:  flex;
+    flex-direction: column;
+    border :1px solid grays;
+}
+.dropdowntable :empty{
+    border: none;
+}
+.dropdowntable-row{
+    cursor: pointer;
+    text-align: start;
+    margin: 2px 0;
+}
+.dropdowntable-row :hover{
+    background-color: blue;
+}
