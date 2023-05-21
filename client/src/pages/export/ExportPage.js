@@ -16,6 +16,7 @@ import Col from 'react-bootstrap/Col';
 // page export
 const ExportPage = () => {
   const [Data, setData] = useState('')
+  const [DataCus, setDataCus] = useState('')
   const [Value, setValue] = useState('')
 
   const Onchange = (event) => {
@@ -34,6 +35,14 @@ const ExportPage = () => {
     })
   }, [])
 
+  useEffect(() => {
+    Request.get('/SearchCustomer', {
+      headers: { 'Authorization': sessionStorage.getItem("access_token") }
+    }).then(response => {
+      setDataCus(response)
+    })
+  }, [])
+  
   return (
     <>
       <Container>
@@ -44,7 +53,26 @@ const ExportPage = () => {
         </Row>
         <Row>
           <Col md={2}>Customer name  </Col>
-          <Col className="mb-3" md={5}><Form.Control size="sm" type="text" /></Col>
+          <Col className="mb-3" md={5}>
+            <Form.Control size="sm" type="text" name="search" onChange={Onchange}/>
+            <div className="dropdowntable">
+              {
+                DataCus?.data?.result
+                  ?.filter((key) => {
+                    const searchTerm = Value?.toLowerCase();
+                    const IDCus = key.IDCustomer?.toLowerCase();
+                    return searchTerm && IDCus?.startsWith(searchTerm) && IDCus !== searchTerm
+                  })
+                  ?.map((key) => (
+                    <div className="dropdowntable-row" key={key.IDCustomer} target="-blank"
+                      onClick={() => onSearch(key.IDCustomer)}
+                    >
+                      {key.IDCustomer}
+                    </div>
+                  ))
+              }
+            </div>
+          </Col>
         </Row>
         <Row>
           <Col md={2}>Customer address  </Col>
@@ -76,7 +104,7 @@ const ExportPage = () => {
           <Col md={2}>Net Amount</Col>
           <Col className="mb-3" md={3}><Form.Control size="sm" type="text" disabled /></Col>
         </Row>
-      </Container>
+      </Container >
     </>
   )
 }

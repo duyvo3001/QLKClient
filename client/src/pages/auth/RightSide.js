@@ -71,10 +71,10 @@ const RightSide = () => {
       <div className="mb-3">
         <section>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive" >{errMsg}</p>
-          <h1>Sign In</h1>
+          <h1 className="justify-content-md-center">SIGN IN</h1>
           <Form onSubmit={handleSubmit} >
-            <Form.Label htmlFor="inputPassword5">User Name</Form.Label>
             <Form.Control
+              placeholder="User Name"
               name="user_nv"
               type="text"
               id="inputPassword5"
@@ -82,8 +82,8 @@ const RightSide = () => {
               ref={userRef}
               className="mb-3"
             />
-            <Form.Label htmlFor="inputPassword5">Password</Form.Label>
             <Form.Control
+              placeholder="Password"
               name="pass_nv"
               type="password"
               id="inputPassword5"
@@ -92,7 +92,7 @@ const RightSide = () => {
               className="mb-3"
             />
             <Stack className="col-md-7 mx-auto d-flex">
-              <Button type='submit' variant="outline-success">Save changes</Button>
+              <Button type='submit' variant="outline-success">LOG IN</Button>
             </Stack>
           </Form>
         </section>
