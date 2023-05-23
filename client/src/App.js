@@ -11,18 +11,18 @@ function App() {
   return (
     <Routes>
       {
-        // publicRoutes.map((route, index) => {
-        //   console.log(route)
-        //   const Layout = route.layout === null ? Fragment : defaultLayout;
-        //   const Page = route.component
-        //   return <Route key={index} path={route.path} element={<Layout><Page /></Layout>} />
-        // })
-        
-        privateRoutes.map((route, index) => {
+        publicRoutes.map((route, index) => {
+          console.log(route)
           const Layout = route.layout === null ? Fragment : defaultLayout;
           const Page = route.component
           return <Route key={index} path={route.path} element={<Layout><Page /></Layout>} />
         })
+        
+        // privateRoutes.map((route, index) => {
+        //   const Layout = route.layout === null ? Fragment : defaultLayout;
+        //   const Page = route.component
+        //   return <Route key={index} path={route.path} element={<Layout><Page /></Layout>} />
+        // })
       }
     </Routes>
   )
