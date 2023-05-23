@@ -23,7 +23,7 @@ const ExportPage = () => {
     setValue(event.target.value)
   }
 
-  const onSearch = (item) => {
+  const onSearch = (item) => {  
     setValue(item)
   }
 
@@ -48,7 +48,7 @@ const ExportPage = () => {
       <Container>
         <Row>
           <Col className="mb-3" md={5}> <h4>
-            Export Product
+            Paid Order
           </h4></Col>
         </Row>
         <Row>

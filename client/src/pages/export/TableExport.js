@@ -6,32 +6,38 @@ import "./table.style.scss"
 
 const TableExport = (props) => {
     const { Data, Onchange, onSearch, Value } = props
-    const [Render, setRender] = useState( [{ID:1}])
+    const [Render, setRender] = useState([{ ID: 1 }])
 
     const AddTable = () => {
-        setRender([...Render, {ID: Render.length + 1}])
-        console.log(Render)
+        setRender([...Render, { ID: Render.length + 1 }])
     }
-
+    const DeleteTable = () => {
+        setRender(Render.filter(table => table.ID !== Render.length - 1))
+    }
     return (
         <Table striped bordered hover>
             <THeadtable AddTable={AddTable} />
-            <TBodytable Data={Data} Onchange={Onchange} onSearch={onSearch} Value={Value}  Render={Render} />
+            <TBodytable
+                Data={Data}
+                Onchange={Onchange}
+                onSearch={onSearch}
+                Value={Value}
+                DeleteTable={DeleteTable}
+                Render={Render} />
             {/* <TBodytable setRendet={setRender} Render={Render} /> */}
         </Table>
     )
 }
 
 const TBodytable = (props) => {
-    const { Render, Value, Data, onSearch, Onchange } = props
-    console.log(Render)
-    
+    const { Render, Value, Data, onSearch, Onchange ,DeleteTable } = props
+
     return (
         <tbody>
             {Render?.map((index) => (
-                <tr key={index.ID}>
+                <tr>
                     <td>
-                        <Form.Control name="search" value={Value} className="mb-3" type="text" onChange={Onchange} />
+                        <Form.Control name="search" value={Value} id={index.ID} className="mb-3" type="text" onChange={Onchange} />
                         <div className="dropdowntable">
                             {
                                 Data?.data?.result
@@ -53,7 +59,7 @@ const TBodytable = (props) => {
                     <td><Form.Control className="mb-3" type="text" onChange={Onchange} /></td>
                     <td><Form.Control className="mb-3" type="text" onChange={Onchange} disabled /></td>
                     <td><Form.Control className="mb-3" type="text" onChange={Onchange} disabled /></td>
-                    <td><Button type='button' variant="danger">Delete</Button></td>
+                    <td><Button type='button' onClick={DeleteTable}  variant="danger">Delete</Button></td>
                 </tr>
             ))
             }

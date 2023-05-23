@@ -28,11 +28,13 @@ const publicRoutes =[
     {path:'/ImportWareHouse',component :ImportWareHouse  },
     {path:'/ImportStock',component :ImportStock  },
     {path:'/ProductView',component :ProductView  },
-    {path:'/UserView',component :UserView  },
     {path:'/WareHouseView',component :WareHouseView  },
     {path:'*',component :ErorPage  }
 ]
 
-const privateRoutes=[ ]
+const privateRoutes=[ 
+    
+    {path:'/UserView',component :UserView  },
+]
 
 export {publicRoutes,privateRoutes}
