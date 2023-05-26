@@ -14,10 +14,15 @@ import DashBoard from '../pages/dashBoard/DashBoard';
 import ProductView from '../pages/dashBoard/ProductView/ProductView';
 import UserView from '../pages/dashBoard/UserView/UserView';
 import WareHouseView from '../pages/dashBoard/WareHouseView/WareHouseView';
+
 //public Route
-const publicRoutes =[
-    {path:'/login',component :Login , layout : null},
-    {path:'/',component :DashBoard },
+const publicRoutes = [
+    {path:'/login', component : Login , layout : null},
+    {path:'*',component : ErorPage  }
+]
+
+const privateRoutes=[ 
+    {path:'/',component : DashBoard },
     {path:'/importBrand',component :ImportBrand },
     {path:'/importSupplier',component :ImportSupplier },
     {path:'/Barcode',component :BarcodePage },
@@ -29,11 +34,6 @@ const publicRoutes =[
     {path:'/ImportStock',component :ImportStock  },
     {path:'/ProductView',component :ProductView  },
     {path:'/WareHouseView',component :WareHouseView  },
-    {path:'*',component :ErorPage  }
-]
-
-const privateRoutes=[ 
-    
     {path:'/UserView',component :UserView  },
 ]
 

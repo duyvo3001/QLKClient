@@ -1,7 +1,5 @@
 
 import { useState, useRef, useEffect, useContext } from "react";
-import AuthContext from "../../context/AuthProvider.js";
-
 import React from 'react'
 import Container from 'react-bootstrap/esm/Container'
 import classnames from 'classnames/bind'
@@ -9,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import Request from '../../api/Request.js'
+import { AuthContext } from "../../context/AuthContext.js";
 
 import { Navigate } from 'react-router-dom';
 import * as style from './Login.module.scss'
@@ -17,7 +16,8 @@ const cx = classnames.bind(style)
 
 
 const RightSide = () => {
-  const { setAuth } = useContext(AuthContext);
+  const { setIsAuthenticated } = useContext(AuthContext);
+
   const userRef = useRef();
   const errRef = useRef();
 
@@ -39,13 +39,10 @@ const RightSide = () => {
     event.preventDefault();
     Request.post('/signin', { formData }, { headers: { 'Authorization': sessionStorage.getItem("access_token") } },
     )
-      .then(res => {
-        sessionStorage.setItem("access_token", res.data.access_token)
-        setTimeout(1000)
-        setLoggedIn(true)
-        const access_token = res.data.access_token
-        setAuth({ access_token })
-
+      .then((res) => {
+        sessionStorage.setItem('access_token', res.data.access_token);
+        setLoggedIn(true);
+        setIsAuthenticated(true);
       })
       .catch(error => {
         if (error?.res)
@@ -57,7 +54,7 @@ const RightSide = () => {
         else
           setErrMsg('Login failed')
 
-        errRef.currentfocus();
+        errRef.current.focus();
       });
   };
 

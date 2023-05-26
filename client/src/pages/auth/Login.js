@@ -8,7 +8,9 @@ const Login = () => {
   return (
     <Container>
       <Row className='justify-content-md-center'>
-        <Col md={6}><RightSide /></Col>
+        <Col md={6}>
+          <RightSide/>
+        </Col>
       </Row>
     </Container>
   );
