@@ -10,7 +10,6 @@ function PrivateRoute({ children }) {
   const storedAuth = sessionStorage.getItem('isAuthenticated');
   console.log('storedAuth',storedAuth)
   if (JSON.parse(storedAuth) === true) {
-    console.log('hello')
     return children
   }
   else return <Navigate to="/login" />;

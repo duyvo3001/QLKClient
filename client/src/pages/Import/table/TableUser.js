@@ -130,7 +130,7 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key._id}  hidden={false}>
                     {key.PASSWORD}
                 </div>
                 <TextArea

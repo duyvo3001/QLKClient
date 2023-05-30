@@ -7,7 +7,6 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedAuth = sessionStorage.getItem('isAuthenticated');
-    console.log(storedAuth);
     if (storedAuth) {
       setIsAuthenticated(JSON.parse(storedAuth));
     }

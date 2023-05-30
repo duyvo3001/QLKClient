@@ -7,22 +7,39 @@ import "./table.style.scss"
 const TableExport = (props) => {
     const { Data, Onchange, onSearch, Value } = props
     const [Render, setRender] = useState([{ ID: 1 }])
+    const [valueRate, setValueRate] = useState('')
+    const [valueAmount, setValueAmount] = useState('')
 
+    const OnchangeQty = (event) => {
+        Data?.data?.result?.filter((key) => {
+            return key.MaLK === Value
+        })
+            ?.map((key) => [
+                setValueRate(key.GiaBanLe),
+                setValueAmount(event.target.value * key.GiaBanLe)
+            ]
+            )
+    }
     const AddTable = () => {
         setRender([...Render, { ID: Render.length + 1 }])
     }
-    const DeleteTable = () => {
-        setRender(Render.filter(table => table.ID !== Render.length - 1))
+
+    const DeleteTable = (ID) => {
+        setRender(Render.filter(table => table.ID !== ID))
     }
+
     return (
         <Table striped bordered hover>
             <THeadtable AddTable={AddTable} />
             <TBodytable
                 Data={Data}
+                OnchangeQty={OnchangeQty}
                 Onchange={Onchange}
                 onSearch={onSearch}
                 Value={Value}
                 DeleteTable={DeleteTable}
+                valueRate={valueRate}
+                valueAmount={valueAmount}
                 Render={Render} />
             {/* <TBodytable setRendet={setRender} Render={Render} /> */}
         </Table>
@@ -30,14 +47,15 @@ const TableExport = (props) => {
 }
 
 const TBodytable = (props) => {
-    const { Render, Value, Data, onSearch, Onchange ,DeleteTable } = props
+    const { Render, Value, Data, onSearch, Onchange, DeleteTable, OnchangeQty, valueRate, valueAmount } = props
 
     return (
         <tbody>
             {Render?.map((index) => (
                 <tr>
                     <td>
-                        <Form.Control name="search" value={Value} id={index.ID} className="mb-3" type="text" onChange={Onchange} />
+                        <Form.Control name="search" value={Value} id={index.ID} className="mb-3" type="text"
+                            onChange={Onchange} />
                         <div className="dropdowntable">
                             {
                                 Data?.data?.result
@@ -56,10 +74,10 @@ const TBodytable = (props) => {
                             }
                         </div>
                     </td>
-                    <td><Form.Control className="mb-3" type="text" onChange={Onchange} /></td>
-                    <td><Form.Control className="mb-3" type="text" onChange={Onchange} disabled /></td>
-                    <td><Form.Control className="mb-3" type="text" onChange={Onchange} disabled /></td>
-                    <td><Button type='button' onClick={DeleteTable}  variant="danger">Delete</Button></td>
+                    <td><Form.Control onChange={OnchangeQty} className="mb-3" type="text" /></td>
+                    <td><Form.Control value={valueRate} className="mb-3" type="text" disabled /></td>
+                    <td><Form.Control value={valueAmount} className="mb-3" type="text" disabled /></td>
+                    <td><Button type='button' onClick={() => DeleteTable(index.ID)} variant="danger">Delete</Button></td>
                 </tr>
             ))
             }

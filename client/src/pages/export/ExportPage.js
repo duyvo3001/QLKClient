@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { React, useState, useEffect } from 'react'
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import TableExport from './TableExport'
 import { Navigate } from 'react-router-dom';
@@ -15,17 +15,51 @@ import Col from 'react-bootstrap/Col';
 
 // page export
 const ExportPage = () => {
+
   const [Data, setData] = useState('')
-  const [DataCus, setDataCus] = useState('')
   const [Value, setValue] = useState('')
+
+  const [DataCus, setDataCus] = useState('')
+  const [formData, setFormData] = useState('')
+
+  const [GrossAmount,setGrossAmount] = useState('')
+  const [Vat ,setVat ] = useState('')
+  const [Disount ,setDisount] = useState('')
+  const [NetAmount ,setNetAmount] = useState('')
+
+  const OnchangeForm = (event) => {
+    setFormData(event.target.value);
+  }
+
+  const onSearchForm = (item) => {
+    setFormData(item)
+  }
 
   const Onchange = (event) => {
     setValue(event.target.value)
   }
 
-  const onSearch = (item) => {  
+  const onSearch = (item) => {
     setValue(item)
   }
+
+  // const SuggestionList = () => {
+  //   return (
+  //     DataCus?.data?.result
+  //       ?.filter((key) => {
+  //         const searchTerm = Value?.toLowerCase();
+  //         const IDCus = key.IDCustomer?.toLowerCase();
+  //         return searchTerm && IDCus?.startsWith(searchTerm) && IDCus !== searchTerm
+  //       })
+  //       ?.map((key) => (
+  //         <div className="dropdowntable-row" key={key.IDCustomer} target="-blank"
+  //           onClick={() => onSearch(key.IDCustomer)}
+  //         >
+  //           {key.IDCustomer}
+  //         </div>
+  //       ))
+  //   )
+  // }
 
   useEffect(() => {
     Request.get('/SearchStockExport', {
@@ -42,7 +76,7 @@ const ExportPage = () => {
       setDataCus(response)
     })
   }, [])
-  
+
   return (
     <>
       <Container>
@@ -52,35 +86,31 @@ const ExportPage = () => {
           </h4></Col>
         </Row>
         <Row>
-          <Col md={2}>Customer name  </Col>
+          <Col md={2}>Customer ID</Col>
           <Col className="mb-3" md={5}>
-            <Form.Control size="sm" type="text" name="search" onChange={Onchange}/>
+            <Form.Control size="sm" value={formData} type="text" name="search" onChange={OnchangeForm} />
             <div className="dropdowntable">
               {
                 DataCus?.data?.result
                   ?.filter((key) => {
-                    const searchTerm = Value?.toLowerCase();
+                    const searchTerm = formData?.toLowerCase();
                     const IDCus = key.IDCustomer?.toLowerCase();
                     return searchTerm && IDCus?.startsWith(searchTerm) && IDCus !== searchTerm
                   })
                   ?.map((key) => (
                     <div className="dropdowntable-row" key={key.IDCustomer} target="-blank"
-                      onClick={() => onSearch(key.IDCustomer)}
+                      onClick={() => onSearchForm(key.IDCustomer)}
                     >
-                      {key.IDCustomer}
+                      <div>
+                        <div>{key.IDCustomer}</div>
+                        <div>{key.NameCustomer}</div>
+                        <div>{key.Phone}</div>
+                      </div>
                     </div>
                   ))
               }
             </div>
           </Col>
-        </Row>
-        <Row>
-          <Col md={2}>Customer address  </Col>
-          <Col className="mb-3" md={5}><Form.Control size="sm" type="text" /></Col>
-        </Row>
-        <Row>
-          <Col md={2}>Customer phone  </Col>
-          <Col className="mb-3" md={5}><Form.Control size="sm" type="text" /></Col>
         </Row>
         {/* <SearchProduct setData={setData} Data={Data} /> */}
         <TableExport
@@ -93,8 +123,8 @@ const ExportPage = () => {
           <Col className="mb-3" md={3}><Form.Control size="sm" type="text" disabled /></Col>
         </Row>
         <Row>
-          <Col md={2}>Vat</Col>
-          <Col className="mb-3" md={3}><Form.Control size="sm" value="10%" type="text" disabled /></Col>
+          <Col md={2}>Vat 10%</Col>
+          <Col className="mb-3" md={3}><Form.Control size="sm" value="" type="text" disabled /></Col>
         </Row>
         <Row>
           <Col md={2}>Disount</Col>
