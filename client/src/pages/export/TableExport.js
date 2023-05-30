@@ -68,7 +68,9 @@ const TBodytable = (props) => {
                                         <div className="dropdowntable-row" key={key.MaLK} target="-blank"
                                             onClick={() => onSearch(key.MaLK)}
                                         >
-                                            {key.MaLK}
+                                            <div>
+                                                {key.MaLK}
+                                            </div>
                                         </div>
                                     ))
                             }
