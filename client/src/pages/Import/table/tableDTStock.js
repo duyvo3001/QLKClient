@@ -28,7 +28,7 @@ const THeadtable = () => {
                 <th>ID Warehouse</th>
                 <th>ID Supplier</th>
                 <th>Color</th>
-                <th>Unit</th>
+                <th>Category</th>
                 <th>Quantity</th>
                 <th>Retail price</th>
                 <th>Day Export</th>

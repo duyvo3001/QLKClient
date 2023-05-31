@@ -14,7 +14,7 @@ import DashBoard from '../pages/dashBoard/DashBoard';
 import ProductView from '../pages/dashBoard/ProductView/ProductView';
 import UserView from '../pages/dashBoard/UserView/UserView';
 import WareHouseView from '../pages/dashBoard/WareHouseView/WareHouseView';
-
+import InventoryList from '../pages/inventory/InventoryList';
 //public Route
 const publicRoutes = [
     {path:'/login', component : Login , layout : null},
@@ -35,6 +35,7 @@ const privateRoutes=[
     {path:'/ProductView',component :ProductView  },
     {path:'/WareHouseView',component :WareHouseView  },
     {path:'/UserView',component :UserView  },
+    {path:'/InventoryList',component :InventoryList  },
 ]
 
 export {publicRoutes,privateRoutes}

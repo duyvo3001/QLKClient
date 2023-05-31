@@ -61,7 +61,7 @@ const ImportStock = () => {
           />
           <RowCol
             handle={HandleChange}
-            text1="Unit"
+            text1="Category"
             ID1="Donvi"
             text2="Quantity"
             ID2="Soluong"
