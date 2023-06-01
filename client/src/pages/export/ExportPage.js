@@ -43,24 +43,6 @@ const ExportPage = () => {
     setValue(item)
   }
 
-  // const SuggestionList = () => {
-  //   return (
-  //     DataCus?.data?.result
-  //       ?.filter((key) => {
-  //         const searchTerm = Value?.toLowerCase();
-  //         const IDCus = key.IDCustomer?.toLowerCase();
-  //         return searchTerm && IDCus?.startsWith(searchTerm) && IDCus !== searchTerm
-  //       })
-  //       ?.map((key) => (
-  //         <div className="dropdowntable-row" key={key.IDCustomer} target="-blank"
-  //           onClick={() => onSearch(key.IDCustomer)}
-  //         >
-  //           {key.IDCustomer}
-  //         </div>
-  //       ))
-  //   )
-  // }
-
   useEffect(() => {
     Request.get('/SearchStockExport', {
       headers: { 'Authorization': sessionStorage.getItem("access_token") }

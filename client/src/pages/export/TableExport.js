@@ -41,47 +41,62 @@ const TableExport = (props) => {
                 valueRate={valueRate}
                 valueAmount={valueAmount}
                 Render={Render} />
-            {/* <TBodytable setRendet={setRender} Render={Render} /> */}
         </Table>
     )
 }
+function CheckID(params) {
+    return
+}
+function RenderSuggestion(Value, Data, onSearch, ID) {
+    // render khi  ID = id form dang nhap  
+    const nameTextArea = document.getElementById(ID)
+    console.log(nameTextArea?.id);
+    if(nameTextArea?.id == ID)
+    return (
+        Data?.data?.result
+            ?.filter((key) => {
+                const searchTerm = Value?.toLowerCase();
+                const MaLK = key.MaLK?.toLowerCase();
+                return searchTerm && MaLK?.startsWith(searchTerm) && MaLK !== searchTerm
+            })
+            ?.map((key) => (
+                <div className="dropdowntable-row" key={key.MaLK} target="-blank"
+                    onClick={() => onSearch(key.MaLK)}
+                >
+                    <div>
+                        {key.MaLK}
+                    </div>
+                </div>
+            ))
+    )
+}
+
+
 
 const TBodytable = (props) => {
     const { Render, Value, Data, onSearch, Onchange, DeleteTable, OnchangeQty, valueRate, valueAmount } = props
 
     return (
         <tbody>
-            {Render?.map((index) => (
-                <tr>
-                    <td>
-                        <Form.Control name="search" value={Value} id={index.ID} className="mb-3" type="text"
-                            onChange={Onchange} />
-                        <div className="dropdowntable">
-                            {
-                                Data?.data?.result
-                                    ?.filter((key) => {
-                                        const searchTerm = Value?.toLowerCase();
-                                        const MaLK = key.MaLK?.toLowerCase();
-                                        return searchTerm && MaLK?.startsWith(searchTerm) && MaLK !== searchTerm
-                                    })
-                                    ?.map((key) => (
-                                        <div className="dropdowntable-row" key={key.MaLK} target="-blank"
-                                            onClick={() => onSearch(key.MaLK)}
-                                        >
-                                            <div>
-                                                {key.MaLK}
-                                            </div>
-                                        </div>
-                                    ))
-                            }
-                        </div>
-                    </td>
-                    <td><Form.Control onChange={OnchangeQty} className="mb-3" type="text" /></td>
-                    <td><Form.Control value={valueRate} className="mb-3" type="text" disabled /></td>
-                    <td><Form.Control value={valueAmount} className="mb-3" type="text" disabled /></td>
-                    <td><Button type='button' onClick={() => DeleteTable(index.ID)} variant="danger">Delete</Button></td>
-                </tr>
-            ))
+            {
+                Render?.map((index) => (
+                    <tr>
+                        <td>
+                            <Form.Control name={"search"+index.ID} value={Value}
+                                id={index.ID} className="mb-3"
+                                onChange={Onchange} />
+                            <div  className="dropdowntable">
+                                {
+                                    RenderSuggestion(Value, Data, onSearch, index.ID)
+                                }
+                            </div>
+                        </td>
+                        <td><Form.Control onChange={OnchangeQty} className="mb-3" type="text" /></td>
+                        <td><Form.Control value={valueRate} className="mb-3" type="text" disabled /></td>
+                        <td><Form.Control value={valueAmount} className="mb-3" type="text" disabled /></td>
+                        <td><Button type='button' onClick={() => DeleteTable(index.ID)} variant="danger">Delete</Button></td>
+                    </tr>
+                ))
             }
         </tbody>
     )
