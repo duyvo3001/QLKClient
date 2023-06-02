@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import "./table.style.scss"
 
 const TableExport = (props) => {
-    const { Data, Onchange, onSearch, Value } = props
+    const { Data, Onchange, onSearch, Value, CheckID } = props
     const [Render, setRender] = useState([{ ID: 1 }])
     const [valueRate, setValueRate] = useState('')
     const [valueAmount, setValueAmount] = useState('')
@@ -40,6 +40,7 @@ const TableExport = (props) => {
                 DeleteTable={DeleteTable}
                 valueRate={valueRate}
                 valueAmount={valueAmount}
+                CheckID={CheckID}
                 Render={Render} />
         </Table>
     )
@@ -47,34 +48,38 @@ const TableExport = (props) => {
 function CheckID(params) {
     return
 }
-function RenderSuggestion(Value, Data, onSearch, ID) {
+function RenderSuggestion(Value, Data, onSearch, ID, CheckID) {
     // render khi  ID = id form dang nhap  
-    const nameTextArea = document.getElementById(ID)
-    console.log(nameTextArea?.id);
-    if(nameTextArea?.id == ID)
-    return (
-        Data?.data?.result
-            ?.filter((key) => {
-                const searchTerm = Value?.toLowerCase();
-                const MaLK = key.MaLK?.toLowerCase();
-                return searchTerm && MaLK?.startsWith(searchTerm) && MaLK !== searchTerm
-            })
-            ?.map((key) => (
-                <div className="dropdowntable-row" key={key.MaLK} target="-blank"
-                    onClick={() => onSearch(key.MaLK)}
-                >
-                    <div>
-                        {key.MaLK}
+    // eslint-disable-next-line eqeqeq
+    if (CheckID == ID)
+        return (
+            Data?.data?.result
+                ?.filter((key) => {
+                    const searchTerm = Value?.toLowerCase();
+                    const MaLK = key.MaLK?.toLowerCase();
+                    return searchTerm && MaLK?.startsWith(searchTerm) && MaLK !== searchTerm
+                })
+                ?.map((key) => (
+                    <div className="dropdowntable-row" key={key.MaLK} target="-blank"
+                        onClick={
+                            () => {
+                                const test = document.getElementById(ID)
+                                return test.value = key.MaLK
+                            }
+                        }
+                    >
+                        <div>
+                            {key.MaLK}
+                        </div>
                     </div>
-                </div>
-            ))
-    )
+                ))
+        )
 }
 
 
 
 const TBodytable = (props) => {
-    const { Render, Value, Data, onSearch, Onchange, DeleteTable, OnchangeQty, valueRate, valueAmount } = props
+    const { Render, Value, Data, onSearch, Onchange, DeleteTable, OnchangeQty, valueRate, valueAmount, CheckID } = props
 
     return (
         <tbody>
@@ -82,12 +87,12 @@ const TBodytable = (props) => {
                 Render?.map((index) => (
                     <tr>
                         <td>
-                            <Form.Control name={"search"+index.ID} value={Value}
+                            <Form.Control name={"search" + index.ID}
                                 id={index.ID} className="mb-3"
-                                onChange={Onchange} />
-                            <div  className="dropdowntable">
+                                onChange={Onchange} value="" />
+                            <div className="dropdowntable">
                                 {
-                                    RenderSuggestion(Value, Data, onSearch, index.ID)
+                                    RenderSuggestion(Value, Data, onSearch, index.ID, CheckID)
                                 }
                             </div>
                         </td>

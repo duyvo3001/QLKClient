@@ -21,7 +21,7 @@ const ExportPage = () => {
 
   const [DataCus, setDataCus] = useState('')
   const [formData, setFormData] = useState('')
-
+  const [CheckID, setCheckID] = useState(1)
   const [GrossAmount,setGrossAmount] = useState('')
   const [Vat ,setVat ] = useState('')
   const [Disount ,setDisount] = useState('')
@@ -36,6 +36,7 @@ const ExportPage = () => {
   }
 
   const Onchange = (event) => {
+    setCheckID(event.target.id)
     setValue(event.target.value)
   }
 
@@ -99,6 +100,7 @@ const ExportPage = () => {
           Data={Data}
           Onchange={Onchange}
           Value={Value}
+          CheckID={CheckID}
           onSearch={onSearch} />
         <Row>
           <Col md={2}>Gross Amount</Col>
