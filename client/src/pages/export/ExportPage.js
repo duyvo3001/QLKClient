@@ -10,6 +10,7 @@ import Request from '../../api/Request';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/esm/Button';
 //get data from localStorage
 
 
@@ -22,15 +23,15 @@ const ExportPage = () => {
   const [DataCus, setDataCus] = useState('')
   const [formData, setFormData] = useState('')
   const [CheckID, setCheckID] = useState(1)
-  const [GrossAmount,setGrossAmount] = useState('')
-  const [Vat ,setVat ] = useState('')
-  const [Disount ,setDisount] = useState('')
-  const [NetAmount ,setNetAmount] = useState('')
+  const [GrossAmount, setGrossAmount] = useState('')
+  const [Vat, setVat] = useState('')
+  const [Disount, setDisount] = useState('')
+  const [NetAmount, setNetAmount] = useState('')
 
   const OnchangeForm = (event) => {
-    setFormData(event.target.value);
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
   }
-
   const onSearchForm = (item) => {
     setFormData(item)
   }
@@ -76,7 +77,7 @@ const ExportPage = () => {
               {
                 DataCus?.data?.result
                   ?.filter((key) => {
-                    const searchTerm = formData?.toLowerCase();
+                    const searchTerm = formData.toLowerCase();
                     const IDCus = key.IDCustomer?.toLowerCase();
                     return searchTerm && IDCus?.startsWith(searchTerm) && IDCus !== searchTerm
                   })
@@ -118,6 +119,9 @@ const ExportPage = () => {
           <Col md={2}>Net Amount</Col>
           <Col className="mb-3" md={3}><Form.Control size="sm" type="text" disabled /></Col>
         </Row>
+        <div className="d-grid gap-2">
+          <Button size="lg">Paid</Button>
+        </div>
       </Container >
     </>
   )
