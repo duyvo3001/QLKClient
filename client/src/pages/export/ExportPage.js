@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { React, useState, useEffect } from 'react'
+import { React, useState, useEffect ,createContext  } from 'react'
 // import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import TableExport from './TableExport'
@@ -32,6 +32,7 @@ const ExportPage = () => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   }
+  
   const onSearchForm = (item) => {
     setFormData(item)
   }
@@ -77,7 +78,7 @@ const ExportPage = () => {
               {
                 DataCus?.data?.result
                   ?.filter((key) => {
-                    const searchTerm = formData.toLowerCase();
+                    const searchTerm = formData?.toLowerCase();
                     const IDCus = key.IDCustomer?.toLowerCase();
                     return searchTerm && IDCus?.startsWith(searchTerm) && IDCus !== searchTerm
                   })

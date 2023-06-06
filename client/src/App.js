@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function PrivateRoute({ children }) {
   const storedAuth = sessionStorage.getItem('isAuthenticated');
-  console.log('storedAuth',storedAuth)
   if (JSON.parse(storedAuth) === true) {
     return children
   }

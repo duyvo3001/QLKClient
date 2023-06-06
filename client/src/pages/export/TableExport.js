@@ -6,9 +6,17 @@ import "./table.style.scss"
 
 const TableExport = (props) => {
     const { Data, Onchange, onSearch, Value, CheckID } = props
-    const [Render, setRender] = useState([{ ID: 1 }])
-    const [valueRate, setValueRate] = useState('')
-    const [valueAmount, setValueAmount] = useState('')
+
+    const [Render, setRender] = useState([// Render table
+        {
+            ID: 1,
+            NameProduct: "",
+            Qty: 0
+        }
+    ])
+    
+    const [valueRate, setValueRate] = useState('') // ser value Rate
+    const [valueAmount, setValueAmount] = useState('')// ser value Amount
 
     const OnchangeQty = (event) => {
         Data?.data?.result?.filter((key) => {
@@ -20,74 +28,46 @@ const TableExport = (props) => {
             ]
             )
     }
+
     const AddTable = () => {
-        setRender([...Render, { ID: Render.length + 1 }])
+        setRender([...Render, {
+            ID: Render.length + 1,
+            NameProduct: "",
+            Qty: 0
+        }])
     }
 
     const DeleteTable = (ID) => {
         setRender(Render.filter(table => table.ID !== ID))
     }
-    const [tableData, setTableData] = useState([]);
 
-    const addRow = () => {
-        setTableData([...tableData, []]);
-    };
-
-    const updateCell = (rowIndex, cellIndex, value) => {
-        const newData = [...tableData];
-        newData[rowIndex][cellIndex] = value;
-        setTableData(newData);
-    };
-    // return (
-    //     <Table striped bordered hover>
-    //         <THeadtable AddTable={AddTable} />
-    //         <TBodytable
-    //             Data={Data}
-    //             OnchangeQty={OnchangeQty}
-    //             Onchange={Onchange}
-    //             onSearch={onSearch}
-    //             Value={Value}
-    //             DeleteTable={DeleteTable}
-    //             valueRate={valueRate}
-    //             valueAmount={valueAmount}
-    //             CheckID={CheckID}
-    //             Render={Render} />
-    //     </Table>
-    // )
     return (
-        <div>
-            <button onClick={addRow}>Add Row</button>
-            <table>
-                <tbody>
-                    {tableData.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                            {row.map((cell, cellIndex) => (
-                                <td key={cellIndex}>
-                                    <h1>hihi</h1>
-                                    {/* <input
-                        value={cell}
-                        onChange={(e) => updateCell(rowIndex, cellIndex, e.target.value)}
-                      /> */}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
+        <Table striped bordered hover>
+            <THeadtable AddTable={AddTable} />
+            <TBodytable
+                Data={Data}
+                OnchangeQty={OnchangeQty}
+                Onchange={Onchange}
+                onSearch={onSearch}
+                Value={Value}
+                DeleteTable={DeleteTable}
+                valueRate={valueRate}
+                valueAmount={valueAmount}
+                CheckID={CheckID}
+                Render={Render} />
+        </Table>
+    )
+
 }
-function CheckID(params) {
-    return
-}
+
+
 function RenderSuggestion(Value, Data, onSearch, ID, CheckID) {
-    // render khi  ID = id form dang nhap  
+    // render when  ID = id form state change
     // eslint-disable-next-line eqeqeq
     if (CheckID == ID)
         return (
             Data?.data?.result
                 ?.filter((key) => {
-                    console.log(Value)
                     const searchTerm = Value?.toLowerCase();
                     const MaLK = key.MaLK?.toLowerCase();
                     return searchTerm && MaLK?.startsWith(searchTerm) && MaLK !== searchTerm
@@ -96,14 +76,13 @@ function RenderSuggestion(Value, Data, onSearch, ID, CheckID) {
                     <div className="dropdowntable-row" key={key.MaLK} target="-blank"
                         onClick={
                             () => {
-                                const test = document.getElementById(ID)
-                                return test.value = key.MaLK
+                                onSearch(key.MaLK)
+                                // const test = document.getElementById(ID)
+                                // return test.value = key.MaLK
                             }
                         }
                     >
-                        <div>
-                            {key.MaLK}
-                        </div>
+                        <div>{key.MaLK}</div>
                     </div>
                 ))
         )
@@ -119,10 +98,10 @@ const TBodytable = (props) => {
             {
                 Render?.map((index) => (
                     <tr>
-                        <td>
+                        <td>    
                             <Form.Control name={"search" + index.ID}
                                 id={index.ID} className="mb-3"
-                                onChange={Onchange} value={Value} />
+                                onChange={Onchange} value={index.NameProduct} />
                             <div className="dropdowntable">
                                 {
                                     RenderSuggestion(Value, Data, onSearch, index.ID, CheckID)
