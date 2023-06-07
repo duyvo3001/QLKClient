@@ -15,7 +15,7 @@ const Navigation = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <DropdownImort/>
-          <Nav.Link href="/ExportProduct">Order</Nav.Link>
+          <Nav.Link href="/PaidOrderPage">Order</Nav.Link>
           <DropdownSetting/>
         </Nav>
       </Navbar.Collapse>

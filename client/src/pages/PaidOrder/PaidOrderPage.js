@@ -7,30 +7,34 @@ import Form from 'react-bootstrap/Form';
 import PaidOrderTable from './PaidOrderTable';
 import Request from '../../api/Request';
 
+export const DataOnchange = createContext(null);
 const PaidOrderPage = () => {
 
     const [DataCustomer, setDataCustomer] = useState({}) //state.dataCustomer
     const [DataProduct, setDataProduct] = useState({}) //state.dataProduct
     const [formData, setFormData] = useState({}) //state formdata to request server
+    const [CheckID, setCheckID] = useState(1)
 
-    function RenderTablefnc(params) {
+    const [Render, setRender] = useState([// Render table
+        {
+            ID: 1,
+            NameProduct: "",
+            Qty: 0
+        }
+    ])
 
-        const [Render, setRender] = useState([// Render table
-            {
-                ID: 1,
-                NameProduct: "",
-                Qty: 0
-            }
-        ])
-        const DataOnchange = createContext(null);
-        <DataOnchange.Provider value={{ Render, setRender }}>
-            <PaidOrderTable />
-        </DataOnchange.Provider>
-
-    }
     const Onchangeform = (event) => { //get value onchange
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
+    }
+
+    const Onchangeformtable = (event) => { //get value onchange
+        const { name, value } = event.target;
+        setRender([...Render, {
+            ID: Render.length + 1,
+            NameProduct: value,
+            Qty: 0
+        }])
     }
 
     const onSearch = (Customer) => { //set value onsearch
@@ -110,7 +114,10 @@ const PaidOrderPage = () => {
                         </div>
                     </Col>
                 </Row>
-                <PaidOrderTable />
+                <DataOnchange.Provider value={{ Render, setRender, DataProduct, setDataProduct }}>
+                    <PaidOrderTable />
+                </DataOnchange.Provider>
+
                 <Row>
                     <Col md={2}>Gross Amount</Col>
                     <Col className="mb-3" md={3}><Form.Control size="sm" type="text" disabled /></Col>
