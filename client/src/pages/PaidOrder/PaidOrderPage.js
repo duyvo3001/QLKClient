@@ -29,12 +29,20 @@ const PaidOrderPage = () => {
     }
 
     const Onchangeformtable = (event) => { //get value onchange
+
         const { name, value } = event.target;
-        setRender([...Render, {
-            ID: Render.length + 1,
-            NameProduct: value,
-            Qty: 0
-        }])
+        const updatedRender = Render.map(item => {
+            if (item.ID === 4) {
+              return {
+                ...item,
+                NameProduct: value
+              };
+            }
+            return item;
+          });
+          
+          setRender(updatedRender);
+
     }
 
     const onSearch = (Customer) => { //set value onsearch

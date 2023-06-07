@@ -29,6 +29,19 @@ const TBodytable = (props) => {
     const { DeleteTable } = props
     const RenderTable = useContext(DataOnchange)
 
+    const onSearch = (Product) => { //set value onsearch
+        const name = 'searchCustomer';
+        const value = Product
+        RenderTable.setRender([...RenderTable.Render, {
+            ID: RenderTable.Render.length + 1,
+            NameProduct: "",
+            Qty: 0
+        }])
+        const test = document.getElementsByName(name)
+        for (let i = 0; i < test.length; i++) {
+            test[i].value = Product;
+        }
+    }
 
     function RenderSuggestion(Value, Data, onSearch, ID, CheckID) {
         // eslint-disable-next-line eqeqeq
@@ -61,10 +74,10 @@ const TBodytable = (props) => {
                 RenderTable?.Render?.map((index) => (
                     <tr>
                         <td>
-                            <Form.Control />
+                            <Form.Control name={"search" + index.ID} id={index.ID} className="mb-3" onClick={()=>RenderTable.Onchangeform}/>
                             <div className="dropdowntable">
                                 {
-                                    RenderSuggestion(Value, Data, onSearch, index.ID, CheckID)
+                                    RenderSuggestion(RenderTable.DataProduct, onSearch, index.ID, CheckID)
                                 }
                             </div>
                         </td>
