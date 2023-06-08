@@ -28,7 +28,6 @@ const PaidOrderTable = () => {
 const TBodytable = (props) => {
     const { DeleteTable } = props
     const RenderTable = useContext(DataOnchange)
-
     const onSearch = (Product) => { //set value onsearch
         const name = 'searchCustomer';
         const value = Product
@@ -43,41 +42,51 @@ const TBodytable = (props) => {
         }
     }
 
-    function RenderSuggestion(Value, Data, onSearch, ID, CheckID) {
-        // eslint-disable-next-line eqeqeq
-        if (CheckID == ID)// render when  ID = id form state change
+    function RenderSuggestion(DataProduct, onSearch, ID, CheckID, NameProduct) {
+        if (CheckID === ID)// render when  ID = id form state change
+        {
+            console.log(NameProduct);
             return (
-                Data?.data?.result
+                DataProduct?.result
                     ?.filter((key) => {
-                        const searchTerm = Value?.toLowerCase();
-                        const MaLK = key.MaLK?.toLowerCase();
-                        return searchTerm && MaLK?.startsWith(searchTerm) && MaLK !== searchTerm
+                        // const searchTerm = index.Render?.toLowerCase();
+                        // console.log(RenderTable.Render[RenderTable.Render.length - ID])
+                        // const MaLK = key.MaLK?.toLowerCase();
+                        // return searchTerm && MaLK?.startsWith(searchTerm) && MaLK !== searchTerm
                     })
-                    ?.map((key) => (
-                        <div className="dropdowntable-row" key={key.MaLK} target="-blank"
-                            onClick={
-                                () => {
-                                    onSearch(key.MaLK)
-                                    // const test = document.getElementById(ID)
-                                    // return test.value = key.MaLK
-                                }
-                            }
-                        >
-                            <div>{key.MaLK}</div>
-                        </div>
-                    ))
+                // ?.map((key) => (
+                //     <div className="dropdowntable-row" key={key.MaLK} target="-blank"
+                //         onClick={
+                //             () => {
+                //                 onSearch(key.MaLK)
+                //                 // const test = document.getElementById(ID)
+                //                 // return test.value = key.MaLK
+                //             }
+                //         }
+                //     >
+                //         <div>{key.MaLK}</div>
+                //     </div>
+                // ))
             )
+        }
     }
+
+
+
     return (
         <tbody>
             {
                 RenderTable?.Render?.map((index) => (
                     <tr>
                         <td>
-                            <Form.Control name={"search" + index.ID} id={index.ID} className="mb-3" onClick={()=>RenderTable.Onchangeform}/>
+                            <Form.Control name={"search" + index?.ID} type="text" id={index?.ID} className="mb-3"
+                                onChange={RenderTable.Onchangeformtable} />
+
                             <div className="dropdowntable">
                                 {
-                                    RenderSuggestion(RenderTable.DataProduct, onSearch, index.ID, CheckID)
+                                    RenderSuggestion(
+                                        RenderTable.DataProduct, onSearch, index?.ID, RenderTable.CheckID, index
+                                    )
                                 }
                             </div>
                         </td>
@@ -86,7 +95,7 @@ const TBodytable = (props) => {
                         <td><Form.Control className="mb-3" type="text" disabled /></td>
                         <td>
                             <Button type='button'
-                                onClick={() => DeleteTable(index.ID)} variant="danger">Delete</Button>
+                                onClick={() => DeleteTable(index?.ID)} variant="danger">Delete</Button>
                         </td>
                     </tr>
                 ))

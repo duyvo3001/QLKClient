@@ -20,6 +20,16 @@ const PaidOrderPage = () => {
             ID: 1,
             NameProduct: "",
             Qty: 0
+        },
+        {
+            ID: 2,
+            NameProduct: "",
+            Qty: 0
+        },
+        {
+            ID: 3,
+            NameProduct: "",
+            Qty: 0
         }
     ])
 
@@ -29,20 +39,19 @@ const PaidOrderPage = () => {
     }
 
     const Onchangeformtable = (event) => { //get value onchange
-
+        setCheckID(event.target.id)
         const { name, value } = event.target;
-        const updatedRender = Render.map(item => {
-            if (item.ID === 4) {
-              return {
-                ...item,
-                NameProduct: value
-              };
+        const updateRender = Render.map((key, index) => {
+            if (event.target.id - 1 === index) {
+                return {
+                    ID: +event.target.id,
+                    NameProduct: value,
+                    Qty: 0
+                }
             }
-            return item;
-          });
-          
-          setRender(updatedRender);
-
+            else return key
+        })
+        setRender(updateRender);
     }
 
     const onSearch = (Customer) => { //set value onsearch
@@ -122,9 +131,14 @@ const PaidOrderPage = () => {
                         </div>
                     </Col>
                 </Row>
-                <DataOnchange.Provider value={{ Render, setRender, DataProduct, setDataProduct }}>
+
+                <DataOnchange.Provider
+                    value={
+                        { Render, setRender, DataProduct, setDataProduct, Onchangeformtable, CheckID }
+                    }>
                     <PaidOrderTable />
                 </DataOnchange.Provider>
+
 
                 <Row>
                     <Col md={2}>Gross Amount</Col>
