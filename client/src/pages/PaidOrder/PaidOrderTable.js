@@ -49,6 +49,7 @@ const TBodytable = (props) => {
             return (
                 DataProduct?.result
                     ?.filter((key) => {
+                        console.log(key);
                         // const searchTerm = index.Render?.toLowerCase();
                         // console.log(RenderTable.Render[RenderTable.Render.length - ID])
                         // const MaLK = key.MaLK?.toLowerCase();
