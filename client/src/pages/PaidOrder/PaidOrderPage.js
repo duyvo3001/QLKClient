@@ -13,45 +13,60 @@ const PaidOrderPage = () => {
     const [DataCustomer, setDataCustomer] = useState({}) //state.dataCustomer
     const [DataProduct, setDataProduct] = useState({}) //state.dataProduct
     const [formData, setFormData] = useState({}) //state formdata to request server
-    const [CheckID, setCheckID] = useState(1)
-
-    const [Render, setRender] = useState([// Render table
+    const [Disount, setDisount] = useState(0) //state discount 
+    const [Render, setRender] = useState([// Render table , chuyen qua table
         {
             ID: 1,
-            NameProduct: "",
-            Qty: 0
-        },
-        {
-            ID: 2,
-            NameProduct: "",
-            Qty: 0
-        },
-        {
-            ID: 3,
             NameProduct: "",
             Qty: 0
         }
     ])
 
+    // console.log(DataProduct.result[0])
+    useEffect(() => {
+        let GrossAmountData = 0;
+        let Giaban = 0;
+
+        Render.map((key) => {// set value of GrossAmount
+            if (key.NameProduct?.trim() !== "" && key.Qty !== 0) {
+                const setValue = document.getElementsByName('GrossAmount')
+                DataProduct.result.map((index) => {
+                    if (index.MaLK == key.NameProduct) {
+                        Giaban = index.GiaBanLe
+                    }
+                })
+                GrossAmountData += key.Qty * Giaban
+                setValue[0].value = GrossAmountData
+            }
+        })
+
+        if (GrossAmountData !== 0) {// set value of Vat
+            const setValue = document.getElementsByName('Vat')
+            setValue[0].value = GrossAmountData / 10
+        }
+        if(Disount!==0){// display Discount value
+            const setValue = document.getElementsByName('DisplayDiscount')
+            setValue[0].value ="-"+ GrossAmountData * Disount /100
+        }
+        if (GrossAmountData !== 0 && Disount !== 0) { // set value of NetAmount
+            const setValue = document.getElementsByName('NetAmount')
+            setValue[0].value = GrossAmountData / 10 + GrossAmountData - GrossAmountData * Disount / 100
+        }
+        else {
+            const setValue = document.getElementsByName('NetAmount')
+            setValue[0].value = GrossAmountData / 10 + GrossAmountData
+        }
+
+    }, [Render, Disount])
+
+    const OnchangeDiscount = (event) => {
+        const { name, value } = event.target;
+        setDisount(+value)
+    }
+
     const Onchangeform = (event) => { //get value onchange
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
-    }
-
-    const Onchangeformtable = (event) => { //get value onchange
-        setCheckID(event.target.id)
-        const { name, value } = event.target;
-        const updateRender = Render.map((key, index) => {
-            if (event.target.id - 1 === index) {
-                return {
-                    ID: +event.target.id,
-                    NameProduct: value,
-                    Qty: 0
-                }
-            }
-            else return key
-        })
-        setRender(updateRender);
     }
 
     const onSearch = (Customer) => { //set value onsearch
@@ -102,9 +117,9 @@ const PaidOrderPage = () => {
                         onClick={() => onSearch(key.IDCustomer)}
                     >
                         <div>
-                            <div>{key.IDCustomer}</div>
-                            <div>{key.NameCustomer}</div>
-                            <div>{key.Phone}</div>
+                            <div key={"item" + key.IDCustomer}>{key.IDCustomer}</div>
+                            <div key={"item" + key.IDCustomer}>{key.NameCustomer}</div>
+                            <div key={"item" + key.IDCustomer}>{key.Phone}</div>
                         </div>
                     </div>
                 ))
@@ -134,27 +149,31 @@ const PaidOrderPage = () => {
 
                 <DataOnchange.Provider
                     value={
-                        { Render, setRender, DataProduct, setDataProduct, Onchangeformtable, CheckID }
-                    }>
-                    <PaidOrderTable />
+                        { DataProduct, setDataProduct, Render, setRender }
+                    }>{
+                        <PaidOrderTable />
+                    }
                 </DataOnchange.Provider>
 
 
                 <Row>
                     <Col md={2}>Gross Amount</Col>
-                    <Col className="mb-3" md={3}><Form.Control size="sm" type="text" disabled /></Col>
+                    <Col className="mb-3" md={3}><Form.Control size="sm" name='GrossAmount' type="text" disabled /></Col>
                 </Row>
                 <Row>
                     <Col md={2}>Vat 10%</Col>
-                    <Col className="mb-3" md={3}><Form.Control size="sm" value="" type="text" disabled /></Col>
+                    <Col className="mb-3" md={3}><Form.Control size="sm" name="Vat" value="" type="text" disabled /></Col>
                 </Row>
                 <Row>
                     <Col md={2}>Disount</Col>
-                    <Col className="mb-3" md={3}><Form.Control size="sm" onChange={Onchangeform} name='Discount' type="text" /></Col>
+                    <Col className="mb-3" md={3}>
+                        <Form.Control size="sm" name='Discount' onChange={OnchangeDiscount} type="text" />
+                        <Form.Control disabled  size="sm"name='DisplayDiscount'/>
+                    </Col>
                 </Row>
                 <Row>
                     <Col md={2}>Net Amount</Col>
-                    <Col className="mb-3" md={3}><Form.Control size="sm" type="text" disabled /></Col>
+                    <Col className="mb-3" md={3}><Form.Control size="sm" name="NetAmount" type="text" disabled /></Col>
                 </Row>
                 <div className="d-grid gap-2">
                     <Button size="lg">Paid</Button>
