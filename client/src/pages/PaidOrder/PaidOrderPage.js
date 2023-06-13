@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
 import PaidOrderTable from './PaidOrderTable';
 import Request from '../../api/Request';
-
+import Alert from 'react-bootstrap/Alert';
 export const DataOnchange = createContext(null);
 const PaidOrderPage = () => {
 
@@ -21,7 +21,7 @@ const PaidOrderPage = () => {
             Qty: 0
         }
     ])
-
+    const [show, setShow] = useState(true);
     // console.log(DataProduct.result[0])
     useEffect(() => {
         let GrossAmountData = 0;
@@ -86,6 +86,19 @@ const PaidOrderPage = () => {
         }
     }
 
+    const AlertDismissible = () => {
+        if (show == true) {
+            return (
+                <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                    <p>
+
+                    </p>
+                </Alert>
+            );
+        }
+    }
+
     useEffect(() => {   //render Product list
         Request.get('/SearchStockExport', {
             headers: { 'Authorization': sessionStorage.getItem("access_token") }
@@ -133,18 +146,20 @@ const PaidOrderPage = () => {
         )
     }
 
-    function PaidOrder(){
+    function PaidOrder() {
         Request.post('/PaidOrder',
-        {
-            formData , Render
-        },
-        {
-            headers: { 'Authorization': sessionStorage.getItem("access_token") }
-        }).then(response => {
-            setDataCustomer(response.data)
-        }).catch(err => {
-            console.error("err", err);
-        })
+            {
+                formData, Render
+            },
+            {
+                headers: { 'Authorization': sessionStorage.getItem("access_token") }
+            })
+            .then(response => {
+                setDataCustomer(response.data)
+            })
+            .catch(err => {
+                console.error("err", err);
+            })
     }
 
     return (
@@ -167,7 +182,9 @@ const PaidOrderPage = () => {
                         </div>
                     </Col>
                 </Row>
-
+                <Row>
+                    <AlertDismissible />
+                </Row>
                 <DataOnchange.Provider
                     value={
                         { DataProduct, setDataProduct, Render, setRender }
@@ -188,7 +205,7 @@ const PaidOrderPage = () => {
                 <Row>
                     <Col md={2}>Disount</Col>
                     <Col className="mb-3" md={3}>
-                        <Form.Control size="sm" name='Discount' onChange={OnchangeDiscount} type="text" />
+                        <Form.Control size="sm" name='Discount' onChange={OnchangeDiscount} type="number" />
                         <Form.Control disabled size="sm" name='DisplayDiscount' />
                     </Col>
                 </Row>
@@ -197,7 +214,7 @@ const PaidOrderPage = () => {
                     <Col className="mb-3" md={3}><Form.Control size="sm" name="NetAmount" type="text" disabled /></Col>
                 </Row>
                 <div className="d-grid gap-2">
-                    <Button onClick={PaidOrder}size="lg" >Paid</Button>
+                    <Button onClick={PaidOrder} size="lg" >Paid</Button>
                 </div>
             </Container>
         </>

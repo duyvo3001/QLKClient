@@ -7,12 +7,12 @@ const PaidOrderTable = () => {
     const RenderTable = useContext(DataOnchange)
     const [CheckID, setCheckID] = useState(1)
 
-    const updateAmount = (ID, Qty,Product) => { // Update amount
+    const updateAmount = (ID, Qty, Product) => { // Update amount
         const setNameProduct = document.getElementsByName("Amount" + ID)
-        let Rate = 0 ; 
+        let Rate = 0;
         RenderTable.DataProduct.result?.map((key) => {
-            if(Product == key.MaLK){
-                Rate = key.GiaBanLe 
+            if (Product == key.MaLK) {
+                Rate = key.GiaBanLe
             }
         })
         const numberAmount = Rate * Qty
@@ -21,10 +21,16 @@ const PaidOrderTable = () => {
 
     const OnchangeQty = (event) => { // Update Qty 
         const { name, value } = event.target;
-        let Product = ""
+        let Product = "";
+        const valueSearch = document.getElementsByName("search" + event.target.id)
+        RenderTable.DataProduct.result?.map((key) => {
+            if (valueSearch[0].value == key.MaLK) {
+                console.info(key.Soluong)
+            }
+        })
         const updateRender = RenderTable.Render.map((key, index) => {
             if (event.target.id - 1 === index) {
-                Product = key.NameProduct ; 
+                Product = key.NameProduct;
                 return {
                     ID: +event.target.id,
                     NameProduct: key.NameProduct,
@@ -36,7 +42,7 @@ const PaidOrderTable = () => {
             }
         })
         RenderTable.setRender(updateRender);
-        updateAmount(event.target.id, value,Product);
+        updateAmount(event.target.id, value, Product);
     }
 
     const Onchangeformtable = (event) => { //get value onchange , chuyen qua table 
@@ -117,7 +123,7 @@ const TBodytable = (props) => {
                 if (key.MaLK === value) {
                     const setRate = document.getElementsByName(Rate)
                     const numberRate = +key.GiaBanLe
-                    return setRate[0].value =numberRate?.toLocaleString()    // return key == value
+                    return setRate[0].value = numberRate?.toLocaleString()    // return key == value
                 }
             })
     }
@@ -195,7 +201,9 @@ const TBodytable = (props) => {
                                 className="mb-3"
                                 name={"Quantity" + index.ID}
                                 id={index?.ID}
-                                type="text" />
+                                type="number"
+                                min="0" max="100" step="1"
+                            />
                         </td>
                         <td><Form.Control className="mb-3" name={"Rate" + index.ID} type="text" disabled /></td>
                         <td><Form.Control className="mb-3" name={"Amount" + index.ID} type="text" disabled /></td>
