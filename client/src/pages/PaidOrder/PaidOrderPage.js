@@ -36,25 +36,31 @@ const PaidOrderPage = () => {
                     }
                 })
                 GrossAmountData += key.Qty * Giaban
-                setValue[0].value = GrossAmountData
+                setValue[0].value = GrossAmountData?.toLocaleString();
             }
         })
 
         if (GrossAmountData !== 0) {// set value of Vat
             const setValue = document.getElementsByName('Vat')
-            setValue[0].value = GrossAmountData / 10
+            const numberVAT = GrossAmountData / 10;
+            setValue[0].value = "+" + numberVAT?.toLocaleString();
         }
-        if(Disount!==0){// display Discount value
+
+        if (Disount !== 0) {// display Discount value
             const setValue = document.getElementsByName('DisplayDiscount')
-            setValue[0].value ="-"+ GrossAmountData * Disount /100
+            const numberDiscount = GrossAmountData * Disount / 100
+            setValue[0].value = "-" + numberDiscount?.toLocaleString();
         }
+
         if (GrossAmountData !== 0 && Disount !== 0) { // set value of NetAmount
             const setValue = document.getElementsByName('NetAmount')
-            setValue[0].value = GrossAmountData / 10 + GrossAmountData - GrossAmountData * Disount / 100
+            const numberNetAmount = GrossAmountData / 10 + GrossAmountData - GrossAmountData * Disount / 100
+            setValue[0].value = numberNetAmount?.toLocaleString('en-CA', { useGrouping: true })
         }
         else {
             const setValue = document.getElementsByName('NetAmount')
-            setValue[0].value = GrossAmountData / 10 + GrossAmountData
+            const numberNetAmount = GrossAmountData / 10 + GrossAmountData
+            setValue[0].value = numberNetAmount?.toLocaleString('en-CA', { useGrouping: true });
         }
 
     }, [Render, Disount])
@@ -62,6 +68,7 @@ const PaidOrderPage = () => {
     const OnchangeDiscount = (event) => {
         const { name, value } = event.target;
         setDisount(+value)
+        setFormData({ ...formData, [name]: value });
     }
 
     const Onchangeform = (event) => { //get value onchange
@@ -126,6 +133,20 @@ const PaidOrderPage = () => {
         )
     }
 
+    function PaidOrder(){
+        Request.post('/PaidOrder',
+        {
+            formData , Render
+        },
+        {
+            headers: { 'Authorization': sessionStorage.getItem("access_token") }
+        }).then(response => {
+            setDataCustomer(response.data)
+        }).catch(err => {
+            console.error("err", err);
+        })
+    }
+
     return (
         <>
             <Container>
@@ -168,7 +189,7 @@ const PaidOrderPage = () => {
                     <Col md={2}>Disount</Col>
                     <Col className="mb-3" md={3}>
                         <Form.Control size="sm" name='Discount' onChange={OnchangeDiscount} type="text" />
-                        <Form.Control disabled  size="sm"name='DisplayDiscount'/>
+                        <Form.Control disabled size="sm" name='DisplayDiscount' />
                     </Col>
                 </Row>
                 <Row>
@@ -176,7 +197,7 @@ const PaidOrderPage = () => {
                     <Col className="mb-3" md={3}><Form.Control size="sm" name="NetAmount" type="text" disabled /></Col>
                 </Row>
                 <div className="d-grid gap-2">
-                    <Button size="lg">Paid</Button>
+                    <Button onClick={PaidOrder}size="lg" >Paid</Button>
                 </div>
             </Container>
         </>

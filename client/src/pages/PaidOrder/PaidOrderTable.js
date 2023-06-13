@@ -1,4 +1,4 @@
-import { React,  useContext, useState } from 'react'
+import { React, useContext, useState } from 'react'
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -7,16 +7,24 @@ const PaidOrderTable = () => {
     const RenderTable = useContext(DataOnchange)
     const [CheckID, setCheckID] = useState(1)
 
-    const updateAmount = (ID, Qty) => { // Update amount
+    const updateAmount = (ID, Qty,Product) => { // Update amount
         const setNameProduct = document.getElementsByName("Amount" + ID)
-        const Rate = document.getElementsByName("Rate" + ID)
-        setNameProduct[0].value = Rate[0].value * Qty
+        let Rate = 0 ; 
+        RenderTable.DataProduct.result?.map((key) => {
+            if(Product == key.MaLK){
+                Rate = key.GiaBanLe 
+            }
+        })
+        const numberAmount = Rate * Qty
+        setNameProduct[0].value = numberAmount?.toLocaleString()
     }
 
     const OnchangeQty = (event) => { // Update Qty 
         const { name, value } = event.target;
+        let Product = ""
         const updateRender = RenderTable.Render.map((key, index) => {
             if (event.target.id - 1 === index) {
+                Product = key.NameProduct ; 
                 return {
                     ID: +event.target.id,
                     NameProduct: key.NameProduct,
@@ -28,7 +36,7 @@ const PaidOrderTable = () => {
             }
         })
         RenderTable.setRender(updateRender);
-        updateAmount(event.target.id, value);
+        updateAmount(event.target.id, value,Product);
     }
 
     const Onchangeformtable = (event) => { //get value onchange , chuyen qua table 
@@ -75,8 +83,8 @@ const PaidOrderTable = () => {
                     CheckID={CheckID}
                     Render={RenderTable.Render}
                     setRender={RenderTable.setRender}
-                    OnchangeQty={OnchangeQty} 
-                    RenderTable={RenderTable}/>
+                    OnchangeQty={OnchangeQty}
+                    RenderTable={RenderTable} />
             </Table>
         </>
     )
@@ -84,8 +92,8 @@ const PaidOrderTable = () => {
 
 const TBodytable = (props) => {
 
-    const { DeleteTable, Onchangeformtable, CheckID, Render, setRender, OnchangeQty  ,RenderTable} = props
-    
+    const { DeleteTable, Onchangeformtable, CheckID, Render, setRender, OnchangeQty, RenderTable } = props
+
 
     function updateRender(value, nameProduct, Product) { // update Render on change
         return (
@@ -108,7 +116,8 @@ const TBodytable = (props) => {
             ?.map((key) => {
                 if (key.MaLK === value) {
                     const setRate = document.getElementsByName(Rate)
-                    return setRate[0].value = key.GiaBanLe   // return key == value
+                    const numberRate = +key.GiaBanLe
+                    return setRate[0].value =numberRate?.toLocaleString()    // return key == value
                 }
             })
     }
@@ -121,7 +130,6 @@ const TBodytable = (props) => {
         setRender(updateRender(value, nameProduct, Product))
 
         updateRate(value, Rate)
-
     }
 
     const RenderSuggestion = (props) => {
@@ -162,7 +170,11 @@ const TBodytable = (props) => {
                 Render?.map((index) => (
                     <tr key={index.ID}>
                         <td>
-                            <Form.Control name={"search" + index?.ID} type="text" id={index?.ID} className="mb-3"
+                            <Form.Control
+                                name={"search" + index?.ID}
+                                type="text"
+                                id={index?.ID}
+                                className="mb-3"
                                 onChange={Onchangeformtable} />
 
                             <div className="dropdowntable">
@@ -177,12 +189,21 @@ const TBodytable = (props) => {
                                 }
                             </div>
                         </td>
-                        <td><Form.Control onChange={OnchangeQty} className="mb-3" name={"Quantity" + index.ID} id={index?.ID} type="text" /></td>
+                        <td>
+                            <Form.Control
+                                onChange={OnchangeQty}
+                                className="mb-3"
+                                name={"Quantity" + index.ID}
+                                id={index?.ID}
+                                type="text" />
+                        </td>
                         <td><Form.Control className="mb-3" name={"Rate" + index.ID} type="text" disabled /></td>
                         <td><Form.Control className="mb-3" name={"Amount" + index.ID} type="text" disabled /></td>
                         <td>
                             <Button type='button'
-                                onClick={() => DeleteTable(index?.ID)} variant="danger" key={"delete" + index.ID}>Delete</Button>
+                                onClick={() => DeleteTable(index?.ID)}
+                                variant="danger"
+                                key={"delete" + index.ID}>Delete</Button>
                         </td>
                     </tr>
                 ))
