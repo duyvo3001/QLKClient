@@ -23,18 +23,21 @@ const PaidOrderTable = () => {
         const { name, value } = event.target;
         let Product = "";
         const valueSearch = document.getElementsByName("search" + event.target.id)
+
         RenderTable.DataProduct.result?.map((key) => {
             if (valueSearch[0].value == key.MaLK) {
                 console.info(key.Soluong)
             }
         })
-        const updateRender = RenderTable.Render.map((key, index) => {
+
+        const updateRender = RenderTable.Render.map((key, index) => {// setvalue for Render
             if (event.target.id - 1 === index) {
                 Product = key.NameProduct;
                 return {
                     ID: +event.target.id,
                     NameProduct: key.NameProduct,
-                    Qty: value
+                    Qty: value , 
+                    MaxQty : key.MaxQty
                 }
             }
             else {
@@ -107,10 +110,19 @@ const TBodytable = (props) => {
                 if (CheckID - 1 == index) {
                     const setNameProduct = document.getElementsByName(nameProduct)
                     setNameProduct[0].value = Product
+
+                    const Soluong = RenderTable.DataProduct.result?.filter((data) => {
+                        return data.MaLK === value ? data.Soluong : null
+                    })
+                    .map((key) =>{
+                        return key.Soluong
+                    })
+                    
                     return {
                         ID: +CheckID,
                         NameProduct: value,
-                        Qty: 0
+                        Qty: 0,
+                        MaxQty: Soluong
                     }
                 }
                 else return key
@@ -202,7 +214,7 @@ const TBodytable = (props) => {
                                 name={"Quantity" + index.ID}
                                 id={index?.ID}
                                 type="number"
-                                min="0" max="100" step="1"
+                                min={0} max={+index.MaxQty} step="1"
                             />
                         </td>
                         <td><Form.Control className="mb-3" name={"Rate" + index.ID} type="text" disabled /></td>

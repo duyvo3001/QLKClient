@@ -14,14 +14,18 @@ const PaidOrderPage = () => {
     const [DataProduct, setDataProduct] = useState({}) //state.dataProduct
     const [formData, setFormData] = useState({}) //state formdata to request server
     const [Disount, setDisount] = useState(0) //state discount 
+    const [show, setShow] = useState({
+        valueShow: false,
+        message: ""
+    });
     const [Render, setRender] = useState([// Render table , chuyen qua table
         {
             ID: 1,
             NameProduct: "",
-            Qty: 0
+            Qty: 0,
+            MaxQty: 0
         }
     ])
-    const [show, setShow] = useState(true);
     // console.log(DataProduct.result[0])
     useEffect(() => {
         let GrossAmountData = 0;
@@ -87,13 +91,15 @@ const PaidOrderPage = () => {
     }
 
     const AlertDismissible = () => {
-        if (show == true) {
+        if (show?.valueShow === true) {
             return (
-                <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                    <p>
-
-                    </p>
+                <Alert variant="danger" onClose={() => setShow({
+                    valueShow: false,
+                    message: ""
+                })} dismissible>
+                    {
+                        show?.message
+                    }
                 </Alert>
             );
         }
@@ -147,19 +153,39 @@ const PaidOrderPage = () => {
     }
 
     function PaidOrder() {
-        Request.post('/PaidOrder',
-            {
-                formData, Render
-            },
-            {
-                headers: { 'Authorization': sessionStorage.getItem("access_token") }
+        let checkErr = true;
+        const searchCustomer = document.getElementsByName("searchCustomer") // check customer
+
+        if (!searchCustomer[0].value) {
+            setShow({
+                valueShow: true,
+                message: "don't empty the Customer ID"
             })
-            .then(response => {
-                setDataCustomer(response.data)
-            })
-            .catch(err => {
-                console.error("err", err);
-            })
+            checkErr = false
+        }
+
+        Render.map((key) => { // check empty the Name Product
+            if (key.NameProduct == "") {
+                setShow({
+                    valueShow: true,
+                    message: "don't empty the Name Product"
+                })
+                checkErr = false
+            }
+        })
+
+        if (checkErr === true) {
+            Request.post('/PaidOrder',
+                {
+                    formData, Render
+                },
+                {
+                    headers: { 'Authorization': sessionStorage.getItem("access_token") }
+                })
+                .catch(err => {
+                    console.error("err", err);
+                })
+        }
     }
 
     return (
@@ -181,10 +207,11 @@ const PaidOrderPage = () => {
                             }
                         </div>
                     </Col>
+                    <Col className="mb-0" md={5}>
+                        <AlertDismissible />
+                    </Col>
                 </Row>
-                <Row>
-                    <AlertDismissible />
-                </Row>
+
                 <DataOnchange.Provider
                     value={
                         { DataProduct, setDataProduct, Render, setRender }
@@ -205,7 +232,7 @@ const PaidOrderPage = () => {
                 <Row>
                     <Col md={2}>Disount</Col>
                     <Col className="mb-3" md={3}>
-                        <Form.Control size="sm" name='Discount' onChange={OnchangeDiscount} type="number" />
+                        <Form.Control size="sm" name='Discount' onChange={OnchangeDiscount} min={0} max={100} type="number" />
                         <Form.Control disabled size="sm" name='DisplayDiscount' />
                     </Col>
                 </Row>
