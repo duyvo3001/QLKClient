@@ -18,6 +18,10 @@ const PaidOrderPage = () => {
         valueShow: false,
         message: ""
     });
+    const [success, setSuccess] = useState({
+        valueShow: false,
+        message: ""
+    });
     const [Render, setRender] = useState([// Render table , chuyen qua table
         {
             ID: 1,
@@ -89,7 +93,20 @@ const PaidOrderPage = () => {
             test[i].value = Customer;
         }
     }
-
+    const AlertPaidOrderSuccess = () => {
+        if (success?.valueShow === true) {
+            return (
+                <Alert variant="success" onClose={() => setSuccess({
+                    valueShow: false,
+                    message: ""
+                })} dismissible>
+                    {
+                        success?.message
+                    }
+                </Alert>
+            );
+        }
+    }
     const AlertDismissible = () => {
         if (show?.valueShow === true) {
             return (
@@ -182,6 +199,43 @@ const PaidOrderPage = () => {
                 {
                     headers: { 'Authorization': sessionStorage.getItem("access_token") }
                 })
+                .then(response => {
+                    if (response.status == 200) {
+                        setDisount(0)
+                        setRender([{
+                            ID: 1,
+                            NameProduct: "",
+                            Qty: 0,
+                            MaxQty: 0
+                        }])
+                        setFormData({})
+                        setSuccess({
+                            valueShow: true,
+                            message: response.data.message
+                        })
+
+                        const search = document.getElementsByName('searchCustomer');
+                        const search1 = document.getElementsByName('search1');
+                        const Quantity1 = document.getElementsByName('Quantity1');
+                        const Rate1 = document.getElementsByName('Rate1');
+                        const GrossAmount = document.getElementsByName('GrossAmount');
+                        const Vat = document.getElementsByName('Vat');
+                        const Discount = document.getElementsByName('Discount');
+                        const DisplayDiscount = document.getElementsByName('DisplayDiscount');
+                        const NetAmount = document.getElementsByName('NetAmount');
+
+                        search[0].value = ""
+                        search1[0].value = ""
+                        Quantity1[0].value = ""
+                        Rate1[0].value = ""
+                        GrossAmount[0].value = ""
+                        Vat[0].value = ""
+                        Discount[0].value = ""
+                        DisplayDiscount[0].value = ""
+                        NetAmount[0].value = ""
+           
+                    }
+                })
                 .catch(err => {
                     console.error("err", err);
                 })
@@ -211,7 +265,11 @@ const PaidOrderPage = () => {
                         <AlertDismissible />
                     </Col>
                 </Row>
-
+                <Row>
+                    <Col>
+                        <AlertPaidOrderSuccess />
+                    </Col>
+                </Row>
                 <DataOnchange.Provider
                     value={
                         { DataProduct, setDataProduct, Render, setRender }
