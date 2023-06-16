@@ -39,7 +39,7 @@ const PaidOrderPage = () => {
             if (key.NameProduct?.trim() !== "" && key.Qty !== 0) {
                 const setValue = document.getElementsByName('GrossAmount')
                 DataProduct.result.map((index) => {
-                    if (index.MaLK == key.NameProduct) {
+                    if (index.MaLK === key.NameProduct) {
                         Giaban = index.GiaBanLe
                     }
                 })
@@ -200,7 +200,7 @@ const PaidOrderPage = () => {
                     headers: { 'Authorization': sessionStorage.getItem("access_token") }
                 })
                 .then(response => {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         setDisount(0)
                         setRender([{
                             ID: 1,

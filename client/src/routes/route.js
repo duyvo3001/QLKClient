@@ -16,6 +16,7 @@ import UserView from '../pages/dashBoard/UserView/UserView';
 import WareHouseView from '../pages/dashBoard/WareHouseView/WareHouseView';
 import InventoryList from '../pages/inventory/InventoryList';
 import PaidOrderPage from '../pages/PaidOrder/PaidOrderPage';
+import PaidView from '../pages/dashBoard/PaidView/PaidView';
 //public Route
 const publicRoutes = [
     {path:'/login', component : Login , layout : null},
@@ -38,6 +39,7 @@ const privateRoutes=[
     {path:'/UserView',component :UserView  },
     {path:'/InventoryList',component :InventoryList  },
     {path:'/PaidOrderPage',component :PaidOrderPage  },
+    {path:'/PaidView',component :PaidView  },
 ]
 
 export {publicRoutes,privateRoutes}

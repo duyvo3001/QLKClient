@@ -39,7 +39,7 @@ const DashBoard = () => {
                             <Card.Text>
                                 Total Paid Orders
                             </Card.Text>
-                            <Button  variant="light">More info</Button>
+                            <Button href="/PaidView"  variant="light">More info</Button>
                         </Card.Body>
                     </Card>
                 </Col>

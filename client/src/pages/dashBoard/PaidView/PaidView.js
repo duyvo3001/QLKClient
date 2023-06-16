@@ -1,8 +1,8 @@
-import { React, useState } from "react";
-import { TableDT } from "../../Import/table/tableDTStock"
+import { React, useState } from 'react'
 import ButtonBottom from "../../Import/buttonBot/buttonBottom";
+import OrderTableView from "../../PaidOrder/OrderTableView";
 import Button from 'react-bootstrap/Button';
-const ProductView = () => {
+const PaidView = () => {
     const [filters, setfilters] = useState({
         page: 1,
     });
@@ -18,9 +18,10 @@ const ProductView = () => {
     };
     return (
         <>
-            <h4>Mange : Product</h4>
+            <h4>Manage : Paid Order</h4>
             <Button variant="secondary" href="/ImportStock">Mange</Button>
-            <TableDT filters={filters} setfilters={setfilters} />
+            <OrderTableView filters={filters} setfilters={setfilters} />
+
             <ButtonBottom
                 pageindex={pageindex}
                 HandleButtonClick={HandleButtonClick}
@@ -29,4 +30,4 @@ const ProductView = () => {
     )
 }
 
-export default ProductView
+export default PaidView

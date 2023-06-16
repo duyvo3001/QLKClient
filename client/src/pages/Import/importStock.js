@@ -18,7 +18,6 @@ const ImportStock = () => {
 
   const HandleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setFormData({ ...formData, [name]: value });
   };
 
@@ -84,7 +83,7 @@ const ImportStock = () => {
         </Form>
       </Container>
       <div>
-        <TableDT filters={filters} setfilters={setfilters} />
+        <TableDT filters={filters} />
         <ButtonBottom
           pageindex={pageindex}
           HandleButtonClick={HandleButtonClick}
