@@ -18,57 +18,77 @@ const UserPage = () => {
   });
   const [formData, setFormData] = useState({});
 
-  const [update, setUpdate] = useState('false')
-  const [create, setCreate] = useState('false')
-  const [valuedelete, setDelete] = useState('false')
-  const [read, setRead] = useState('false')
   const [AccessRight, setAccessRight] = useState({
-    update: update,
-    create: create,
-    read: read,
-    valuedelete: valuedelete,
+    update: false,
+    create: false,
+    read: false,
+    valuedelete: false,
   })
   const HandleChange = async (event) => {
     const { name, value } = event.target;
-    console.log(typeof name);
+    console.log(name, value);
+    const valueUpdate = document.getElementsByName("update")
+    const valueCreate = document.getElementsByName("create")
+    const valueDelete = document.getElementsByName("delete")
+    const valueRead = document.getElementsByName("read")
 
     if (name !== "update" && name !== "create" && name !== "delete" && name !== "read") {
       console.log(name, value)
       setFormData({ ...formData, [name]: value });
     }
-    switch (name) {
-      case "update":
-        if (value === 'false') { setUpdate('true') }
-        else { setUpdate('false') }
-        break;
-      case "create":
-        if (value === 'false') { setCreate('true') }
-        else { setCreate('false') }
-        break;
-      case "delete":
-        if (value === 'false') { setDelete('true') }
-        else { setDelete('false') }
-        break;
-      case "read":
-        if (value === 'false') {setRead('true') }
-        else { setRead('false') }
-        break;
-    }
-
+    updateAccessRight(name, value, valueUpdate, valueCreate, valueDelete, valueRead)
   };
 
-  useEffect(()=>{
+  function updateAccessRight(name, value, valueUpdate, valueCreate, valueDelete, valueRead) {
+    switch (name) {
+      case "update":
+        if (value === 'false') {
+          valueUpdate[0].value = true
+        }
+        else {
+          valueUpdate[0].value = false
+         }
+        break;
+      case "create":
+        if (value === 'false') {
+          valueCreate[0].value = true
+        }
+        else { 
+          valueCreate[0].value = false
+        }
+        break;
+      case "delete":
+        if (value === 'false') {
+          valueDelete[0].value = true
+        }
+        else { 
+          valueDelete[0].value = false
+        }
+        break;
+      case "read":
+        if (value === 'false') {
+          valueRead[0].value = true
+        }
+        else { 
+          valueRead[0].value = false
+        }
+        break;
+    }
+  }
+
+
+  useEffect(() => {
     setAccessRight({
-      update: update,
-      create: create,
-      valuedelete: valuedelete,
-      read: read
+      update: false,
+      create: false,
+      valuedelete: false,
+      read: false
     })
     setFormData({ ...formData, 'AccessRight': AccessRight });
-    console.log(formData)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[update,create,valuedelete,read])
+  }, [])
 
+  console.log(formData)
   const HandleData = (event) => {
     event.preventDefault();
     console.log(AccessRight);
@@ -77,10 +97,10 @@ const UserPage = () => {
       "/createstaff",
       { formData },
       { headers: { Authorization: sessionStorage.getItem("access_token") } }
-    ).then((response) => {console.log(response)})
-    .catch((error) => {
-      console.log(error);
-    });
+    ).then((response) => { console.log(response) })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const HandleButtonClick = (newPage) => {
@@ -106,13 +126,13 @@ const UserPage = () => {
               Access right
             </Col>
             <Col md={10}>
-              <Form.Check inline isValid="true" value={update}
+              <Form.Check inline isValid="true" value="false"
                 onClick={HandleChange} label="update" name="update" type="checkbox" />
-              <Form.Check inline isInvalid="true" value={valuedelete}
+              <Form.Check inline isInvalid="true" value="false"
                 onClick={HandleChange} label="delete" name="delete" type="checkbox" />
-              <Form.Check inline label="create" value={create}
+              <Form.Check inline label="create" value="false"
                 onClick={HandleChange} name="create" type="checkbox" />
-              <Form.Check inline label="read" value={read}
+              <Form.Check inline label="read" value="false"
                 onClick={HandleChange} name="read" type="checkbox" />
             </Col>
           </Row>
