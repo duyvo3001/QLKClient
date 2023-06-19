@@ -40,9 +40,11 @@ const RightSide = () => {
     Request.post('/signin', { formData }, { headers: { 'Authorization': sessionStorage.getItem("access_token") } },
     )
       .then((res) => {
-        sessionStorage.setItem('access_token', res.data.access_token);
-        setLoggedIn(true);
-        setIsAuthenticated(true);
+        if (res.status === 200) {
+          sessionStorage.setItem('access_token', res.data.access_token);
+          setLoggedIn(true);
+          setIsAuthenticated(true);
+        }
       })
       .catch(error => {
         if (error?.res)
