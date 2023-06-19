@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import Request from '../../api/Request.js'
 import { AuthContext } from "../../context/AuthContext.js";
+import Alert from 'react-bootstrap/Alert';
 
 import { Navigate } from 'react-router-dom';
 import * as style from './Login.module.scss'
@@ -25,7 +26,10 @@ const RightSide = () => {
 
   const [formData, setFormData] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-
+  const [show, setShow] = useState({
+    valueShow: false,
+    message: ""
+});
   useEffect(() => {
     userRef.current.focus()
   }, [])
@@ -63,6 +67,21 @@ const RightSide = () => {
   if (loggedIn) {
     return <Navigate to="/" />;
   }
+
+  const AlertDismissible = () => {
+    if (show?.valueShow === true) {
+        return (
+            <Alert variant="danger" onClose={() => setShow({
+                valueShow: false,
+                message: ""
+            })} dismissible>
+                {
+                    show?.message
+                }
+            </Alert>
+        );
+    }
+}
 
   return (
     <Container className={cx('body1')}>
