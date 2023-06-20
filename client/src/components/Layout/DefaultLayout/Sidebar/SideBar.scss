@@ -1,0 +1,56 @@
+.sidenav{
+    background-color: #212529;
+    width: 250px;
+    height: 100vh;
+    position: relative;
+    color: aliceblue;
+    transition: 1s;
+}
+.nav-upper,
+.nav-heading{
+    display: grid;
+}
+
+.nav-heading{
+    grid-template-columns: 2fr  ,1fr;
+    grid-template-rows: 1fr;
+    height: 75px;
+}
+
+.nav-brand{
+    display: flex;
+}
+
+.nav-brand img {
+    width: 40px;
+    padding: 0 10px;
+}
+
+.nav-btn{
+    position: absolute;
+    right:0 ;
+    background:  none;
+    cursor: pointer;
+
+    margin: auto -35px;
+    background-color:  gray;
+
+    border: 2px solid white ;
+
+    padding: 9px;
+    border-radius: 90px;
+    height: 50px;
+    width: 51px;
+}
+.nav-btn span{
+    display: block;
+    margin-top: 4px;
+    background-color: whitesmoke;
+    border-radius: 15px;
+    height: 3px;
+    width: 30px;
+}
+
+.nav-btn :hover{
+    margin: auto;
+}

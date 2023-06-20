@@ -14,25 +14,18 @@ import { Navigate } from 'react-router-dom';
 import * as style from './Login.module.scss'
 const cx = classnames.bind(style)
 
-
-
 const RightSide = () => {
   const { setIsAuthenticated } = useContext(AuthContext);
 
-  const userRef = useRef();
-  const errRef = useRef();
-
-  const [errMsg, setErrMsg] = useState('');
-
   const [formData, setFormData] = useState({});
+
   const [loggedIn, setLoggedIn] = useState(false);
+
   const [show, setShow] = useState({
     valueShow: false,
-    message: ""
-});
-  useEffect(() => {
-    userRef.current.focus()
-  }, [])
+    message: "hello world"
+  });
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -51,16 +44,30 @@ const RightSide = () => {
         }
       })
       .catch(error => {
-        if (error?.res)
-          setErrMsg('No server response')
-        else if (error.res?.status === 400)
-          setErrMsg('No server response')
-        else if (error.res?.status === 401)
-          setErrMsg('Unauthorized')
-        else
-          setErrMsg('Login failed')
-
-        errRef.current.focus();
+        if (error?.res) {
+          setShow({
+            valueShow: false,
+            message: "No server response"
+          })
+        }
+        else if (error.res?.status === 400) {
+          setShow({
+            valueShow: false,
+            message: "No server response"
+          })
+        }
+        else if (error.res?.status === 401) {
+          setShow({
+            valueShow: false,
+            message: "Unauthorized"
+          })
+        }
+        else {
+          setShow({
+            valueShow: false,
+            message: "Login failed"
+          })
+        }
       });
   };
 
@@ -70,25 +77,24 @@ const RightSide = () => {
 
   const AlertDismissible = () => {
     if (show?.valueShow === true) {
-        return (
-            <Alert variant="danger" onClose={() => setShow({
-                valueShow: false,
-                message: ""
-            })} dismissible>
-                {
-                    show?.message
-                }
-            </Alert>
-        );
+      return (
+        <Alert variant="danger" onClose={() => setShow({
+          valueShow: false,
+          message: ""
+        })} dismissible>
+          {
+            show?.message
+          }
+        </Alert>
+      );
     }
-}
-
+  }
   return (
     <Container className={cx('body1')}>
 
       <div className="mb-3">
         <section>
-          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive" >{errMsg}</p>
+          <AlertDismissible />
           <h1 className="justify-content-md-center">SIGN IN</h1>
           <Form onSubmit={handleSubmit} >
             <Form.Control
@@ -97,7 +103,6 @@ const RightSide = () => {
               type="text"
               id="inputPassword5"
               onChange={handleChange}
-              ref={userRef}
               className="mb-3"
             />
             <Form.Control

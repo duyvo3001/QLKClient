@@ -179,14 +179,17 @@ const TBodytable = (props) => {
             </td>
             <td>
                 <div className={key._id} hidden={false}>
-                    {key.AccessRight}
+                    <div>{key.AccessRight?.read}</div>
+                    <div>{key.AccessRight?.update}</div>
+                    <div>{key.AccessRight?.valuedelete}</div>
+                    <div>{key.AccessRight?.create}</div>
                 </div>
                 <TextArea
                     className={key._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="AccessRight"
-                    value={key.AccessRight}
+                    // value={key.AccessRight}
                 />
             </td>
             <td>
