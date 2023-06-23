@@ -12,16 +12,16 @@ class serviceUrl {
                 return new serviceUrl()
             case "Stock":
                 return new serviceUrl('/editStock', 'ImportStock')
-            case "Supplier" :
-                return new serviceUrl('/editSupplier',"HomeSupplier")
-            case "Customer" :
-                return new serviceUrl('/UpdateCustomer',"CustomerPage")
-            case "User" :
-                return new serviceUrl('/editSupplier',"StaffPage")
+            case "Supplier":
+                return new serviceUrl('/editSupplier', "HomeSupplier")
+            case "Customer":
+                return new serviceUrl('/UpdateCustomer', "CustomerPage")
+            case "User":
+                return new serviceUrl('/updateUser', "StaffPage")
         }
     }
 }
-export const UpdateEdit = (_id, formData, setIdItem, CancelEdit, RequestRenderTable, filters, setData, UrlLink) => {
+const UpdateEdit = (_id, formData, setIdItem, CancelEdit, RequestRenderTable, filters, setData, UrlLink) => {
 
     const KindServiceUrl = serviceUrl.getTransport(UrlLink);
     Request
@@ -34,7 +34,7 @@ export const UpdateEdit = (_id, formData, setIdItem, CancelEdit, RequestRenderTa
             if (response?.status === 200) {
                 setIdItem(_id)
                 CancelEdit(_id, setIdItem)
-                RequestRenderTable(filters, setData,KindServiceUrl.homeUrl)
+                RequestRenderTable(filters, setData, KindServiceUrl.homeUrl)
             }
             else {
                 CancelEdit(_id)
@@ -45,3 +45,28 @@ export const UpdateEdit = (_id, formData, setIdItem, CancelEdit, RequestRenderTa
             console.error(error);
         });
 }
+const UpdateEditUser = (_id, formData, AccessRight, setIdItem, CancelEdit, RequestRenderTable, filters, setData, UrlLink) => {
+
+    const KindServiceUrl = serviceUrl.getTransport(UrlLink);
+    Request
+        .patch(
+            KindServiceUrl.postUrl,
+            { formData, AccessRight },
+            { headers: { Authorization: sessionStorage.getItem("access_token") } }
+        )
+        .then(response => {
+            if (response?.status === 200) {
+                setIdItem(_id)
+                CancelEdit(_id, setIdItem)
+                RequestRenderTable(filters, setData, KindServiceUrl.homeUrl)
+            }
+            else {
+                CancelEdit(_id)
+                RequestRenderTable(filters, setData, KindServiceUrl.homeUrl)
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+export { UpdateEdit ,UpdateEditUser}

@@ -1,22 +1,21 @@
 import Navigation from "./Header/Navigation";
 import DashFooter from "./Footer/DashFooter";
-import React from 'react'
-import * as style from './defaultLayout.module.scss'
-import classnames from 'classnames/bind'
-import SideBarLeft from "./Sidebar/SideBarLeft";
-const cx = classnames.bind(style)
+import React from "react";
+import "./defaultLayout.module.scss"
+// import SideBarLeft from "./Sidebar/SideBarLeft";
+
 
 const defaultLayout = ({ children }) => {
   return (
     <>
       <Navigation />
-      <SideBarLeft/>
-      <div className={cx('container')}>
-        <div className={cx('content')}>{children}</div>
+      {/* <SideBarLeft/> */}
+      <div className="container">
+        <div className="content">{children}</div>
       </div>
       <DashFooter />
     </>
-  )
-}
+  );
+};
 
-export default defaultLayout
+export default defaultLayout;

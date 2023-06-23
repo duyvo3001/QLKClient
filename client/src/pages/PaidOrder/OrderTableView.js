@@ -20,7 +20,6 @@ const THeadtable = () => {
                 <th>Discount</th>
                 <th>Total Product - Qty</th>
                 <th>Date</th>
-                <th>Action</th>
             </tr>
         </thead>
     );
@@ -40,6 +39,7 @@ const TBodytable = (props) => {
         const _id = _idItem;
         setFormData({ ...formData, [name]: value, _id });
     };
+
     const datatable = Data?.data.result?.map((key) => (
         <tr>
             <td>
@@ -72,9 +72,6 @@ const TBodytable = (props) => {
                 <div className={key._id}>
                     {key.Date}{" "}
                 </div>
-            </td>
-            <td>
-
             </td>
         </tr>
     ))

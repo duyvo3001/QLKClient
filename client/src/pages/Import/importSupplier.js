@@ -7,7 +7,8 @@ import Form from "react-bootstrap/Form";
 import Request from "../../api/Request.js";
 import ButtonSubmit from "./ButtonSubmit";
 import ButtonBottom from "../Import/buttonBot/buttonBottom";
-
+import Row from "react-bootstrap/esm/Row";
+import Col from "react-bootstrap/esm/Col";
 const ImportSupplier = () => {
     const [formData, setFormData] = useState({});
     const [pageindex, setpageindex] = useState({
@@ -50,14 +51,16 @@ const ImportSupplier = () => {
                     text2="Name Supplier"
                     ID2="TenNCC"
                 />
-                <RowCol
-                    handle={HandleChange}
-                    text1="Address"
-                    ID1="DiaChi"
-                    text2="Phone"
-                    ID2="SDT"
-                />
-                <RowCol1 handle={HandleChange} text1="Email" ID1="Email" />
+                <Row className='mb-2 row'>
+                    <Col md={2}><Form.Label column="sm">Address</Form.Label></Col>
+                    <Col md={4}><Form.Control onChange={HandleChange} size="sm" as="textarea" type="text" name="DiaChi" /></Col>
+                    <Col md={2}><Form.Label column="sm">Phone</Form.Label></Col>
+                    <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="number" name="SDT" /></Col>
+                </Row>
+                <Row className='mb-2 row'>
+                    <Col md={2}><Form.Label column="sm">Email</Form.Label></Col>
+                    <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="email" name="Email" /></Col>
+                </Row>
                 <ButtonSubmit />
             </Form>
             <TableDT filters={filters} setfilters={setfilters} />

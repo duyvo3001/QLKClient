@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import DropdownSetting from '../../Import/table/DropdownSetting'
 import { TextArea } from './TextArea';
 import Button from "react-bootstrap/Button";
 import { CancelEdit } from "./ActionFunction/CancelEdit";
-import { UpdateEdit } from "./ActionFunction/UpdateEdit";
+// import { UpdateEdit } from "./ActionFunction/UpdateEdit";
+import { UpdateEditUser } from "./ActionFunction/UpdateEdit";
 import { RequestRenderTable } from "./ActionFunction/RequestRenderTable";
 import { HandleDelete } from "./ActionFunction/HandleDelete";
 import { HandleEdit } from "./ActionFunction/HandleEdit";
-
-import React from 'react'
-
+import UpdatePassword from "../../userManegement/UpdatePassword";
+import UpdateAccess from "../../userManegement/UpdateAccess";
 const TableUser = (props) => {
     const { filters } = props;
     return (
@@ -30,11 +30,9 @@ const THeadtable = () => {
                 <th>Address</th>
                 <th>Date of birth</th>
                 <th>User Staff</th>
-                <th>PASSWORD</th>
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Date</th>
-                <th>Access Rights</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -45,6 +43,14 @@ const TBodytable = (props) => {
     const [Data, setData] = useState(null);
     const [formData, setFormData] = useState({});
     const [_idItem, setIdItem] = useState(null);
+    const [showAlter, setShowAlter] = useState(false);
+
+    const [AccessRight, setAccessRight] = useState({
+        update: "false",
+        create: "false",
+        read: "false",
+        valuedelete: "false",
+    })
 
     useEffect(() => {
         RequestRenderTable(filters, setData, "StaffPage")
@@ -52,9 +58,98 @@ const TBodytable = (props) => {
 
     const HandleChange = (event) => {
         const { name, value } = event.target;
-        const _id = _idItem;
-        setFormData({ ...formData, [name]: value, _id });
+        updateformData(name, value)
+        checkPass(name, value)
+        updateAccessRight(name, value)
     };
+    function updateAccessRight(name, value) {
+        switch (name) {
+            case "update":
+                if (value === "false") updatePrevState(name, "true")
+                else updatePrevState(name, "false")
+                break;
+            case "create":
+                if (value === "false") updatePrevState(name, "true")
+                else updatePrevState(name, "false")
+                break;
+            case "delete":
+                if (value === "false") updatePrevState(name, "true")
+                else updatePrevState(name, "false")
+                break;
+            default:
+                if (value === "false") updatePrevState(name, "true")
+                else updatePrevState(name, "false")
+                break;
+        }
+    }
+    function updatePrevState(key, value) {
+        switch (key) {
+            case "update":
+                setAccessRight(prevState => ({
+                    ...prevState,
+                    update: value
+                }));
+                break;
+            case "create":
+                setAccessRight(prevState => ({
+                    ...prevState,
+                    create: value
+                }));
+                break;
+            case "delete":
+                setAccessRight(prevState => ({
+                    ...prevState,
+                    delete: value
+                }));
+                break;
+
+            default:
+                setAccessRight(prevState => ({
+                    ...prevState,
+                    read: value
+                }));
+                break;
+        }
+
+    }
+    function updateformData(name, value) {
+        if (name !== "pass_nv" && name !== "repass_nv" && name !== "update" && name !== "delete" && name !== "create" && name !== "read") {
+            const _id = _idItem;
+            setFormData({ ...formData, [name]: value, _id });
+        }
+    }
+    function checkPass(name, value) {
+        if (name !== " ") {
+            const _id = _idItem;
+            setFormData({ ...formData, [name]: value, _id });
+        }
+        if (name === "repass_nv") {
+            if (value !== formData?.pass_nv) {
+                const _id = _idItem;
+                setFormData({ ...formData, [name]: value, _id });
+                setShowAlter(true)
+            }
+            else {
+                const _id = _idItem;
+                setFormData({ ...formData, [name]: value, _id });
+                setShowAlter(false)
+            }
+        }
+
+    }
+    function RenderAccess(Data, ID) {
+        return Data?.data?.result
+            ?.filter((key) => {
+                if (key?._id === ID) {
+                    return key
+                }
+            })
+            ?.map((key) => {
+                return key?.AccessRight
+            }
+            )
+
+    }
     const datatable = Data?.data.result?.map(
         key => <tr>
             <td>
@@ -130,18 +225,6 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id}  hidden={false}>
-                    {key.PASSWORD}
-                </div>
-                <TextArea
-                    className={key._id + "hidden"}
-                    hidden={true}
-                    onChange={HandleChange}
-                    name="PASSWORD"
-                    value={key.PASSWORD}
-                />
-            </td>
-            <td>
                 <div className={key._id} hidden={false}>
                     {key.SDT}
                 </div>
@@ -178,45 +261,26 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
-                    <div>{key.AccessRight?.read}</div>
-                    <div>{key.AccessRight?.update}</div>
-                    <div>{key.AccessRight?.valuedelete}</div>
-                    <div>{key.AccessRight?.create}</div>
-                </div>
-                <TextArea
-                    className={key._id + "hidden"}
-                    hidden={true}
-                    onChange={HandleChange}
-                    name="AccessRight"
-                    // value={key.AccessRight}
-                />
-            </td>
-            <td>
                 <DropdownSetting
                     HandleDelete={() =>
                         HandleDelete(
                             key.MaNV,
-                            "deleteStock",
+                            "deleteUser",
                             RequestRenderTable,
                             filters,
                             setData,
-                            "ImportStock"
+                            "StaffPage"
                         )
                     }
                     handleEdit={() => HandleEdit(key._id, setIdItem)} />
             </td>
             <td className={key._id + "hidden"} hidden={true}>
-                <Button
-                    variant="secondary"
-                    onClick={() => CancelEdit(key._id, setIdItem)}>
-                    cancel
-                </Button>{" "}
 
-                <Button variant="warning" onClick={
-                    () => UpdateEdit(
+                <Button size="sm" variant="warning" onClick={
+                    () => UpdateEditUser(
                         key._id,
                         formData,
+                        AccessRight,
                         setIdItem,
                         CancelEdit,
                         RequestRenderTable,
@@ -225,6 +289,16 @@ const TBodytable = (props) => {
                         "User"
                     )}>
                     update</Button>{" "}
+                <UpdatePassword showAlter={showAlter} HandleChange={HandleChange} />{" "}
+
+                <UpdateAccess IDdata={key._id} Data={RenderAccess(Data, key._id)} HandleChange={HandleChange} />{" "}
+
+                <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => CancelEdit(key._id, setIdItem)}>
+                    cancel
+                </Button>{" "}
             </td>
         </tr>
     )

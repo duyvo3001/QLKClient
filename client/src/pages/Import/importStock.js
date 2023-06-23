@@ -41,7 +41,7 @@ const ImportStock = () => {
 
   return (
     <>
-      <Container>
+      <Container fluid="xxl">
         <h4 className="mb-3">Import : Product</h4>
         <Form onSubmit={HandleData}>
           <RowCol

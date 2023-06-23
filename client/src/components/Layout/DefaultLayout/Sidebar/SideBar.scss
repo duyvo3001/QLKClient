@@ -54,3 +54,26 @@
 .nav-btn :hover{
     margin: auto;
 }
+.nav-btn-in  :hover span :nth-child(1){
+    width: 25px;
+    transform : translate(-3px , -8px) rolate(30deg);
+}
+.nav-btn-in  :hover span :nth-child(2){
+    display: none;
+}
+.nav-btn-in :hover span :nth-child(3){
+    width: 25px;
+    transform : translate(-3px , -8px) rolate(-30deg);
+}
+
+.nav-btn-out  :hover span :nth-child(1){
+    width: 25px;
+    transform : translate(0px , 8px) rolate(-30deg);
+}
+.nav-btn-out  :hover span :nth-child(2){
+    display: none;
+}
+.nav-btn-out :hover span :nth-child(3){
+    width: 25px;
+    transform : translate(-3px , -8px) rolate(-30deg);
+}

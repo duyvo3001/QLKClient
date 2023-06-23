@@ -43,6 +43,7 @@ const DropdownImort = () => {
     <NavDropdown.Item href="/customerPage">Customer</NavDropdown.Item>
     <NavDropdown.Item href="/userPage">User</NavDropdown.Item>
     <NavDropdown.Item href="/ImportWareHouse">WareHouse</NavDropdown.Item>
+    <NavDropdown.Item href="/PaidView">Paid Order</NavDropdown.Item>
   </NavDropdown>
 };
 

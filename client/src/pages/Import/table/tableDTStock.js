@@ -58,14 +58,13 @@ const TBodytable = (props) => {
         setFormData({ ...formData, [name]: value, _id });
     };
 
-
     const datatable = Data?.data?.result?.map((key) => (
-        <tr>
+        <tr key={key.MaLK}>
             <td>
-                <div className={key._id} hidden={false}>
+                <div  className={key._id} hidden={false}>
                     {key.MaLK}{" "}
                 </div>
-                <TextArea className={key._id + "hidden"} hidden={true}
+                <TextArea  className={key._id + "hidden"} hidden={true}
                     onChange={HandleChange} name="MaLK" value={key.MaLK} />
             </td>
             <td>

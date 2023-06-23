@@ -6,6 +6,8 @@ import ButtonSubmit from '../Import/ButtonSubmit';
 import Form from "react-bootstrap/Form";
 import Request from "../../api/Request.js";
 import ButtonBottom from '../Import/buttonBot/buttonBottom';
+import Row from "react-bootstrap/esm/Row";
+import Col from "react-bootstrap/esm/Col";
 const ImportWareHouse = () => {
   const [pageindex, setpageindex] = useState({
     page: 1,
@@ -47,13 +49,12 @@ const ImportWareHouse = () => {
           text2="Name Warehouse"
           ID2="TenKho"
         />
-        <RowCol
-          handle={HandleChange}
-          text1="Address"
-          ID1="DiaChi"
-          text2="Phone"
-          ID2="SDT"
-        />
+         <Row className='mb-2 row'>
+          <Col md={2}><Form.Label column="sm">Address</Form.Label></Col>
+          <Col md={4}><Form.Control onChange={HandleChange} size="sm" as="textarea" type="text" name="DiaChi" /></Col>
+          <Col md={2}><Form.Label column="sm">Phone</Form.Label></Col>
+          <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="number" name="SDT" /></Col>
+        </Row>
         <ButtonSubmit />
       </Form>
       <TableDT filters={filters} setfilters={setfilters} />

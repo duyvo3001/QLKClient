@@ -1,9 +1,9 @@
 .container{
-    display: flex;
+    display: block;
     justify-content: center;
 }
 .content{
-    display:block;
+    display :flex;
 }
 .body{
     box-sizing: border-box;
