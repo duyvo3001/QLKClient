@@ -119,6 +119,7 @@ const TBodytable = (props) => {
         }
     }
     function checkPass(name, value) {
+        console.log(name,value);
         if (name !== " ") {
             const _id = _idItem;
             setFormData({ ...formData, [name]: value, _id });
