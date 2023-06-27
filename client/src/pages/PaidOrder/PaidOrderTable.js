@@ -1,6 +1,8 @@
 import { React, useContext, useState } from 'react'
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button';
+import { RiDeleteBin7Line } from "react-icons/ri";
+import { SiAddthis } from "react-icons/si";
 import Form from 'react-bootstrap/Form';
 import { DataOnchange } from './PaidOrderPage';
 const PaidOrderTable = () => {
@@ -223,7 +225,7 @@ const TBodytable = (props) => {
                             <Button type='button'
                                 onClick={() => DeleteTable(index?.ID)}
                                 variant="danger"
-                                key={"delete" + index.ID}>Delete</Button>
+                                key={"delete" + index.ID}><RiDeleteBin7Line/></Button>
                         </td>
                     </tr>
                 ))
@@ -241,7 +243,7 @@ const THeadtable = (props) => {
                 <th>Rate</th>
                 <th>Amount</th>
                 <th>
-                    <Button type='button' onClick={addTable} variant="danger">Add</Button>
+                    <Button type='button' onClick={addTable} variant="success"><SiAddthis/></Button>
                 </th>
             </tr>
         </thead>

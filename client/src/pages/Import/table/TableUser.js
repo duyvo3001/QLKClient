@@ -11,6 +11,8 @@ import { HandleDelete } from "./ActionFunction/HandleDelete";
 import { HandleEdit } from "./ActionFunction/HandleEdit";
 import UpdatePassword from "../../userManegement/UpdatePassword";
 import UpdateAccess from "../../userManegement/UpdateAccess";
+import { GrDocumentUpdate } from 'react-icons/gr';
+import { MdOutlineCancel } from 'react-icons/md';
 const TableUser = (props) => {
     const { filters } = props;
     return (
@@ -276,7 +278,6 @@ const TBodytable = (props) => {
                     handleEdit={() => HandleEdit(key._id, setIdItem)} />
             </td>
             <td className={key._id + "hidden"} hidden={true}>
-
                 <Button size="sm" variant="warning" onClick={
                     () => UpdateEditUser(
                         key._id,
@@ -289,7 +290,7 @@ const TBodytable = (props) => {
                         setData,
                         "User"
                     )}>
-                    update</Button>{" "}
+                     <GrDocumentUpdate/></Button>{" "}
                 <UpdatePassword showAlter={showAlter} HandleChange={HandleChange} />{" "}
 
                 <UpdateAccess IDdata={key._id} Data={RenderAccess(Data, key._id)} HandleChange={HandleChange} />{" "}
@@ -298,7 +299,7 @@ const TBodytable = (props) => {
                     size="sm"
                     variant="secondary"
                     onClick={() => CancelEdit(key._id, setIdItem)}>
-                    cancel
+                   <MdOutlineCancel/>
                 </Button>{" "}
             </td>
         </tr>

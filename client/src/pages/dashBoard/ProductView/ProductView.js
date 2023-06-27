@@ -18,8 +18,8 @@ const ProductView = () => {
     };
     return (
         <>
-            <h4>Mange : Product</h4>
-            <Button variant="secondary" href="/ImportStock">Mange</Button>
+            <h4>Manage: Product</h4>
+            <Button variant="secondary" href="/ImportStock">Manage</Button>
             <TableDT filters={filters} setfilters={setfilters} />
             <ButtonBottom
                 pageindex={pageindex}

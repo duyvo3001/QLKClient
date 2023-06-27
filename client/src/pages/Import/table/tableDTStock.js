@@ -8,6 +8,8 @@ import Button from "react-bootstrap/Button";
 import { UpdateEdit } from "./ActionFunction/UpdateEdit";
 import { CancelEdit } from "./ActionFunction/CancelEdit";
 import { TextArea } from "./TextArea";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BiEdit } from "react-icons/bi";
 function TableDT(props) {
     const { filters } = props;
     return (
@@ -163,7 +165,7 @@ const TBodytable = (props) => {
                 <Button
                     variant="secondary"
                     onClick={() => CancelEdit(key._id, setIdItem)}>
-                    cancel
+                    <AiOutlineCloseCircle/>
                 </Button>{" "}
 
                 <Button variant="warning" onClick={
@@ -177,7 +179,7 @@ const TBodytable = (props) => {
                         setData,
                         "Stock"
                         )}>
-                    update</Button>{" "}
+                    <BiEdit/></Button>{" "}
             </td>
         </tr>
     ));

@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import { MdOutlineManageAccounts } from 'react-icons/md';
 import Col from 'react-bootstrap/Col';
 function UpdateAccess(props) {
     const [show, setShow] = useState(false);
@@ -17,7 +18,7 @@ function UpdateAccess(props) {
     return (
         <>
             <Button variant="success" onClick={handleShow} size="sm">
-                Access
+                <MdOutlineManageAccounts/>
             </Button>
 
             <Modal show={show} onHide={handleClose}>

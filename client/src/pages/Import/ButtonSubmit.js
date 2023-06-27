@@ -2,12 +2,12 @@ import React from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-
+import { VscDiffAdded } from "react-icons/vsc";
 const ButtonSubmit = () => {
   return (
     <Row className='mb-2 row'>
-      <Col md={1}>
-        <Button  type="submit" variant="success">Create</Button>
+      <Col md={3}>
+        <Button  type="submit" variant="success"><VscDiffAdded/></Button>
       </Col>
       <Col md={11}></Col>
     </Row>

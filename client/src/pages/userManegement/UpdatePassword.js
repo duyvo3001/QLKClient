@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import { MdPassword } from 'react-icons/md';
 function UpdatePassword(props) {
     const [show, setShow] = useState(false);
     const { HandleChange ,showAlter } = props
@@ -12,7 +13,7 @@ function UpdatePassword(props) {
     return (
         <>
             <Button variant="info" onClick={handleShow} size="sm">
-                password
+                <MdPassword/>
             </Button>
 
             <Modal show={show} onHide={handleClose}>

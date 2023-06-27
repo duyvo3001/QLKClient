@@ -18,7 +18,7 @@ const WareHouseView = () => {
     };
     return (
         <>  
-                <h4>Mange : WareHouse</h4>
+                <h4>Manage: WareHouse</h4>
                 <Button href="ImportWareHouse" variant="success">Manage</Button>
                 <TableWareHouse filters={filters} setfilters={setfilters} />
                 <ButtonBottom

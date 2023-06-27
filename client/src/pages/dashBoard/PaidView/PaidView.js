@@ -19,7 +19,7 @@ const PaidView = () => {
     return (
         <>
             <h4>Manage : Paid Order</h4>
-            <Button variant="secondary" href="/PaidOrderPage">Mange</Button>
+            <Button variant="secondary" href="/PaidOrderPage">Manage</Button>
             <OrderTableView filters={filters} setfilters={setfilters} />
 
             <ButtonBottom

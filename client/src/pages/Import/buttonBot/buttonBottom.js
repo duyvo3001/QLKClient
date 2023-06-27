@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import PropTypes from 'prop-types'
+import { GrFormPrevious ,GrFormNext } from "react-icons/gr";
 ButtonBottom.proTypes = {
   pageindex: PropTypes.object.isRequired,
   HandleButtonClick: PropTypes.func
@@ -31,12 +32,10 @@ function ButtonBottom(props) {
           <Button variant="secondary"
            disabled={page === 1}
            onClick ={()=>handlePageChange(page -1)}
-           >Prev</Button>{' '}
-          <Button variant="secondary" >2</Button>{' '}
-          <Button variant="secondary" >3</Button>{' '}
+           ><GrFormPrevious/></Button>{' '}
           <Button variant="secondary"
            onClick ={()=>handlePageChange(page  + 1)}
-           >Next</Button>{' '}
+           ><GrFormNext/></Button>{' '}
         </ButtonGroup>
       </ButtonToolbar>
     </>

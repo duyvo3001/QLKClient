@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import PaidOrderTable from './PaidOrderTable';
 import Request from '../../api/Request';
 import Alert from 'react-bootstrap/Alert';
+import { MdPaid } from "react-icons/md";
 export const DataOnchange = createContext(null);
 const PaidOrderPage = () => {
 
@@ -30,7 +31,6 @@ const PaidOrderPage = () => {
             MaxQty: 0
         }
     ])
-    // console.log(DataProduct.result[0])
     useEffect(() => {
         let GrossAmountData = 0;
         let Giaban = 0;
@@ -182,7 +182,7 @@ const PaidOrderPage = () => {
         }
 
         Render.map((key) => { // check empty the Name Product
-            if (key.NameProduct == "") {
+            if (key.NameProduct === "") {
                 setShow({
                     valueShow: true,
                     message: "don't empty the Name Product"
@@ -299,7 +299,7 @@ const PaidOrderPage = () => {
                     <Col className="mb-3" md={3}><Form.Control size="sm" name="NetAmount" type="text" disabled /></Col>
                 </Row>
                 <div className="d-grid gap-2">
-                    <Button onClick={PaidOrder} size="lg" >Paid</Button>
+                    <Button onClick={PaidOrder} size="lg" ><MdPaid/></Button>
                 </div>
             </Container>
         </>
