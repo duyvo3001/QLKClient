@@ -8,7 +8,8 @@ import { UpdateEdit } from "./ActionFunction/UpdateEdit";
 import { RequestRenderTable } from "./ActionFunction/RequestRenderTable";
 import { HandleDelete } from "./ActionFunction/HandleDelete";
 import { HandleEdit } from "./ActionFunction/HandleEdit";
-
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BiEdit } from "react-icons/bi";
 function tableDTSupplier(props) {
     const { filters } = props;
     return (
@@ -129,7 +130,7 @@ const TBodytable = (props) => {
                 <Button
                     variant="secondary"
                     onClick={() => CancelEdit(key._id, setIdItem)}>
-                    cancel
+                    <AiOutlineCloseCircle/>
                 </Button>{" "}
 
                 <Button variant="warning" onClick={
@@ -143,7 +144,7 @@ const TBodytable = (props) => {
                         setData,
                         "Supplier"
                         )}>
-                    update</Button>{" "}
+                    <BiEdit/></Button>{" "}
             </td>
         </tr>
     )

@@ -245,13 +245,13 @@ const PaidOrderPage = () => {
     return (
         <>
             <Container>
-                <Row>
+                <Row className="mb-3">
                     <Col className="mb-3" md={5}> <h4>
                         Paid Order
                     </h4></Col>
                 </Row>
                 <Row>
-                    <Col md={2}>Customer ID</Col>
+                    <Col className="mb-3" md={2}>Customer ID</Col>
                     <Col className="mb-3" md={5}>
                         <Form.Control size="sm" type="text" name="searchCustomer"
                             onChange={Onchangeform} />

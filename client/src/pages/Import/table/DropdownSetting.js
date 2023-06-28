@@ -2,7 +2,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import NavItem from 'react-bootstrap/NavItem';
 import NavLink from 'react-bootstrap/NavLink';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
-import { SlOptions } from "react-icons/sl";
 import { VscMenu } from "react-icons/vsc";
 const DropdownSetting = (props) => {
     const { HandleDelete, handleEdit } = props;

@@ -11,6 +11,8 @@ import { HandleDelete } from "./ActionFunction/HandleDelete";
 import { RequestRenderTable } from "./ActionFunction/RequestRenderTable";
 import { HandleEdit } from "./ActionFunction/HandleEdit";
 import { UpdateEdit } from "./ActionFunction/UpdateEdit";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BiEdit } from "react-icons/bi";
 const cx = classnames.bind(style);
 
 function TableCustomer(props) {
@@ -130,7 +132,7 @@ const TBodytable = (props) => {
                         variant="secondary"
                         onClick={() => CancelEdit(key._id, setIdItem)}
                     >
-                        cancel
+                        <AiOutlineCloseCircle/>
                     </Button>{" "}
 
                     <Button variant="warning" onClick={
@@ -142,7 +144,7 @@ const TBodytable = (props) => {
                             RequestRenderTable,
                             filters,
                             setData,
-                            "Customer")}>update</Button>{" "}
+                            "Customer")}><BiEdit/></Button>{" "}
                 </td>
             </tr>
         </>

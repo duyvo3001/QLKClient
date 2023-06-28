@@ -54,19 +54,19 @@ const UserPage = () => {
   function updateAccessRight(name, value) {
     switch (name) {
       case "update":
-        if (value == "false") updatePrevState(name, "true")
+        if (value === "false") updatePrevState(name, "true")
         else updatePrevState(name, "false")
         break;
       case "create":
-        if (value == "false") updatePrevState(name, "true")
+        if (value === "false") updatePrevState(name, "true")
         else updatePrevState(name, "false")
         break;
       case "delete":
-        if (value == "false") updatePrevState(name, "true")
+        if (value === "false") updatePrevState(name, "true")
         else updatePrevState(name, "false")
         break;
       default:
-        if (value == "false") updatePrevState(name, "true")
+        if (value === "false") updatePrevState(name, "true")
         else updatePrevState(name, "false")
         break;
     }

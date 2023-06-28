@@ -7,7 +7,7 @@ import { MdOutlineManageAccounts } from 'react-icons/md';
 import Col from 'react-bootstrap/Col';
 function UpdateAccess(props) {
     const [show, setShow] = useState(false);
-    const { HandleChange, Data, IDdata } = props
+    const { HandleChange, Data } = props
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 

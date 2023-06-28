@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { TableWareHouse } from "../../warehouse/TableWareHouse";
 import ButtonBottom from "../../Import/buttonBot/buttonBottom";
+import { MdManageAccounts } from 'react-icons/md';
 import Button from "react-bootstrap/esm/Button";
 const WareHouseView = () => {
     const [filters, setfilters] = useState({
@@ -19,8 +20,8 @@ const WareHouseView = () => {
     return (
         <>  
                 <h4>Manage: WareHouse</h4>
-                <Button href="ImportWareHouse" variant="success">Manage</Button>
-                <TableWareHouse filters={filters} setfilters={setfilters} />
+                <Button className="mb-3" href="ImportWareHouse" variant="info"><MdManageAccounts/></Button>
+                <TableWareHouse className="mb-3" filters={filters} setfilters={setfilters} />
                 <ButtonBottom
                     pageindex={pageindex}
                     HandleButtonClick={HandleButtonClick}

@@ -1,14 +1,15 @@
 import { tableDTSupplier as TableDT } from "./table/tableDTSupplier";
-import { React, useState } from "react";
+import { AlterShowSuccess, AlterShowEror } from "../../components/Alter/AlterShow";
+import { React, useState ,useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import RowCol from "./RowCol";
-import RowCol1 from "./RowColOne";
 import Form from "react-bootstrap/Form";
 import Request from "../../api/Request.js";
 import ButtonSubmit from "./ButtonSubmit";
 import ButtonBottom from "../Import/buttonBot/buttonBottom";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
+
 const ImportSupplier = () => {
     const [formData, setFormData] = useState({});
     const [pageindex, setpageindex] = useState({
@@ -17,21 +18,65 @@ const ImportSupplier = () => {
     const [filters, setfilters] = useState({
         page: 1,
     });
+
+    const [Show, setShow] = useState({
+        valueShow: false,
+        message: ""
+    });
+    const [ShowEror, setShowEror] = useState({
+        valueShow: false,
+        message: ""
+    });
+
     const HandleChange = (event) => {
         const { name, value } = event.target;
-        console.log(name, value);
         setFormData({ ...formData, [name]: value });
     };
 
-    const HandleData = () => {
-        console.log(formData);
-        Request.post(
-            "/PostSupplier",
-            { formData },
-            { headers: { Authorization: sessionStorage.getItem("access_token") } }
-        ).catch((error) => {
-            console.log(error);
-        });
+    const HandleData = (event) => {
+        event.preventDefault();
+        Request
+            .post(
+                "/PostSupplier",
+                { formData },
+                { headers: { Authorization: sessionStorage.getItem("access_token") } }
+            )
+            .then((response) => {
+                if (response.status === 200) {
+                    let text = document.getElementsByName("MaNCC")
+                    let text1 = document.getElementsByName("TenNCC")
+                    let text2 = document.getElementsByName("DiaChi")
+                    let text3 = document.getElementsByName("SDT")
+                    let text4 = document.getElementsByName("Email")
+                    text[0].value = ""
+                    text1[0].value = ""
+                    text2[0].value = ""
+                    text3[0].value = ""
+                    text4[0].value = ""
+
+                    setFormData({})
+
+                    setShow({
+                        valueShow: true,
+                        message: response.data.message
+                    })
+                }
+                else {
+                    setShowEror({
+                        valueShow: true,
+                        message: response.data.message
+                    })
+                }
+            }
+            )
+            .catch((error) => {
+                if (error.response.status === 500) {
+                    setShowEror({
+                        valueShow: true,
+                        message: error.response.data.message
+                    })
+                }
+            });
     };
     const HandleButtonClick = (newPage) => {
         setfilters({
@@ -40,6 +85,13 @@ const ImportSupplier = () => {
         });
         setpageindex({ ...pageindex, page: newPage });
     };
+
+    useEffect(() => {// Render table when Import
+        setfilters({
+            page: 1,
+        })
+    }, [Show, ShowEror])
+
     return (
         <Container>
             <h4 className="mb-3">Import : Supplier</h4>
@@ -63,7 +115,9 @@ const ImportSupplier = () => {
                 </Row>
                 <ButtonSubmit />
             </Form>
-            <TableDT filters={filters} setfilters={setfilters} />
+            <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
+            <AlterShowSuccess Show={Show} setShow={setShow} />
+            <TableDT filters={filters} />
             <ButtonBottom
                 HandleButtonClick={HandleButtonClick}
                 pageindex={pageindex}

@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useState ,useEffect } from 'react'
 import { TableWareHouse as TableDT } from './TableWareHouse';
 import Container from "react-bootstrap/Container";
 import RowCol from '../Import/RowCol';
@@ -8,6 +8,8 @@ import Request from "../../api/Request.js";
 import ButtonBottom from '../Import/buttonBot/buttonBottom';
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
+import { AlterShowSuccess, AlterShowEror } from "../../components/Alter/AlterShow";
+
 const ImportWareHouse = () => {
   const [pageindex, setpageindex] = useState({
     page: 1,
@@ -16,21 +18,60 @@ const ImportWareHouse = () => {
     page: 1,
   });
   const [formData, setFormData] = useState({});
-
+  const [Show, setShow] = useState({
+    valueShow: false,
+    message: ""
+  });
+  const [ShowEror, setShowEror] = useState({
+    valueShow: false,
+    message: ""
+  });
   const HandleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const HandleData = () => {
+  const HandleData = (event) => {
+    event.preventDefault();
+
     Request.post(
       "/importWarehouse",
       { formData },
       { headers: { Authorization: sessionStorage.getItem("access_token") } }
-    ).then(respone => console.log(respone)
+    ).then((response) => {
+      if (response.status === 200) {
+
+        let text = document.getElementsByName("MaKho")
+        let text1 = document.getElementsByName("TenKho")
+        let text2 = document.getElementsByName("DiaChi")
+        let text3 = document.getElementsByName("SDT")
+        text[0].value = ""
+        text1[0].value = ""
+        text2[0].value = ""
+        text3[0].value = ""
+
+        setFormData({})
+
+        setShow({
+          valueShow: true,
+          message: response.data.message
+        })
+      }
+      else {
+        setShowEror({
+          valueShow: true,
+          message: response.data.message
+        })
+      }
+    }
     )
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 500) {
+          setShowEror({
+            valueShow: true,
+            message: error.response.data.message
+          })
+        }
       });
   };
 
@@ -38,6 +79,13 @@ const ImportWareHouse = () => {
     setfilters({ ...filters, page: newPage, });
     setpageindex({ ...pageindex, page: newPage });
   };
+
+  useEffect(() => {// Render table when Import
+    setfilters({
+        page: 1,
+    })
+}, [Show, ShowEror])
+
   return (
     <Container>
       <h4 className="mb-3">Import : Warehouse</h4>
@@ -49,7 +97,7 @@ const ImportWareHouse = () => {
           text2="Name Warehouse"
           ID2="TenKho"
         />
-         <Row className='mb-2 row'>
+        <Row className='mb-2 row'>
           <Col md={2}><Form.Label column="sm">Address</Form.Label></Col>
           <Col md={4}><Form.Control onChange={HandleChange} size="sm" as="textarea" type="text" name="DiaChi" /></Col>
           <Col md={2}><Form.Label column="sm">Phone</Form.Label></Col>
@@ -57,6 +105,8 @@ const ImportWareHouse = () => {
         </Row>
         <ButtonSubmit />
       </Form>
+      <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
+      <AlterShowSuccess Show={Show} setShow={setShow} />
       <TableDT filters={filters} setfilters={setfilters} />
       <ButtonBottom pageindex={pageindex} HandleButtonClick={HandleButtonClick} />
     </Container>

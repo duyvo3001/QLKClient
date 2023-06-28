@@ -7,11 +7,11 @@ import Col from 'react-bootstrap/Col';
 const DashBoard = () => {
     return (
         <Container>
-            <Row>
+            <Row className="mb-3">
                 <h4>Home : Dash Board</h4>
             </Row>
-            <Row className="justify-content-md-center">
-                <Col md="auto">
+            <Row  className="justify-content-md-center">
+                <Col className="mb-3" md="auto">
                     <Card
                         style={{ width: '16rem' }}
                         key='Success'
@@ -27,7 +27,7 @@ const DashBoard = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col md="auto">
+                <Col className="mb-3" md="auto">
                     <Card
                         style={{ width: '16rem' }}
                         key="Primary"
@@ -43,7 +43,7 @@ const DashBoard = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col md="auto">
+                <Col className="mb-3" md="auto">
                     <Card
                         style={{ width: '16rem' }}
                         key="Primary"
@@ -59,7 +59,7 @@ const DashBoard = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col md="auto">
+                <Col className="mb-3" md="auto">
                     <Card
                         style={{ width: '16rem' }}
                         key="Primary"

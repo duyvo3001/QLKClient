@@ -10,6 +10,8 @@ import { HandleDelete } from "../Import/table/ActionFunction/HandleDelete";
 import { HandleEdit } from "../Import/table/ActionFunction/HandleEdit";
 import { UpdateEdit } from "../Import/table/ActionFunction/UpdateEdit";
 import { TextArea } from "../Import/table/TextArea";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BiEdit } from "react-icons/bi";
 const cx = classnames.bind(style);
 const TableWareHouse = (props) => {
     const { filters } = props;
@@ -126,7 +128,7 @@ const TBodytable =(props)=>{
                         variant="secondary"
                         onClick={() => CancelEdit(key._id, setIdItem)}
                     >
-                        cancel
+                        <AiOutlineCloseCircle/>
                     </Button>{" "}
 
                     <Button variant="warning" onClick={
@@ -140,7 +142,7 @@ const TBodytable =(props)=>{
                             setData,
                             "KhoHang"
                             )}>
-                    update</Button>{" "}
+                    <BiEdit/></Button>{" "}
                 </td>
             </tr>
         </>
