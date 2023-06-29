@@ -53,26 +53,53 @@ const PaidOrderTable = () => {
         updateAmount(event.target.id, value, Product);
     }
 
-    const Onchangeformtable = (event) => { //get value onchange , chuyen qua table 
+    const Onchangeformtable = (event, newvalue) => { //get value onchange , chuyen qua table 
 
         const { name, value } = event.target;
-
-        const updateRender = RenderTable.Render.map((key, index) => {
+        if (newvalue) {
             if (event.target.id - 1 === index) {
                 return {
                     ID: +event.target.id,
-                    NameProduct: value,
+                    NameProduct: newvalue?.label,
                     Qty: 0
                 }
             }
             else {
                 return key
             }
-        })
+            // setFormData({ ...formData, [newvalue?.key]: newvalue?.label });
+        }
+        else {
+            const updateRender = RenderTable.Render.map((key, index) => {
+                if (event.target.id - 1 === index) {
+                    return {
+                        ID: +event.target.id,
+                        NameProduct: value,
+                        Qty: 0
+                    }
+                }
+                else {
+                    return key
+                }
+            })
 
-        setCheckID(event.target.id)
+        }
+        // const updateRender = RenderTable.Render.map((key, index) => {
+        //     if (event.target.id - 1 === index) {
+        //         return {
+        //             ID: +event.target.id,
+        //             NameProduct: value,
+        //             Qty: 0
+        //         }
+        //     }
+        //     else {
+        //         return key
+        //     }
+        // })
 
-        RenderTable.setRender(updateRender);
+        // setCheckID(event.target.id)
+
+        // RenderTable.setRender(updateRender);
 
     }
 
