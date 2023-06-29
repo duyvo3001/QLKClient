@@ -5,6 +5,9 @@ import { RiDeleteBin7Line } from "react-icons/ri";
 import { SiAddthis } from "react-icons/si";
 import Form from 'react-bootstrap/Form';
 import { DataOnchange } from './PaidOrderPage';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+
 const PaidOrderTable = () => {
     const RenderTable = useContext(DataOnchange)
     const [CheckID, setCheckID] = useState(1)
@@ -38,8 +41,8 @@ const PaidOrderTable = () => {
                 return {
                     ID: +event.target.id,
                     NameProduct: key.NameProduct,
-                    Qty: value , 
-                    MaxQty : key.MaxQty
+                    Qty: value,
+                    MaxQty: key.MaxQty
                 }
             }
             else {
@@ -116,10 +119,10 @@ const TBodytable = (props) => {
                     const Soluong = RenderTable.DataProduct.result?.filter((data) => {
                         return data.MaLK === value ? data.Soluong : null
                     })
-                    .map((key) =>{
-                        return key.Soluong
-                    })
-                    
+                        .map((key) => {
+                            return key.Soluong
+                        })
+
                     return {
                         ID: +CheckID,
                         NameProduct: value,
@@ -142,47 +145,47 @@ const TBodytable = (props) => {
             })
     }
 
-    const onSearch = (Product, CheckID) => { //set value onsearch
-        const nameProduct = 'search' + CheckID;
-        const Rate = 'Rate' + CheckID;
-        const value = Product
+    // const onSearch = (Product, CheckID) => { //set value onsearch
+    //     const nameProduct = 'search' + CheckID;
+    //     const Rate = 'Rate' + CheckID;
+    //     const value = Product
 
-        setRender(updateRender(value, nameProduct, Product))
+    //     setRender(updateRender(value, nameProduct, Product))
 
-        updateRate(value, Rate)
-    }
+    //     updateRate(value, Rate)
+    // }
 
-    const RenderSuggestion = (props) => {
-        const { DataProduct, onSearch, ID, CheckID, Product } = props
+    // const RenderSuggestion = (props) => {
+    //     const { DataProduct, onSearch, ID, CheckID, Product } = props
 
-        if (CheckID == ID)// render when  ID = id form state change
-        {
-            return (
-                DataProduct?.result
-                    ?.filter((key) => {
+    //     if (CheckID == ID)// render when  ID = id form state change
+    //     {
+    //         return (
+    //             DataProduct?.result
+    //                 ?.filter((key) => {
 
-                        const searchTerm = Product[+CheckID - 1]?.NameProduct?.toLowerCase();
+    //                     const searchTerm = Product[+CheckID - 1]?.NameProduct?.toLowerCase();
 
-                        const MaLK = key.MaLK?.toLowerCase();
+    //                     const MaLK = key.MaLK?.toLowerCase();
 
-                        const startsWithSearch = searchTerm != null ? MaLK?.startsWith(searchTerm) : null
+    //                     const startsWithSearch = searchTerm != null ? MaLK?.startsWith(searchTerm) : null
 
-                        return searchTerm && startsWithSearch && MaLK !== searchTerm
-                    })
-                    ?.map((key) => (
-                        <div className="dropdowntable-row" key={key.MaLK} target="-blank"
-                            onClick={
-                                () => {
-                                    onSearch(key.MaLK, CheckID)
-                                }
-                            }
-                        >
-                            <div key={"item" + key.MaLK}>{key.MaLK}</div>
-                        </div>
-                    ))
-            )
-        }
-    }
+    //                     return searchTerm && startsWithSearch && MaLK !== searchTerm
+    //                 })
+    //                 ?.map((key) => (
+    //                     <div className="dropdowntable-row" key={key.MaLK} target="-blank"
+    //                         onClick={
+    //                             () => {
+    //                                 onSearch(key.MaLK, CheckID)
+    //                             }
+    //                         }
+    //                     >
+    //                         <div key={"item" + key.MaLK}>{key.MaLK}</div>
+    //                     </div>
+    //                 ))
+    //         )
+    //     }
+    // }
 
     return (
         <tbody>
@@ -190,7 +193,17 @@ const TBodytable = (props) => {
                 Render?.map((index) => (
                     <tr key={index.ID}>
                         <td>
-                            <Form.Control
+                            <Autocomplete
+                                disablePortal
+                                id="IDCustomer"
+                                size="small"
+                                options={RenderTable.DataProduct}
+                                sx={{ width: 350 }}
+                                onChange={Onchangeformtable}
+                                name="IDCustomer"
+                                renderInput={(params) => <TextField {...params} onChange={Onchangeformtable} name="IDCustomer" />}
+                            />
+                            {/* <Form.Control
                                 name={"search" + index?.ID}
                                 type="text"
                                 id={index?.ID}
@@ -207,7 +220,7 @@ const TBodytable = (props) => {
                                         Product={Render}
                                     />
                                 }
-                            </div>
+                            </div> */}
                         </td>
                         <td>
                             <Form.Control
@@ -225,7 +238,7 @@ const TBodytable = (props) => {
                             <Button type='button'
                                 onClick={() => DeleteTable(index?.ID)}
                                 variant="danger"
-                                key={"delete" + index.ID}><RiDeleteBin7Line/></Button>
+                                key={"delete" + index.ID}><RiDeleteBin7Line /></Button>
                         </td>
                     </tr>
                 ))
@@ -243,7 +256,7 @@ const THeadtable = (props) => {
                 <th>Rate</th>
                 <th>Amount</th>
                 <th>
-                    <Button type='button' onClick={addTable} variant="success"><SiAddthis/></Button>
+                    <Button type='button' onClick={addTable} variant="success"><SiAddthis /></Button>
                 </th>
             </tr>
         </thead>

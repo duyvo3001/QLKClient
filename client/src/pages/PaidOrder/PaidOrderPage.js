@@ -8,6 +8,10 @@ import PaidOrderTable from './PaidOrderTable';
 import Request from '../../api/Request';
 import Alert from 'react-bootstrap/Alert';
 import { MdPaid } from "react-icons/md";
+import { MdManageAccounts } from 'react-icons/md';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+
 export const DataOnchange = createContext(null);
 const PaidOrderPage = () => {
 
@@ -79,20 +83,26 @@ const PaidOrderPage = () => {
         setFormData({ ...formData, [name]: value });
     }
 
-    const Onchangeform = (event) => { //get value onchange
-        const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
-    }
-
-    const onSearch = (Customer) => { //set value onsearch
-        const name = 'searchCustomer';
-        const value = Customer
-        setFormData({ ...formData, [name]: value });
-        const test = document.getElementsByName(name)
-        for (let i = 0; i < test.length; i++) {
-            test[i].value = Customer;
+    const Onchangeform = (event, newvalue) => { //get value onchange
+        console.log(newvalue)
+        if (newvalue) {
+            setFormData({ ...formData, [newvalue?.key]: newvalue?.label });
+        }
+        else {
+            const { name, value } = event.target;
+            setFormData({ ...formData, [name]: value });
         }
     }
+
+    // const onSearch = (Customer) => { //set value onsearch
+    //     const name = 'searchCustomer';
+    //     const value = Customer
+    //     setFormData({ ...formData, [name]: value });
+    //     const test = document.getElementsByName(name)
+    //     for (let i = 0; i < test.length; i++) {
+    //         test[i].value = Customer;
+    //     }
+    // }
     const AlertPaidOrderSuccess = () => {
         if (success?.valueShow === true) {
             return (
@@ -121,53 +131,71 @@ const PaidOrderPage = () => {
             );
         }
     }
-
-    useEffect(() => {   //render Product list
-        Request.get('/SearchStockExport', {
-            headers: { 'Authorization': sessionStorage.getItem("access_token") }
-        }).then(response => {
-            setDataProduct(response.data)
-        }).catch(err => {
-            console.error("err", err);
-        })
-    }, [])
-
-    useEffect(() => {  //render Customer list
-        Request.get('/SearchCustomer', {
-            headers: { 'Authorization': sessionStorage.getItem("access_token") }
-        }).then(response => {
-            setDataCustomer(response.data)
-        }).catch(err => {
-            console.error("err", err);
-        })
-    }, [])
-
-    function RenderSuggestion(formData, DataCustomer, onSearch) { //render suggestion Customer
-        return (
-            DataCustomer.result
-                ?.filter((key) => {
-
-                    const searchTerm = formData?.searchCustomer?.toLowerCase();
-
-                    const IDCus = key.IDCustomer?.toLowerCase();
-
-                    const startsWithSearch = searchTerm != null ? IDCus?.startsWith(searchTerm) : null
-
-                    return searchTerm && startsWithSearch && IDCus !== searchTerm
+    function RequestRouterSearch(Url, keyName, SetData) {
+        Request
+            .get(`/${Url}`,
+                { headers: { Authorization: sessionStorage.getItem("access_token") } })
+            .then((response) => {
+                const object = []
+                response?.data?.result?.map((key) => {
+                    return object.push({ label: key?.[keyName], key: keyName })
                 })
-                ?.map((key) => (
-                    <div className="dropdowntable-row" key={key.IDCustomer} target="-blank"
-                        onClick={() => onSearch(key.IDCustomer)}
-                    >
-                        <div>
-                            <div key={"item" + key.IDCustomer}>{key.IDCustomer}</div>
-                            <div key={"item" + key.IDCustomer}>{key.NameCustomer}</div>
-                            <div key={"item" + key.IDCustomer}>{key.Phone}</div>
-                        </div>
-                    </div>
-                ))
-        )
+                SetData(object)
+            })
+            .catch((error) => { console.log(error) })
     }
+    useEffect(() => {
+
+        RequestRouterSearch("SearchStockExport", "MaLK", setDataProduct)
+        RequestRouterSearch("SearchCustomer", "IDCustomer", setDataCustomer)
+
+    }, [])
+    // useEffect(() => {   //render Product list
+    //     Request.get('/SearchStockExport', {
+    //         headers: { 'Authorization': sessionStorage.getItem("access_token") }
+    //     }).then(response => {
+    //         setDataProduct(response.data)
+    //     }).catch(err => {
+    //         console.error("err", err);
+    //     })
+    // }, [])
+
+    // useEffect(() => {  //render Customer list
+    //     Request.get('/SearchCustomer', {
+    //         headers: { 'Authorization': sessionStorage.getItem("access_token") }
+    //     }).then(response => {
+    //         setDataCustomer(response.data)
+    //     }).catch(err => {
+    //         console.error("err", err);
+    //     })
+    // }, [])
+
+    // function RenderSuggestion(formData, DataCustomer, onSearch) { //render suggestion Customer
+    //     return (
+    //         DataCustomer.result
+    //             ?.filter((key) => {
+
+    //                 const searchTerm = formData?.searchCustomer?.toLowerCase();
+
+    //                 const IDCus = key.IDCustomer?.toLowerCase();
+
+    //                 const startsWithSearch = searchTerm != null ? IDCus?.startsWith(searchTerm) : null
+
+    //                 return searchTerm && startsWithSearch && IDCus !== searchTerm
+    //             })
+    //             ?.map((key) => (
+    //                 <div className="dropdowntable-row" key={key.IDCustomer} target="-blank"
+    //                     onClick={() => onSearch(key.IDCustomer)}
+    //                 >
+    //                     <div>
+    //                         <div key={"item" + key.IDCustomer}>{key.IDCustomer}</div>
+    //                         <div key={"item" + key.IDCustomer}>{key.NameCustomer}</div>
+    //                         <div key={"item" + key.IDCustomer}>{key.Phone}</div>
+    //                     </div>
+    //                 </div>
+    //             ))
+    //     )
+    // }
 
     function PaidOrder() {
         let checkErr = true;
@@ -213,27 +241,44 @@ const PaidOrderPage = () => {
                             valueShow: true,
                             message: response.data.message
                         })
+                        const inputFields = [
+                            'searchCustomer',
+                            'search1',
+                            'Quantity1',
+                            'Rate1',
+                            'GrossAmount',
+                            'Vat',
+                            'Discount',
+                            'DisplayDiscount',
+                            'NetAmount'
+                        ];
 
-                        const search = document.getElementsByName('searchCustomer');
-                        const search1 = document.getElementsByName('search1');
-                        const Quantity1 = document.getElementsByName('Quantity1');
-                        const Rate1 = document.getElementsByName('Rate1');
-                        const GrossAmount = document.getElementsByName('GrossAmount');
-                        const Vat = document.getElementsByName('Vat');
-                        const Discount = document.getElementsByName('Discount');
-                        const DisplayDiscount = document.getElementsByName('DisplayDiscount');
-                        const NetAmount = document.getElementsByName('NetAmount');
+                        inputFields.forEach((fieldName) => {
+                            const elements = document.getElementsByName(fieldName);
+                            if (elements.length > 0) {
+                                elements[0].value = "";
+                            }
+                        });
+                        // const search = document.getElementsByName('searchCustomer');
+                        // const search1 = document.getElementsByName('search1');
+                        // const Quantity1 = document.getElementsByName('Quantity1');
+                        // const Rate1 = document.getElementsByName('Rate1');
+                        // const GrossAmount = document.getElementsByName('GrossAmount');
+                        // const Vat = document.getElementsByName('Vat');
+                        // const Discount = document.getElementsByName('Discount');
+                        // const DisplayDiscount = document.getElementsByName('DisplayDiscount');
+                        // const NetAmount = document.getElementsByName('NetAmount');
 
-                        search[0].value = ""
-                        search1[0].value = ""
-                        Quantity1[0].value = ""
-                        Rate1[0].value = ""
-                        GrossAmount[0].value = ""
-                        Vat[0].value = ""
-                        Discount[0].value = ""
-                        DisplayDiscount[0].value = ""
-                        NetAmount[0].value = ""
-           
+                        // search[0].value = ""
+                        // search1[0].value = ""
+                        // Quantity1[0].value = ""
+                        // Rate1[0].value = ""
+                        // GrossAmount[0].value = ""
+                        // Vat[0].value = ""
+                        // Discount[0].value = ""
+                        // DisplayDiscount[0].value = ""
+                        // NetAmount[0].value = ""
+
                     }
                 })
                 .catch(err => {
@@ -246,20 +291,32 @@ const PaidOrderPage = () => {
         <>
             <Container>
                 <Row className="mb-3">
-                    <Col className="mb-3" md={5}> <h4>
+                    <Col className="mb-1"> <h4>
                         Paid Order
+                    </h4></Col>
+
+                </Row>
+                <Row>
+                    <Col className="mb-3" md={2}> <h4>
+                        Total Order :
+                    </h4></Col>
+                    <Col className="mb-3" md={2}> <h4>
+                        <Button href='/PaidView'><MdManageAccounts /></Button>
                     </h4></Col>
                 </Row>
                 <Row>
                     <Col className="mb-3" md={2}>Customer ID</Col>
                     <Col className="mb-3" md={5}>
-                        <Form.Control size="sm" type="text" name="searchCustomer"
-                            onChange={Onchangeform} />
-                        <div className="dropdowntable">
-                            {
-                                RenderSuggestion(formData, DataCustomer, onSearch)
-                            }
-                        </div>
+                        <Autocomplete
+                            disablePortal
+                            id="IDCustomer"
+                            size="small"
+                            options={DataCustomer}
+                            sx={{ width: 350 }}
+                            onChange={Onchangeform}
+                            name="IDCustomer"
+                            renderInput={(params) => <TextField {...params} onChange={Onchangeform} name="IDCustomer" />}
+                        />
                     </Col>
                     <Col className="mb-0" md={5}>
                         <AlertDismissible />
@@ -299,7 +356,7 @@ const PaidOrderPage = () => {
                     <Col className="mb-3" md={3}><Form.Control size="sm" name="NetAmount" type="text" disabled /></Col>
                 </Row>
                 <div className="d-grid gap-2">
-                    <Button onClick={PaidOrder} size="lg" ><MdPaid/></Button>
+                    <Button onClick={PaidOrder} size="lg" ><MdPaid /><h5>Paid</h5></Button>
                 </div>
             </Container>
         </>

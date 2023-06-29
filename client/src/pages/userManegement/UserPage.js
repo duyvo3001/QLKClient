@@ -143,14 +143,15 @@ const UserPage = () => {
             <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="text" name="USER_NV" /></Col>
           </Row>
           <Row className='mb-2 row'>
-            <Col md={2}><Form.Label column="sm">PASSWORD</Form.Label></Col>
+            <Col md={2}><Form.Label column="sm">Password</Form.Label></Col>
             <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="password" name="pass_nv" /></Col>
-            <Col md={2}><Form.Label column="sm">Re password</Form.Label></Col>
-            <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="password" name="repass_nv" /></Col>
+            <Col md={2}><Form.Label column="sm">Email</Form.Label></Col>
+            <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="email" name="Email" /></Col>           
           </Row>
           <Row className='mb-2 row'>
-            <Col md={2}><Form.Label column="sm">Email</Form.Label></Col>
-            <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="email" name="Email" /></Col>
+          <Col md={2}><Form.Label column="sm">Re password</Form.Label></Col>
+            <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="password" name="repass_nv" /></Col>
+
             <Col md={2}><Form.Label column="sm">Phone</Form.Label></Col>
             <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="number" name="SDT" /></Col>
           </Row>

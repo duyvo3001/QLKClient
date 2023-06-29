@@ -28,18 +28,22 @@ const ImportStock = () => {
     valueShow: false,
     message: ""
   });
-  const [selected, setSelected] = useState([]);
 
   const [DataBrand, setDataBrand] = useState({})
   const [DataWarehouse, setDataWarehouse] = useState({});
   const [DataSupplier, setDataSupplier] = useState({});
-  const HandleChange = (event) => {
-    console.log(value);
-    const { name, value } = event.target;
-    console.log(name, value);
-    setFormData({ ...formData, [name]: value });
-  };
 
+  const HandleChange = (event, newvalue) => {
+    if (newvalue) {
+      setFormData({ ...formData, [newvalue?.key]: newvalue?.label });
+    }
+    else {
+      const { name, value } = event.target;
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+  // const HandleSelection = (event, value) =>{console.log(value);
+  //   setSelected(value);}
   const HandleData = (event) => {
     event.preventDefault();
     Request.post(
@@ -49,26 +53,29 @@ const ImportStock = () => {
     )
       .then((response) => {
         if (response.status === 200) {
-          let text = document.getElementsByName("MaLK")
-          let text1 = document.getElementsByName("TenLK")
-          let text2 = document.getElementsByName("Donvi")
-          let text3 = document.getElementsByName("Soluong")
-          let text4 = document.getElementsByName("MaThuongHieu")
-          let text5 = document.getElementsByName("MaNCC")
-          let text6 = document.getElementsByName("Color")
-          let text7 = document.getElementsByName("MaKho")
-          let text8 = document.getElementsByName("GiaBanLe")
-          let text9 = document.getElementsByName("TinhTrangHang")
-          text[0].value = ""
-          text1[0].value = ""
-          text2[0].value = ""
-          text3[0].value = ""
-          text4[0].value = ""
-          text5[0].value = ""
-          text6[0].value = ""
-          text7[0].value = ""
-          text8[0].value = ""
-          text9[0].value = ""
+          const {
+            MaLK,
+            TenLK,
+            Donvi,
+            Soluong,
+            MaThuongHieu,
+            MaNCC,
+            Color,
+            MaKho,
+            GiaBanLe,
+            TinhTrangHang
+          } = document.getElementsByName("MaLK", "TenLK", "Donvi", "Soluong", "MaThuongHieu", "MaNCC", "Color", "MaKho", "GiaBanLe", "TinhTrangHang");
+
+          MaLK[0].value = "";
+          TenLK[0].value = "";
+          Donvi[0].value = "";
+          Soluong[0].value = "";
+          MaThuongHieu[0].value = "";
+          MaNCC[0].value = "";
+          Color[0].value = "";
+          MaKho[0].value = "";
+          GiaBanLe[0].value = "";
+          TinhTrangHang[0].value = "";
           setFormData({})
           setShow({
             valueShow: true,
@@ -104,13 +111,11 @@ const ImportStock = () => {
       .get(`/${Url}`,
         { headers: { Authorization: sessionStorage.getItem("access_token") } })
       .then((response) => {
-
         const object = []
         response?.data?.result?.map((key) => {
-          return object.push({ label: key?.[keyName] })
+          return object.push({ label: key?.[keyName], key: keyName })
         })
         SetData(object)
-        console.log(object);
       })
       .catch((error) => { console.log(error) })
   }
@@ -123,36 +128,27 @@ const ImportStock = () => {
   }, [])
 
   const ColorArr = [
-    { label: 'black' },
-    { label: 'red' },
-    { label: 'blue' },
-    { label: 'green' },
-    { label: 'yellow' },
-    { label: 'white' },
-    { label: 'pink' },
-    { label: 'gray' },
-    { label: 'purple' },
-    { label: 'gold' },
-    { label: 'Platinum' },
-    { label: 'Brown' },
-    { label: 'Orange' },
-    { label: 'Silver' },
+    { label: 'black', key: 'Color' },
+    { label: 'red', key: 'Color' },
+    { label: 'blue', key: 'Color' },
+    { label: 'green', key: 'Color' },
+    { label: 'yellow', key: 'Color' },
+    { label: 'white', key: 'Color' },
+    { label: 'pink', key: 'Color' },
+    { label: 'gray', key: 'Color' },
+    { label: 'purple', key: 'Color' },
+    { label: 'gold', key: 'Color' },
+    { label: 'Platinum', key: 'Color' },
+    { label: 'Brown', key: 'Color' },
+    { label: 'Orange', key: 'Color' },
+    { label: 'Silver', key: 'Color' },
     // Add more color objects as needed
   ];
 
   const StatusProduct = [
-    { label: 'ready_to_pick' },
-    { label: 'picking' },
-    { label: 'delivering' },
-    { label: 'storing' },
-    { label: 'return' },
-    { label: 'returned' },
-    { label: 'cancel' },
-    { label: 'delivered' },
-    { label: 'waiting_to_return' },
-    { label: 'delivery_fail' },
-    { label: 'money_collect_delivering' },
-
+    { label: 'GOOD', key: "TinhTrangHang" },
+    { label: 'BAD', key: "TinhTrangHang" },
+    { label: 'CANCEL', key: "TinhTrangHang" },
   ]
 
   useEffect(() => {// Render table when Import
@@ -160,7 +156,7 @@ const ImportStock = () => {
       page: 1,
     })
   }, [Show, ShowEror])
-
+  console.info(formData)
   return (
     <>
       <Container fluid="xxl">
@@ -198,27 +194,31 @@ const ImportStock = () => {
             <Col md={4}>
               <Autocomplete
                 disablePortal
-                id="combo-box-demo"
+                id="MaThuongHieu"
                 size="small"
                 options={DataBrand}
                 sx={{ width: 350 }}
-                onClick={HandleChange}
+                onChange={HandleChange}
+                name="MaThuongHieu"
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="MaThuongHieu" />}
               />
             </Col>
             <Col md={2}><Form.Label column="sm">Color</Form.Label></Col>
-            <Col md={4}><Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              size="small"
-              options={ColorArr}
-              sx={{ width: 350 }}
-              renderInput={(params) => <TextField {...params} onChange={HandleChange} name="Color" />}
-            /></Col>
+            <Col md={4}>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                size="small"
+                options={ColorArr}
+                sx={{ width: 350 }}
+                onChange={HandleChange}
+                name="Color"
+                renderInput={(params) => <TextField {...params} onChange={HandleChange} name="Color" />}
+              /></Col>
           </Row>
 
           <Row className='mb-2 row'>
-            <Col md={2}><Form.Label column="sm">Category</Form.Label></Col>
+            <Col md={2}><Form.Label column="sm">Unit</Form.Label></Col>
             <Col md={4}>
               <TextField
                 id="outlined-number"
@@ -271,6 +271,8 @@ const ImportStock = () => {
                 size="small"
                 options={DataWarehouse}
                 sx={{ width: 350 }}
+                onChange={HandleChange}
+                name="MaKho"
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="MaKho" />}
               /></Col>
           </Row>
@@ -284,6 +286,8 @@ const ImportStock = () => {
                 size="small"
                 options={StatusProduct}
                 sx={{ width: 350 }}
+                onChange={HandleChange}
+                name="TinhTrangHang"
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="TinhTrangHang" />}
               />
             </Col>
@@ -295,11 +299,12 @@ const ImportStock = () => {
                 size="small"
                 options={DataSupplier}
                 sx={{ width: 350 }}
+                onChange={HandleChange}
+                name="MaNCC"
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="MaNCC" />}
               />
             </Col>
           </Row>
-
           <ButtonSubmit />
           <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
           <AlterShowSuccess Show={Show} setShow={setShow} />
