@@ -14,15 +14,16 @@ import UpdateAccess from "../../userManegement/UpdateAccess";
 import { GrDocumentUpdate } from 'react-icons/gr';
 import { MdOutlineCancel } from 'react-icons/md';
 const TableUser = (props) => {
-    const { filters } = props;
+    const { filters, valuehidden } = props;
     return (
         <Table striped bordered hover>
-            <THeadtable />
-            <TBodytable filters={filters} />
+            <THeadtable valuehidden={valuehidden} />
+            <TBodytable filters={filters} valuehidden={valuehidden} />
         </Table>
     )
 }
-const THeadtable = () => {
+const THeadtable = (props) => {
+    const { valuehidden } = props
     return (
         <thead>
             <tr>
@@ -35,13 +36,13 @@ const THeadtable = () => {
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Date</th>
-                <th>Action</th>
+                <th hidden={valuehidden}>Action</th>
             </tr>
         </thead>
     )
 }
 const TBodytable = (props) => {
-    const { filters } = props;
+    const { filters, valuehidden } = props;
     const [Data, setData] = useState(null);
     const [formData, setFormData] = useState({});
     const [_idItem, setIdItem] = useState(null);
@@ -121,7 +122,7 @@ const TBodytable = (props) => {
         }
     }
     function checkPass(name, value) {
-        console.log(name,value);
+        console.log(name, value);
         if (name !== " ") {
             const _id = _idItem;
             setFormData({ ...formData, [name]: value, _id });
@@ -263,7 +264,7 @@ const TBodytable = (props) => {
                     value={key.NgayTao}
                 />
             </td>
-            <td>
+            <td hidden={valuehidden}>
                 <DropdownSetting
                     HandleDelete={() =>
                         HandleDelete(
@@ -290,7 +291,7 @@ const TBodytable = (props) => {
                         setData,
                         "User"
                     )}>
-                     <GrDocumentUpdate/></Button>{" "}
+                    <GrDocumentUpdate /></Button>{" "}
                 <UpdatePassword showAlter={showAlter} HandleChange={HandleChange} />{" "}
 
                 <UpdateAccess IDdata={key._id} Data={RenderAccess(Data, key._id)} HandleChange={HandleChange} />{" "}
@@ -299,7 +300,7 @@ const TBodytable = (props) => {
                     size="sm"
                     variant="secondary"
                     onClick={() => CancelEdit(key._id, setIdItem)}>
-                   <MdOutlineCancel/>
+                    <MdOutlineCancel />
                 </Button>{" "}
             </td>
         </tr>

@@ -97,7 +97,7 @@ const ImportBrand = () => {
             </Form>
             <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
             <AlterShowSuccess Show={Show} setShow={setShow} />
-            <TableDT filters={filters} />
+            <TableDT filters={filters} valuehidden={true} />
             <ButtonBottom pageindex={pageindex} HandleButtonClick={HandleButtonClick} />
         </Container>
     );

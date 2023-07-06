@@ -173,7 +173,7 @@ const UserPage = () => {
           <ButtonSubmit />
         </Form>
       </Container>
-      <TableUser filters={filters} setfilters={setfilters} />
+      <TableUser filters={filters} valuehidden={true} />
       <ButtonBottom
         pageindex={pageindex}
         HandleButtonClick={HandleButtonClick}

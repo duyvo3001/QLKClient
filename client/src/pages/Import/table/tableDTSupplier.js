@@ -11,16 +11,17 @@ import { HandleEdit } from "./ActionFunction/HandleEdit";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 function tableDTSupplier(props) {
-    const { filters } = props;
+    const { filters ,valuehidden } = props;
     return (
         <Table striped bordered hover>
-            <THeadtable />
-            <TBodytable filters={filters} />
+            <THeadtable valuehidden={valuehidden} />
+            <TBodytable filters={filters} valuehidden={valuehidden} />
         </Table>
     )
 }
 //render table
-const THeadtable = () => {
+const THeadtable = (props) => {
+    const {valuehidden} = props;
     return (
         <thead>
             <tr>
@@ -29,7 +30,7 @@ const THeadtable = () => {
                 <th>Address</th>
                 <th>Phone</th>
                 <th>Email</th>
-                <th>Action</th>
+                <th hidden={valuehidden}>Action</th>
             </tr>
         </thead>
     )
@@ -39,7 +40,7 @@ const TBodytable = (props) => {
     const [formData, setFormData] = useState({});
     const [_idItem, setIdItem] = useState(null);
     const [Data, setData] = useState(null);
-    const { filters } = props;
+    const { filters ,valuehidden } = props;
 
     useEffect(() => {
         RequestRenderTable(filters, setData, "HomeSupplier")
@@ -112,7 +113,7 @@ const TBodytable = (props) => {
                     value={key.Email}
                 />
             </td>
-            <td>
+            <td hidden={valuehidden}>
                 <DropdownSetting 
                 HandleDelete={() =>
                     HandleDelete(

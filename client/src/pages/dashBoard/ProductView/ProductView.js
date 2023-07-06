@@ -21,7 +21,7 @@ const ProductView = () => {
         <>
             <h4>Manage: Product</h4>
             <Button className="mb-3" variant="info" href="/ImportStock"><MdManageAccounts/></Button>
-            <TableDT className="mb-3" filters={filters} setfilters={setfilters} />
+            <TableDT className="mb-3" filters={filters} valuehidden={false} setfilters={setfilters} />
             <ButtonBottom
                 pageindex={pageindex}
                 HandleButtonClick={HandleButtonClick}

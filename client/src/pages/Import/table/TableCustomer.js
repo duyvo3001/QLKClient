@@ -16,16 +16,17 @@ import { BiEdit } from "react-icons/bi";
 const cx = classnames.bind(style);
 
 function TableCustomer(props) {
-    const { filters } = props;
+    const { filters ,valuehidden } = props;
     return (
         <Table striped bordered hover>
-            <THeadtable />
-            <TBodytable filters={filters} />
+            <THeadtable valuehidden={valuehidden} />
+            <TBodytable filters={filters} valuehidden={valuehidden} />
         </Table>
     );
 }
 //render table
-const THeadtable = () => {
+const THeadtable = (props) => {
+    const {valuehidden} = props;
     return (
         <thead>
             <tr>
@@ -34,14 +35,14 @@ const THeadtable = () => {
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Date Import</th>
-                <th>Action</th>
+                <th hidden={valuehidden}>Action</th>
             </tr>
         </thead>
     );
 };
 //render table body
 const TBodytable = (props) => {
-    const { filters } = props;
+    const { filters ,valuehidden } = props;
     const [Data, setData] = useState(null);
     const [formData, setFormData] = useState({});
     const [_idItem, setIdItem] = useState(null);
@@ -112,7 +113,7 @@ const TBodytable = (props) => {
                 <td>
                     <div className={cx("dateImport")}>{key.NgayTao}</div>
                 </td>
-                <td>
+                <td hidden={valuehidden}>
                     <DropdownSetting
                         HandleDelete={() =>
                             HandleDelete(

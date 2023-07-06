@@ -11,16 +11,17 @@ import { TextArea } from "./TextArea";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 function TableDT(props) {
-    const { filters } = props;
+    const { filters, valuehidden } = props;
     return (
         <Table striped bordered hover>
-            <THeadtable />
-            <TBodytable filters={filters} />
+            <THeadtable valuehidden={valuehidden} />
+            <TBodytable filters={filters} valuehidden={valuehidden} />
         </Table>
     );
 }
 //render table
-const THeadtable = () => {
+const THeadtable = (props) => {
+    const { valuehidden } = props;
     return (
         <thead>
             <tr>
@@ -36,7 +37,7 @@ const THeadtable = () => {
                 <th>Day Export</th>
                 <th>Day Import</th>
                 <th>Stock status</th>
-                <th>Action</th>
+                <th hidden={valuehidden}>Action</th>
             </tr>
         </thead>
     );
@@ -47,7 +48,7 @@ const TBodytable = (props) => {
     const [Data, setData] = useState(null);
     const [formData, setFormData] = useState({});
     const [_idItem, setIdItem] = useState(null);
-    const { filters } = props;
+    const { filters, valuehidden } = props;
     //request render table
 
     useEffect(() => {
@@ -63,10 +64,10 @@ const TBodytable = (props) => {
     const datatable = Data?.data?.result?.map((key) => (
         <tr key={key.MaLK}>
             <td>
-                <div  className={key._id} hidden={false}>
+                <div className={key._id} hidden={false}>
                     {key.MaLK}{" "}
                 </div>
-                <TextArea  className={key._id + "hidden"} hidden={true}
+                <TextArea className={key._id + "hidden"} hidden={true}
                     onChange={HandleChange} name="MaLK" value={key.MaLK} />
             </td>
             <td>
@@ -146,8 +147,9 @@ const TBodytable = (props) => {
                 <TextArea className={key._id + "hidden"} hidden={true}
                     onChange={HandleChange} name="TinhTrangHang" value={key.TinhTrangHang} />
             </td>
-            <td>
+            <td hidden={valuehidden}>
                 <DropdownSetting
+                    handleEdit={() => HandleEdit(key._id, setIdItem)}
                     HandleDelete={() =>
                         HandleDelete(
                             key.MaLK,
@@ -158,16 +160,9 @@ const TBodytable = (props) => {
                             "ImportStock"
                         )
                     }
-                    handleEdit={() => HandleEdit(key._id, setIdItem)}
                 />
             </td>
             <td className={key._id + "hidden"} hidden={true}>
-                <Button
-                    variant="secondary"
-                    onClick={() => CancelEdit(key._id, setIdItem)}>
-                    <AiOutlineCloseCircle/>
-                </Button>{" "}
-
                 <Button variant="warning" onClick={
                     () => UpdateEdit(
                         key._id,
@@ -178,8 +173,13 @@ const TBodytable = (props) => {
                         filters,
                         setData,
                         "Stock"
-                        )}>
-                    <BiEdit/></Button>{" "}
+                    )}>
+                    <BiEdit /></Button>{" "}
+                <Button
+                    variant="secondary"
+                    onClick={() => CancelEdit(key._id, setIdItem)}>
+                    <AiOutlineCloseCircle />
+                </Button>{" "}
             </td>
         </tr>
     ));

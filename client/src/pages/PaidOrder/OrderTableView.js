@@ -20,6 +20,7 @@ const THeadtable = () => {
                 <th>Discount</th>
                 <th>Total Product - Qty</th>
                 <th>Date</th>
+                <th>Action</th>
             </tr>
         </thead>
     );
@@ -49,7 +50,7 @@ const TBodytable = (props) => {
             </td>
             <td>
                 <div className={key._id}>
-                    {key.searchCustomer}{" "}
+                    {key.IDCustomer}{" "}
                 </div>
             </td>
             <td>
@@ -73,6 +74,7 @@ const TBodytable = (props) => {
                     {key.Date}{" "}
                 </div>
             </td>
+            <td></td>
         </tr>
     ))
 

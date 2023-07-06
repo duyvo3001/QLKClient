@@ -117,7 +117,7 @@ const ImportSupplier = () => {
             </Form>
             <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
             <AlterShowSuccess Show={Show} setShow={setShow} />
-            <TableDT filters={filters} />
+            <TableDT filters={filters}  valuehidden={true}/>
             <ButtonBottom
                 HandleButtonClick={HandleButtonClick}
                 pageindex={pageindex}

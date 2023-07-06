@@ -1,4 +1,4 @@
-import { React, useState ,useEffect} from 'react'
+import { React, useState, useEffect } from 'react'
 import Container from "react-bootstrap/Container";
 import RowCol from "../Import/RowCol";
 import Form from 'react-bootstrap/Form';
@@ -84,9 +84,9 @@ const ImportCustomer = () => {
   };
   useEffect(() => {// Render table when Import
     setfilters({
-        page: 1,
+      page: 1,
     })
-}, [Show, ShowEror])
+  }, [Show, ShowEror])
   return (
     <Container>
       <h4 className="mb-3">Import : Customer</h4>
@@ -102,7 +102,7 @@ const ImportCustomer = () => {
       </Form>
       <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
       <AlterShowSuccess Show={Show} setShow={setShow} />
-      <TableCustomer filters={filters} setfilters={setfilters} />
+      <TableCustomer filters={filters} valuehidden={true} />
       <ButtonBottom
         pageindex={pageindex}
         HandleButtonClick={HandleButtonClick}

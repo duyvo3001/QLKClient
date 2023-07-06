@@ -1,4 +1,4 @@
-import { React, useContext, useState } from 'react'
+import { React, useContext, useEffect, useState } from 'react'
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button';
 import { RiDeleteBin7Line } from "react-icons/ri";
@@ -10,15 +10,12 @@ import TextField from '@mui/material/TextField';
 
 const PaidOrderTable = () => {
     const RenderTable = useContext(DataOnchange)
-    const [CheckID, setCheckID] = useState(1)
 
     const updateAmount = (ID, Qty, Product) => { // Update amount
         const setNameProduct = document.getElementsByName("Amount" + ID)
         let Rate = 0;
-        RenderTable.DataProduct.result?.map((key) => {
-            if (Product == key.MaLK) {
-                Rate = key.GiaBanLe
-            }
+        RenderTable.DataProduct?.map((key) => {
+            return Product === key.label ? Rate = key.GiaBanLe : 0
         })
         const numberAmount = Rate * Qty
         setNameProduct[0].value = numberAmount?.toLocaleString()
@@ -27,15 +24,8 @@ const PaidOrderTable = () => {
     const OnchangeQty = (event) => { // Update Qty 
         const { name, value } = event.target;
         let Product = "";
-        const valueSearch = document.getElementsByName("search" + event.target.id)
 
-        RenderTable.DataProduct.result?.map((key) => {
-            if (valueSearch[0].value == key.MaLK) {
-                console.info(key.Soluong)
-            }
-        })
-
-        const updateRender = RenderTable.Render.map((key, index) => {// setvalue for Render
+        const updateRender = RenderTable.Render?.map((key, index) => {// setvalue for Render
             if (event.target.id - 1 === index) {
                 Product = key.NameProduct;
                 return {
@@ -53,56 +43,70 @@ const PaidOrderTable = () => {
         updateAmount(event.target.id, value, Product);
     }
 
-    const Onchangeformtable = (event, newvalue) => { //get value onchange , chuyen qua table 
+    const Onchangeformtable = async (event, newvalue) => { // when click and when type change event
+        if (newvalue) {// click event
+            const text1 = event.target.id;
+            const parts = text1.split("-");
+            const result = parts[0];
 
-        const { name, value } = event.target;
-        if (newvalue) {
-            if (event.target.id - 1 === index) {
+            // update Max QTY
+            let Soluong = updateQTY(newvalue)
+
+            // update Render
+            await RenderTable.setRender(updateRender(result, newvalue, Soluong)); // update table Render 
+
+            //handle Rate
+            updateRate(result, newvalue)
+            // update Name
+            updateNameProduction(result)
+
+        }
+    }
+
+    function updateQTY(newvalue) {
+        return RenderTable.DataProduct.map((data) => {// update Qty value
+            return data?.label === newvalue?.label ? data.Soluong : 0
+        })
+            .filter((data) => data)
+    }
+
+    function updateRate(result, newvalue) {
+        const rate = document.getElementsByName("Rate" + result)
+
+        RenderTable.DataProduct.map((data) => {
+            if (data?.label === newvalue?.label) {
+                let valueGiabanle = +data?.GiaBanLe
+                return rate[0].value = valueGiabanle?.toLocaleString()
+            }
+        })
+    }
+
+    const updateNameProduction = (result) => {
+        let IDProduct = document.getElementsByName("Product" + result)
+        
+        let TenLK = RenderTable.DataProduct
+            .filter((data) => IDProduct[0].value === data.label ? data.TenLK : "")
+            .map((data) => data.TenLK)
+
+        let nameProduct = document.getElementsByName("nameProduct" + result)
+        nameProduct[0].value = TenLK[0]
+    }
+
+    function updateRender(result, newvalue, Soluong) {
+        return RenderTable.Render.map((key, index) => {
+            if (result - 1 === index) {
                 return {
-                    ID: +event.target.id,
+                    ID: result,
                     NameProduct: newvalue?.label,
-                    Qty: 0
+                    Qty: 0,
+                    MaxQty: Soluong[0]
                 }
             }
             else {
                 return key
             }
-            // setFormData({ ...formData, [newvalue?.key]: newvalue?.label });
-        }
-        else {
-            const updateRender = RenderTable.Render.map((key, index) => {
-                if (event.target.id - 1 === index) {
-                    return {
-                        ID: +event.target.id,
-                        NameProduct: value,
-                        Qty: 0
-                    }
-                }
-                else {
-                    return key
-                }
-            })
-
-        }
-        // const updateRender = RenderTable.Render.map((key, index) => {
-        //     if (event.target.id - 1 === index) {
-        //         return {
-        //             ID: +event.target.id,
-        //             NameProduct: value,
-        //             Qty: 0
-        //         }
-        //     }
-        //     else {
-        //         return key
-        //     }
-        // })
-
-        // setCheckID(event.target.id)
-
-        // RenderTable.setRender(updateRender);
-
+        })
     }
-
     function addTable() {
         RenderTable.setRender([...RenderTable.Render, {
             ID: RenderTable.Render.length + 1,
@@ -121,7 +125,6 @@ const PaidOrderTable = () => {
                 <THeadtable addTable={addTable} />
                 <TBodytable DeleteTable={DeleteTable}
                     Onchangeformtable={Onchangeformtable}
-                    CheckID={CheckID}
                     Render={RenderTable.Render}
                     setRender={RenderTable.setRender}
                     OnchangeQty={OnchangeQty}
@@ -133,139 +136,48 @@ const PaidOrderTable = () => {
 
 const TBodytable = (props) => {
 
-    const { DeleteTable, Onchangeformtable, CheckID, Render, setRender, OnchangeQty, RenderTable } = props
-
-
-    function updateRender(value, nameProduct, Product) { // update Render on change
-        return (
-            Render.map((key, index) => {
-                if (CheckID - 1 == index) {
-                    const setNameProduct = document.getElementsByName(nameProduct)
-                    setNameProduct[0].value = Product
-
-                    const Soluong = RenderTable.DataProduct.result?.filter((data) => {
-                        return data.MaLK === value ? data.Soluong : null
-                    })
-                        .map((key) => {
-                            return key.Soluong
-                        })
-
-                    return {
-                        ID: +CheckID,
-                        NameProduct: value,
-                        Qty: 0,
-                        MaxQty: Soluong
-                    }
-                }
-                else return key
-            }))
-    }
-
-    function updateRate(value, Rate) {// update Rate on change
-        RenderTable?.DataProduct?.result
-            ?.map((key) => {
-                if (key.MaLK === value) {
-                    const setRate = document.getElementsByName(Rate)
-                    const numberRate = +key.GiaBanLe
-                    return setRate[0].value = numberRate?.toLocaleString()    // return key == value
-                }
-            })
-    }
-
-    // const onSearch = (Product, CheckID) => { //set value onsearch
-    //     const nameProduct = 'search' + CheckID;
-    //     const Rate = 'Rate' + CheckID;
-    //     const value = Product
-
-    //     setRender(updateRender(value, nameProduct, Product))
-
-    //     updateRate(value, Rate)
-    // }
-
-    // const RenderSuggestion = (props) => {
-    //     const { DataProduct, onSearch, ID, CheckID, Product } = props
-
-    //     if (CheckID == ID)// render when  ID = id form state change
-    //     {
-    //         return (
-    //             DataProduct?.result
-    //                 ?.filter((key) => {
-
-    //                     const searchTerm = Product[+CheckID - 1]?.NameProduct?.toLowerCase();
-
-    //                     const MaLK = key.MaLK?.toLowerCase();
-
-    //                     const startsWithSearch = searchTerm != null ? MaLK?.startsWith(searchTerm) : null
-
-    //                     return searchTerm && startsWithSearch && MaLK !== searchTerm
-    //                 })
-    //                 ?.map((key) => (
-    //                     <div className="dropdowntable-row" key={key.MaLK} target="-blank"
-    //                         onClick={
-    //                             () => {
-    //                                 onSearch(key.MaLK, CheckID)
-    //                             }
-    //                         }
-    //                     >
-    //                         <div key={"item" + key.MaLK}>{key.MaLK}</div>
-    //                     </div>
-    //                 ))
-    //         )
-    //     }
-    // }
+    const { DeleteTable, Onchangeformtable, Render, OnchangeQty, RenderTable } = props
 
     return (
         <tbody>
             {
                 Render?.map((index) => (
-                    <tr key={index.ID}>
-                        <td>
+                    <tr key={index.ID.toString()}>
+                        <td id={index.ID.toString()}>
                             <Autocomplete
                                 disablePortal
-                                id="IDCustomer"
+                                id={index?.ID.toString()}
+                                fullWidth={true}
                                 size="small"
                                 options={RenderTable.DataProduct}
-                                sx={{ width: 350 }}
+                                sx={{ width: 200 }}
                                 onChange={Onchangeformtable}
-                                name="IDCustomer"
-                                renderInput={(params) => <TextField {...params} onChange={Onchangeformtable} name="IDCustomer" />}
-                            />
-                            {/* <Form.Control
-                                name={"search" + index?.ID}
-                                type="text"
-                                id={index?.ID}
-                                className="mb-3"
-                                onChange={Onchangeformtable} />
-
-                            <div className="dropdowntable">
-                                {
-                                    <RenderSuggestion
-                                        DataProduct={RenderTable.DataProduct}
-                                        onSearch={onSearch}
-                                        ID={index?.ID}
-                                        CheckID={CheckID}
-                                        Product={Render}
-                                    />
+                                name={"ID" + index.ID.toString()}
+                                renderInput={
+                                    (params) => <TextField {...params} onChange={Onchangeformtable} name={"Product" + index.ID} />
                                 }
-                            </div> */}
+                            />
+                        </td>
+                        <td>
+                            <Form.Control as="textarea" name={"nameProduct" + index.ID.toString()} disabled></Form.Control>
                         </td>
                         <td>
                             <Form.Control
                                 onChange={OnchangeQty}
                                 className="mb-3"
                                 name={"Quantity" + index.ID}
-                                id={index?.ID}
+                                id={index?.ID.toString()}
                                 type="number"
                                 min={0} max={+index.MaxQty} step="1"
                             />
                         </td>
-                        <td><Form.Control className="mb-3" name={"Rate" + index.ID} type="text" disabled /></td>
-                        <td><Form.Control className="mb-3" name={"Amount" + index.ID} type="text" disabled /></td>
+                        <td><Form.Control className="mb-3" name={"Rate" + index.ID.toString()} type="text" disabled /></td>
+                        <td><Form.Control className="mb-3" name={"Amount" + index.ID.toString()} type="text" disabled /></td>
                         <td>
                             <Button type='button'
-                                onClick={() => DeleteTable(index?.ID)}
+                                onClick={() => DeleteTable(index?.ID.toString())}
                                 variant="danger"
-                                key={"delete" + index.ID}><RiDeleteBin7Line /></Button>
+                                key={"delete" + index.ID.toString()}><RiDeleteBin7Line /></Button>
                         </td>
                     </tr>
                 ))
@@ -278,6 +190,7 @@ const THeadtable = (props) => {
     return (
         <thead>
             <tr>
+                <th>ID Product</th>
                 <th>Name Product</th>
                 <th>Quantity</th>
                 <th>Rate</th>

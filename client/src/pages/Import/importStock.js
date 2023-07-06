@@ -29,9 +29,9 @@ const ImportStock = () => {
     message: ""
   });
 
-  const [DataBrand, setDataBrand] = useState({})
-  const [DataWarehouse, setDataWarehouse] = useState({});
-  const [DataSupplier, setDataSupplier] = useState({});
+  const [DataBrand, setDataBrand] = useState([])
+  const [DataWarehouse, setDataWarehouse] = useState([]);
+  const [DataSupplier, setDataSupplier] = useState([]);
 
   const HandleChange = (event, newvalue) => {
     if (newvalue) {
@@ -156,7 +156,7 @@ const ImportStock = () => {
       page: 1,
     })
   }, [Show, ShowEror])
-  console.info(formData)
+  let valuehidden = true
   return (
     <>
       <Container fluid="xxl">
@@ -166,6 +166,7 @@ const ImportStock = () => {
             <Col md={2}><Form.Label column="sm">ID Product</Form.Label></Col>
             <Col md={4}>
               <TextField
+                fullWidth={true}
                 id="outlined-number"
                 type="text"
                 InputLabelProps={{
@@ -179,6 +180,7 @@ const ImportStock = () => {
             <Col md={2}><Form.Label column="sm">Name Product</Form.Label></Col>
             <Col md={4}>
               <TextField
+                fullWidth={true}
                 id="outlined-multiline-static"
                 multiline
                 rows={3}
@@ -194,6 +196,7 @@ const ImportStock = () => {
             <Col md={4}>
               <Autocomplete
                 disablePortal
+                fullWidth={true}
                 id="MaThuongHieu"
                 size="small"
                 options={DataBrand}
@@ -206,6 +209,7 @@ const ImportStock = () => {
             <Col md={2}><Form.Label column="sm">Color</Form.Label></Col>
             <Col md={4}>
               <Autocomplete
+                fullWidth={true}
                 disablePortal
                 id="combo-box-demo"
                 size="small"
@@ -221,6 +225,7 @@ const ImportStock = () => {
             <Col md={2}><Form.Label column="sm">Unit</Form.Label></Col>
             <Col md={4}>
               <TextField
+                fullWidth={true}
                 id="outlined-number"
                 type="text"
                 InputLabelProps={{
@@ -235,6 +240,7 @@ const ImportStock = () => {
             <Col md={2}><Form.Label column="sm">Quantity</Form.Label></Col>
             <Col md={4}>
               <TextField
+                fullWidth={true}
                 id="outlined-number"
                 type="number"
                 InputLabelProps={{
@@ -252,6 +258,7 @@ const ImportStock = () => {
             <Col md={2}><Form.Label column="sm">Retail price</Form.Label></Col>
             <Col md={4}>
               <TextField
+                fullWidth={true}
                 id="outlined-number"
                 type="number"
                 sx={{ width: 350 }}
@@ -266,6 +273,7 @@ const ImportStock = () => {
             <Col md={2}><Form.Label column="sm">ID Warehouse</Form.Label></Col>
             <Col md={4}>
               <Autocomplete
+                fullWidth={true}
                 disablePortal
                 id="combo-box-demo"
                 size="small"
@@ -281,6 +289,7 @@ const ImportStock = () => {
             <Col md={2}><Form.Label column="sm">Product status</Form.Label></Col>
             <Col md={4}>
               <Autocomplete
+                fullWidth={true}
                 disablePortal
                 id="combo-box-demo"
                 size="small"
@@ -294,6 +303,7 @@ const ImportStock = () => {
             <Col md={2}><Form.Label column="sm">ID Supplier</Form.Label></Col>
             <Col md={4}>
               <Autocomplete
+                fullWidth={true}
                 disablePortal
                 id="combo-box-demo"
                 size="small"
@@ -311,7 +321,7 @@ const ImportStock = () => {
         </Form>
       </Container>
       <div>
-        <TableDT filters={filters} />
+        <TableDT filters={filters} valuehidden={valuehidden} />
         <ButtonBottom
           pageindex={pageindex}
           HandleButtonClick={HandleButtonClick}
