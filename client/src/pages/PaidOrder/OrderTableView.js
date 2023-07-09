@@ -27,19 +27,19 @@ const THeadtable = () => {
 }
 const TBodytable = (props) => {
     const [Data, setData] = useState(null);
-    const [formData, setFormData] = useState({});
-    const [_idItem, setIdItem] = useState(null);
+    // const [formData, setFormData] = useState({});
+    // const [_idItem, setIdItem] = useState(null);
     const { filters } = props;
 
     useEffect(() => {
         RequestRenderTable(filters, setData, "HomePaid");
     }, [filters]);
 
-    const HandleChange = (event) => {
-        const { name, value } = event.target;
-        const _id = _idItem;
-        setFormData({ ...formData, [name]: value, _id });
-    };
+    // const HandleChange = (event) => {
+    //     const { name, value } = event.target;
+    //     const _id = _idItem;
+    //     setFormData({ ...formData, [name]: value, _id });
+    // };
 
     const datatable = Data?.data.result?.map((key) => (
         <tr>

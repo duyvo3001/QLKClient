@@ -6,11 +6,13 @@ import Container from 'react-bootstrap/Container';
 import Request from '../../api/Request';
 
 
-const TableInvoice = () => {
+const TableInvoice = (props) => {
+  const { DataProduct } = props
+
   return (
     <Table bordered>
       <THeadtable />
-      <TBodytable borderless />
+      <TBodytable borderless DataProduct={DataProduct} />
     </Table>
   )
 }
@@ -26,38 +28,59 @@ const THeadtable = () => {
     </thead>
   )
 }
-const TBodytable = () => {
-
+const TBodytable = (props) => {
+  const { DataProduct } = props
+  const datatable = DataProduct?.map((key) => (
+    <tr>
+      <td>{key?.TenLK}</td>
+      <td>test1</td>
+      <td>{key?.GiaBanLe}</td>
+      <td>test1</td>
+    </tr>
+  ))
+  // console.log(DataProduct)
   return (
-    <tbody>
-      <tr>
-        <td>test1</td>
-        <td>test1</td>
-        <td>test1</td>
-        <td>test1</td>
-      </tr>
+    <tbody>{datatable}
     </tbody>
   )
 }
 const Invoice = () => {
-  const idinvoice = "51e80f9a72";
-  if (idinvoice) { }
+  const idinvoice = "3dd9db678f";
+
+  if (idinvoice) {
+
+  }
   const [Data, setData] = useState({
     IDInvoice: "",
     Discount: 0,
     NameCustomer: "",
     Contact: ""
   })
-  const [Product, setProduct] = useState([Data, setData])
-
-  const setValue = () => {
-
-  }
+  const [DataProduct, setDataProduct] = useState([])
+  // const setValue = (Product) => {
+  //   Product.map((key) => {
+  //     return Request
+  //       .get(
+  //         `/getProduct/${key.NameProduct}`,
+  //         { headers: { Authorization: sessionStorage.getItem("access_token") } })
+  //       .then(async (Response) => {
+  //         setDataProduct([...DataProduct, (await Response).data.result[0]])
+  //       })
+  //       .catch(error => console.error(error))
+  //   })
+  // }
 
   const Contact = (IDCustomer) => {
     return Request
-      .get(`/infoCustomer/${IDCustomer}`)
-      .then(Response => { })
+      .get(
+        `/infoCustomer/${IDCustomer}`,
+        { headers: { Authorization: sessionStorage.getItem("access_token") } })
+      .then(async (Response) => {
+        return {
+          NameCustomer: await Response.data.result[0].NameCustomer,
+          Phone: await Response.data.result[0].Phone
+        }
+      })
       .catch()
   }
 
@@ -66,20 +89,22 @@ const Invoice = () => {
       `/getInvoice/${idinvoice}`,
       { headers: { Authorization: sessionStorage.getItem("access_token") } }
     )
-      .then(Response => {
-        const { IDCustomer, IDPaidOrder, Discount } = Response.data.result
+      .then(async (Response) => {
+        const { IDCustomer, IDPaidOrder, Discount, Product } = Response.data.result[0]
+        const Customer = Contact(IDCustomer)
         setData(
           {
             IDInvoice: IDPaidOrder,
             Discount: Discount,
-            NameCustomer: Contact(IDCustomer),
-            Contact: Contact(IDCustomer)
+            NameCustomer: (await Customer).NameCustomer,
+            Contact: (await Customer).Phone
           }
         )
-        setValue()
+        console.log(Product)
+        // setValue(await Product)
       })
       .catch()
-  })
+  }, [])
 
   return (
     <>
@@ -101,7 +126,7 @@ const Invoice = () => {
           <Col md={2}><p>Contact </p></Col>
           <Col md={2}><p>: {Data.Contact}</p></Col>
         </Row>
-        <TableInvoice Product={Product} />
+        <TableInvoice DataProduct={DataProduct} />
         <Row>
           <Col md={5} lg={5}></Col>
           <Col md={3} lg={2}>Gross Amount</Col>
