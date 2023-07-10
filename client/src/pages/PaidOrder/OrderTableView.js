@@ -2,6 +2,9 @@ import { React, useState, useEffect } from 'react'
 import Table from "react-bootstrap/Table";
 import { RequestRenderTable } from '../Import/table/ActionFunction/RequestRenderTable';
 import "./table.style.scss"
+import {AiOutlinePrinter , AiOutlineEdit} from "react-icons/ai";
+import {RiDeleteBin2Line} from "react-icons/ri"
+import Button from 'react-bootstrap/esm/Button';
 const OrderTableView = (props) => {
     const { filters } = props;
     return (
@@ -74,7 +77,11 @@ const TBodytable = (props) => {
                     {key.Date}{" "}
                 </div>
             </td>
-            <td></td>
+            <td>
+                <Button className='mb-3' href='Invoice'><AiOutlinePrinter/></Button>
+                <Button className='mb-3' variant='warning'><AiOutlineEdit/></Button>
+                <Button className='mb-3' variant='danger'><RiDeleteBin2Line/></Button>
+            </td>
         </tr>
     ))
 

@@ -35,7 +35,7 @@ const privateRoutes=[
     {path:'/InventoryList',component :InventoryList  },
     {path:'/PaidOrderPage',component :PaidOrderPage  },
     {path:'/PaidView',component :PaidView  },
-    {path:'/Invoice',component :Invoice ,layout : null },
+    {path:'/Invoice',component :Invoice ,layout : null ,  },
 ]
 
 export {publicRoutes,privateRoutes}
