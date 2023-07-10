@@ -19,13 +19,13 @@ const Navigation = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <DropdownProduct/>
-            <DropdownBrand/>
-            <DropdownSupplier/>
-            <DropdownCustomer/>
-            <DropdownWareHouse/>
-            <DropdownPaidOrder/>
-            <DropdownUser/>
+            <DropdownProduct />
+            <DropdownBrand />
+            <DropdownSupplier />
+            <DropdownCustomer />
+            <DropdownWareHouse />
+            <DropdownPaidOrder />
+            <DropdownUser />
             <DropdownSetting />
           </Nav>
         </Navbar.Collapse>

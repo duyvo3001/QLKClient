@@ -29,20 +29,13 @@ const THeadtable = () => {
     );
 }
 const TBodytable = (props) => {
+    
     const [Data, setData] = useState(null);
-    // const [formData, setFormData] = useState({});
-    // const [_idItem, setIdItem] = useState(null);
     const { filters } = props;
 
     useEffect(() => {
         RequestRenderTable(filters, setData, "HomePaid");
     }, [filters]);
-
-    // const HandleChange = (event) => {
-    //     const { name, value } = event.target;
-    //     const _id = _idItem;
-    //     setFormData({ ...formData, [name]: value, _id });
-    // };
 
     const datatable = Data?.data.result?.map((key) => (
         <tr>
@@ -58,7 +51,7 @@ const TBodytable = (props) => {
             </td>
             <td>
                 <div className={key._id}>
-                    {key.Discount}{" "}
+                    {key.Discount}{" "} %
                 </div>
             </td>
             <td>
@@ -66,7 +59,7 @@ const TBodytable = (props) => {
                     <div className="scroll-bar">
                         {key.Product.map((index) => {
                             return <div>
-                                {index.NameProduct} - {index.Qty}
+                                {index.NameProduct} x {index.Qty}
                             </div>
                         })}{" "}
                     </div>
@@ -78,7 +71,7 @@ const TBodytable = (props) => {
                 </div>
             </td>
             <td>
-                <Button className='mb-3' href='Invoice'><AiOutlinePrinter/></Button>
+                <Button className='mb-3' href={'Invoice'+"/"+key.IDPaidOrder}><AiOutlinePrinter/></Button>
                 <Button className='mb-3' variant='warning'><AiOutlineEdit/></Button>
                 <Button className='mb-3' variant='danger'><RiDeleteBin2Line/></Button>
             </td>

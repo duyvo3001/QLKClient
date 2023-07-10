@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Request from '../../api/Request';
 import ReactToPrint from 'react-to-print';
 import Button from 'react-bootstrap/esm/Button';
-
+import { useParams } from 'react-router-dom';
 const TableInvoice = (props) => {
   const { DataProduct } = props
 
@@ -37,8 +37,8 @@ const TBodytable = (props) => {
       <td>{key?.IDProduct}</td>
       <td>{key?.NameProduct}</td>
       <td>{key?.Qty}</td>
-      <td>{key?.GiaBanLe}</td>
-      <td>{key?.GiaBanLe * key?.Qty}</td>
+      <td>{key?.GiaBanLe?.toLocaleString()}</td>
+      <td>{(key?.GiaBanLe * key?.Qty)?.toLocaleString()}</td>
     </tr>
   ))
   // console.log(DataProduct)
@@ -48,10 +48,11 @@ const TBodytable = (props) => {
   )
 }
 const Invoice = () => {
-  const idinvoice = "23764dbea4";
+  const params = useParams()
   const componentRef = useRef();
-  if (idinvoice) {
-
+  
+  const idinvoice = params.id;
+  if (!idinvoice) {
   }
   const [Data, setData] = useState({
     IDInvoice: "",
@@ -151,22 +152,22 @@ const Invoice = () => {
           <Row>
             <Col md={7} lg={8}></Col>
             <Col md={3} lg={2}>Gross Amount</Col>
-            <Col md={2} lg={2}>: {TotalAmount.GrossAmount} $</Col>
+            <Col md={2} lg={2}>: {TotalAmount.GrossAmount?.toLocaleString()} $</Col>
           </Row>
           <Row>
             <Col md={7} lg={8}></Col>
             <Col md={3} lg={2}>Vat 10%</Col>
-            <Col md={2} lg={2}>: {TotalAmount.Vat} $</Col>
+            <Col md={2} lg={2}>: {TotalAmount.Vat?.toLocaleString()} $</Col>
           </Row>
           <Row>
             <Col md={7} lg={8}></Col>
             <Col md={3} lg={2}>Disount</Col>
-            <Col md={2} lg={2}>: {TotalAmount.Discount} $</Col>
+            <Col md={2} lg={2}>: {TotalAmount.Discount?.toLocaleString()} $</Col>
           </Row>
           <Row>
             <Col md={7} lg={8}></Col>
             <Col md={3} lg={2}><h5>Net Amount</h5></Col>
-            <Col md={2} lg={2}><h5>: {TotalAmount.NetAmount} $</h5></Col>
+            <Col md={2} lg={2}><h5>: {TotalAmount.NetAmount?.toLocaleString()} $</h5></Col>
           </Row>
         </Container>
       </div>
