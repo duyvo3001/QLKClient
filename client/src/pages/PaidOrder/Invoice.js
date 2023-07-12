@@ -50,7 +50,7 @@ const TBodytable = (props) => {
 const Invoice = () => {
   const params = useParams()
   const componentRef = useRef();
-  
+
   const idinvoice = params.id;
   if (!idinvoice) {
   }
@@ -120,6 +120,7 @@ const Invoice = () => {
 
   return (
     <>
+      <Button className='mb-3' variant='secondary' href='/'>Back</Button>
       <ReactToPrint
         trigger={() => {
           return (<Button className='mb-3' variant='success'>Print Invoice</Button>)
@@ -128,7 +129,6 @@ const Invoice = () => {
         documentTitle='Invoice'
         pageStyle='print'
       />
-      <Button className='mb-3' variant='secondary' href='/'>Back</Button>
       <div ref={componentRef}>
         <Container >
           <Row>

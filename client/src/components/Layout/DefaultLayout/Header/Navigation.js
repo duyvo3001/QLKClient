@@ -26,6 +26,7 @@ const Navigation = () => {
             <DropdownWareHouse />
             <DropdownPaidOrder />
             <DropdownUser />
+            <Nav.Link href="/ReportPage">Report</Nav.Link>
             <DropdownSetting />
           </Nav>
         </Navbar.Collapse>

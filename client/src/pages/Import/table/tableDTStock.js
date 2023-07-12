@@ -34,7 +34,6 @@ const THeadtable = (props) => {
                 <th>Category</th>
                 <th>Quantity</th>
                 <th>Retail price</th>
-                <th>Day Export</th>
                 <th>Day Import</th>
                 <th>Stock status</th>
                 <th hidden={valuehidden}>Action</th>
@@ -132,13 +131,6 @@ const TBodytable = (props) => {
                 </div>
                 <TextArea className={key._id + "hidden"} hidden={true}
                     onChange={HandleChange} name="NgayNhap" value={key.NgayNhap} />
-            </td>
-            <td>
-                <div className={key._id} hidden={false}>
-                    {key.NgayXuat}{" "}
-                </div>
-                <TextArea className={key._id + "hidden"} hidden={true}
-                    onChange={HandleChange} name="NgayXuat" value={key.NgayXuat} />
             </td>
             <td>
                 <div className={key._id} hidden={false}>
