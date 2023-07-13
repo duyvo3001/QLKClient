@@ -7,6 +7,7 @@ import Request from '../../api/Request';
 import ReactToPrint from 'react-to-print';
 import Button from 'react-bootstrap/esm/Button';
 import { useParams } from 'react-router-dom';
+
 const TableInvoice = (props) => {
   const { DataProduct } = props
 
@@ -120,7 +121,7 @@ const Invoice = () => {
 
   return (
     <>
-      <Button className='mb-3' variant='secondary' href='/'>Back</Button>
+      <Button className='mb-3' variant='secondary' href='/PaidView'>Back</Button>
       <ReactToPrint
         trigger={() => {
           return (<Button className='mb-3' variant='success'>Print Invoice</Button>)

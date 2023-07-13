@@ -2,8 +2,10 @@ import { React, useState, useEffect } from 'react'
 import Table from "react-bootstrap/Table";
 import { RequestRenderTable } from '../Import/table/ActionFunction/RequestRenderTable';
 import "./table.style.scss"
-import {AiOutlinePrinter , AiOutlineEdit} from "react-icons/ai";
-import {RiDeleteBin2Line} from "react-icons/ri"
+import { AiOutlinePrinter, AiOutlineEdit } from "react-icons/ai";
+import { RiDeleteBin2Line } from "react-icons/ri"
+import { HandleDelete } from '../Import/table/ActionFunction/HandleDelete';
+
 import Button from 'react-bootstrap/esm/Button';
 const OrderTableView = (props) => {
     const { filters } = props;
@@ -29,13 +31,17 @@ const THeadtable = () => {
     );
 }
 const TBodytable = (props) => {
-    
+
     const [Data, setData] = useState(null);
     const { filters } = props;
 
     useEffect(() => {
         RequestRenderTable(filters, setData, "HomePaid");
     }, [filters]);
+
+    function deletePaid(IDPaidOrder, DeleteOrder, RequestRenderTable, filters, setData, HomePaid) {
+        HandleDelete(IDPaidOrder, DeleteOrder, RequestRenderTable, filters, setData, HomePaid)
+    }
 
     const datatable = Data?.data.result?.map((key) => (
         <tr>
@@ -71,9 +77,20 @@ const TBodytable = (props) => {
                 </div>
             </td>
             <td>
-                <Button className='mb-3' href={'Invoice'+"/"+key.IDPaidOrder}><AiOutlinePrinter/></Button>
-                <Button className='mb-3' variant='warning'><AiOutlineEdit/></Button>
-                <Button className='mb-3' variant='danger'><RiDeleteBin2Line/></Button>
+                <Button className='mb-3' href={'Invoice' + "/" + key.IDPaidOrder}><AiOutlinePrinter /></Button>
+                <Button className='mb-3' variant='warning'><AiOutlineEdit /></Button>
+                <Button className='mb-3'
+                    onClick={() =>
+                        HandleDelete(
+                            key.IDPaidOrder,
+                            "DeleteOrder",
+                            RequestRenderTable,
+                            filters, setData,
+                            "HomePaid")
+                    }
+                    variant='danger'>
+                    <RiDeleteBin2Line />
+                </Button>
             </td>
         </tr>
     ))
