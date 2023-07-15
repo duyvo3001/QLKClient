@@ -115,7 +115,7 @@ const RightSide = () => {
               className="mb-3"
             />
             <Stack className="col-md-7 mx-auto d-flex">
-              <Button type='submit' variant="outline-success">LOG IN</Button>
+              <Button type='submit' variant="outline-primary">LOG IN</Button>
             </Stack>
           </Form>
         </section>

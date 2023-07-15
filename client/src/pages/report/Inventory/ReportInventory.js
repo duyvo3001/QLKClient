@@ -8,9 +8,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 
-const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490, 3490, 3490, 3490, 3490, 3490];
-const pData = [1000, 6000, 3000, 4780, 2890, 5390, 1490, 3490, 3490, 3490, 3490, 12490];
-const xLabels = [
+const uData = [4000, 3000, 2000, 2780, 1890, 2390, 6090];
+const pData = [1000, 6000, 3000, 4780, 2890, 5390, 5390];
+const Month = [
     'January',
     'February',
     'March',
@@ -23,7 +23,16 @@ const xLabels = [
     'November',
     'December ',
 ];
-function SimpleBarChart() {
+const Day = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+]
+function WeeklyReport() {
     return (
         <BarChart
             width={900}
@@ -32,7 +41,7 @@ function SimpleBarChart() {
                 { data: pData, label: 'Import', id: 'pvId' },
                 { data: uData, label: 'Sales', id: 'uvId' },
             ]}
-            xAxis={[{ data: xLabels, scaleType: 'band' }]}
+            xAxis={[{ data: Day, scaleType: 'band' }]}
         />
     );
 }
@@ -58,7 +67,7 @@ const ReportInventory = () => {
                         <h4>Report Inventory</h4>
                     </Col>
                 </Row>
-                <Row className='mb-2 row'>
+                {/* <Row className='mb-2 row'>
                     <Col md={2}>
                         <Button variant="Solid" color="danger">Weekly report</Button>        
                     </Col>
@@ -68,8 +77,8 @@ const ReportInventory = () => {
                     <Col md={2}>
                         <Button variant="Solid" color="primary">Annual report </Button>
                     </Col>
-                </Row>
-                <Row className='mb-2 row'>
+                </Row> */}
+                {/* <Row className='mb-2 row'>
                     <Col md={2} sm={4} lg={2}>
                         <Autocomplete
                             la
@@ -106,11 +115,11 @@ const ReportInventory = () => {
                             name="MaThuongHieu"
                             renderInput={(params) => <TextField {...params} label="Month" name="MaThuongHieu" />}
                         /></Col>
-                </Row>
+                </Row> */}
 
-                <Row className='mb-2 row'>
-                    <SimpleBarChart />
+                <Row >
                 </Row>
+                <WeeklyReport />
             </Container>
         </>
     )

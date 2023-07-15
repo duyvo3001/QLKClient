@@ -52,19 +52,18 @@ const ImportStock = () => {
       { headers: { Authorization: sessionStorage.getItem("access_token") } }
     )
       .then((response) => {
+        console.log(response)
         if (response.status === 200) {
-          const {
-            MaLK,
-            TenLK,
-            Donvi,
-            Soluong,
-            MaThuongHieu,
-            MaNCC,
-            Color,
-            MaKho,
-            GiaBanLe,
-            TinhTrangHang
-          } = document.getElementsByName("MaLK", "TenLK", "Donvi", "Soluong", "MaThuongHieu", "MaNCC", "Color", "MaKho", "GiaBanLe", "TinhTrangHang");
+          const MaLK = document.getElementsByName("MaLK")
+          const TenLK = document.getElementsByName("TenLK")
+          const Donvi = document.getElementsByName("Donvi")
+          const Soluong = document.getElementsByName("Soluong")
+          const MaThuongHieu = document.getElementsByName("MaThuongHieu")
+          const MaNCC = document.getElementsByName("MaNCC")
+          const Color = document.getElementsByName("Color")
+          const MaKho = document.getElementsByName("MaKho")
+          const GiaBanLe = document.getElementsByName("GiaBanLe")
+          const TinhTrangHang = document.getElementsByName("TinhTrangHang")
 
           MaLK[0].value = "";
           TenLK[0].value = "";
