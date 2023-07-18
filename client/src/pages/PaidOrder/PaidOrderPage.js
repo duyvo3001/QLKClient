@@ -14,6 +14,11 @@ import TextField from '@mui/material/TextField';
 export const DataOnchange = createContext(null);
 const PaidOrderPage = () => {
 
+    const [Paid, setPaid] = useState({
+        CreateOrder: false,
+        Print: true
+    })
+    const [getID , setID] = useState(null)
     const [DataCustomer, setDataCustomer] = useState([]) //state.dataCustomer
     const [DataProduct, setDataProduct] = useState([]) //state.dataProduct
     const [formData, setFormData] = useState({}) //state formdata to request server
@@ -159,7 +164,7 @@ const PaidOrderPage = () => {
     function PaidOrder() {
         let checkErr = true;
         const searchCustomer = document.getElementsByName("IDCustomer") // check customer
-        console.log(searchCustomer[0])
+
         if (!searchCustomer[0]) {
             setShow({
                 valueShow: true,
@@ -177,7 +182,7 @@ const PaidOrderPage = () => {
                 checkErr = false
             }
         })
-        console.log(formData, Render);
+
         if (checkErr === true) {
             Request.post('/PaidOrder',
                 {
@@ -189,17 +194,17 @@ const PaidOrderPage = () => {
                 .then(response => {
                     if (response.status === 200) {
                         setDisount(0)
-                        setRender([{
-                            ID: 1,
-                            NameProduct: "",
-                            Qty: 0,
-                            MaxQty: 0
-                        }])
+                       console.log(response);
                         setFormData({})
                         setSuccess({
                             valueShow: true,
                             message: response.data.message
                         })
+                        setPaid({
+                            CreateOrder: true,
+                            Print: false
+                        })
+                        setID(response.data.ID)
                         const inputFields = [
                             'searchCustomer',
                             'search1',
@@ -275,7 +280,7 @@ const PaidOrderPage = () => {
                 <Row>
                     <Col md={2}>Gross Amount</Col>
                     <Col className="mb-3" md={3}><Form.Control size="sm" name='GrossAmount' type="text" disabled /></Col>
-                </Row>  
+                </Row>
                 <Row>
                     <Col md={2}>Vat 10%</Col>
                     <Col className="mb-3" md={3}><Form.Control size="sm" name="Vat" value="" type="text" disabled /></Col>
@@ -292,15 +297,15 @@ const PaidOrderPage = () => {
                     <Col className="mb-3" md={3}><Form.Control size="sm" name="NetAmount" type="text" disabled /></Col>
                 </Row>
                 <Row>
-                    <Col  md={2}>
-                        <Button variant='success' onClick={PaidOrder} >
+                    <Col md={4}>
+                        <Button variant='success' onClick={PaidOrder} hidden={Paid.CreateOrder} >
                             <div>
-                               Creare Order
+                                Creare Order
                             </div>
                         </Button>
-                        <Button variant='danger'>Back</Button>
-                        </Col>
-                   
+                        <Button variant='warning' hidden={Paid.Print} href={'Invoice' + "/" + getID }>Print</Button>
+                        <Button variant='primary' hidden={Paid.Print} href='/PaidOrderPage'>New Order</Button>
+                    </Col>
                 </Row>
             </Container>
         </>

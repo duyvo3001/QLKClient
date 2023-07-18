@@ -16,17 +16,17 @@ import { BiEdit } from "react-icons/bi";
 const cx = classnames.bind(style);
 
 function tableDTBrand(props) {
-    const { filters ,valuehidden } = props;
+    const { filters, valuehidden, searchBox } = props;
     return (
         <Table striped bordered hover>
-            <THeadtable valuehidden={valuehidden}/>
-            <TBodytable filters={filters} valuehidden={valuehidden} />
+            <THeadtable valuehidden={valuehidden} />
+            <TBodytable filters={filters} searchBox={searchBox} valuehidden={valuehidden} />
         </Table>
     );
 }
 //render table
 const THeadtable = (props) => {
-    const {valuehidden} = props;
+    const { valuehidden } = props;
     return (
         <thead>
             <tr>
@@ -40,14 +40,17 @@ const THeadtable = (props) => {
 };
 //render table body
 const TBodytable = (props) => {
-    const { filters ,valuehidden } = props;
+    const { filters, valuehidden, searchBox } = props;
     const [Data, setData] = useState(null);
     const [formData, setFormData] = useState({});
     const [_idItem, setIdItem] = useState(null);
     //request render table State
-    useEffect(() => {
-        RequestRenderTable(filters, setData, "HomeBrand");
-    }, [filters]);
+    useEffect(() => {// check if checkbox is !== 0 and !== undefined 
+        if (searchBox?.length !== 0 && searchBox?.length !== undefined)
+            setData(searchBox)
+        else
+            RequestRenderTable(filters, setData, "HomeBrand");
+    }, [filters, searchBox]);
 
     // handle text area change events
     const HandleChange = (event) => {
@@ -57,7 +60,7 @@ const TBodytable = (props) => {
     };
 
     //handle data table
-    const datatable = Data?.data.result?.map((key) => (
+    const datatable = Data?.data?.result !== undefined ? Data?.data?.result?.map((key) => (
         <>
             <tr>
                 <td>
@@ -107,25 +110,92 @@ const TBodytable = (props) => {
                         variant="secondary"
                         onClick={() => CancelEdit(key._id, setIdItem)}
                     >
-                        <AiOutlineCloseCircle/>
+                        <AiOutlineCloseCircle />
                     </Button>{" "}
 
                     <Button variant="warning" onClick={
-                        () => UpdateEdit( 
-                            key._id ,
-                            formData ,
+                        () => UpdateEdit(
+                            key._id,
+                            formData,
                             setIdItem,
                             CancelEdit,
                             RequestRenderTable,
                             filters,
                             setData,
                             "Brand"
-                            )}>
-                    <BiEdit/></Button>{" "}
+                        )}>
+                        <BiEdit /></Button>{" "}
                 </td>
             </tr>
         </>
-    ));
+    )) : Data?.map((key) => (
+        <>
+            <tr>
+                <td>
+                    <div className={key._id} hidden={false}>
+                        {key['MaThuongHieu']}{" "}
+                    </div>
+                    <TextArea
+                        className={key._id + "hidden"}
+                        hidden={true}
+                        onChange={HandleChange}
+                        name="MaThuongHieu"
+                        value={key['MaThuongHieu']}
+                    />
+                </td>
+                <td>
+                    <div className={key._id} hidden={false}>
+                        {key.TenThuongHieu}
+                    </div>
+                    <TextArea
+                        className={key._id + "hidden"}
+                        hidden={true}
+                        onChange={HandleChange}
+                        name="TenThuongHieu"
+                        value={key.TenThuongHieu}
+                    />
+                </td>
+                <td>
+                    <div className={cx("dateImport")}>{key.NgayNhap}</div>
+                </td>
+                <td hidden={valuehidden}>
+                    <DropdownSetting
+                        HandleDelete={() =>
+                            HandleDelete(
+                                key.MaThuongHieu,
+                                "deleteBrand",
+                                RequestRenderTable,
+                                filters,
+                                setData,
+                                "HomeBrand"
+                            )
+                        }
+                        handleEdit={() => HandleEdit(key._id, setIdItem)}
+                    />
+                </td>
+                <td className={key._id + "hidden"} hidden={true}>
+                    <Button
+                        variant="secondary"
+                        onClick={() => CancelEdit(key._id, setIdItem)}
+                    >
+                        <AiOutlineCloseCircle />
+                    </Button>{" "}
+
+                    <Button variant="warning" onClick={
+                        () => UpdateEdit(
+                            key._id,
+                            formData,
+                            setIdItem,
+                            CancelEdit,
+                            RequestRenderTable,
+                            filters,
+                            setData,
+                            "Brand"
+                        )}>
+                        <BiEdit /></Button>{" "}
+                </td>
+            </tr>
+        </>))
 
     return <tbody>{datatable}</tbody>;
 };

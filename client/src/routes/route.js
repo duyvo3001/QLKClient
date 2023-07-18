@@ -17,7 +17,9 @@ import Invoice from '../pages/PaidOrder/Invoice';
 import ReportPage from '../pages/report/ReportPage';
 import ReportSale from '../pages/report/Sales/ReportSale';
 import ReportInventory from '../pages/report/Inventory/ReportInventory';
-
+import BrandView from '../pages/dashBoard/Brandview/BrandView';
+import CustomerView from '../pages/dashBoard/CustomerView/CustomerView';
+import SupplierView from '../pages/dashBoard/SupplierView/SupplierView';
 //public Route
 const publicRoutes = [
     { path: '/login', component: Login, layout: null },
@@ -28,20 +30,23 @@ const privateRoutes = [
     { path: '/', component: DashBoard },
     { path: '/importBrand', component: ImportBrand },
     { path: '/importSupplier', component: ImportSupplier },
-    { path: '/UserPage', component: UserPage },
-    { path: '/customerPage', component: ImportCustomer },
     { path: '/ImportWareHouse', component: ImportWareHouse },
     { path: '/ImportStock', component: ImportStock },
+    { path: '/UserPage', component: UserPage },
+    { path: '/customerPage', component: ImportCustomer },
+    { path: '/PaidOrderPage', component: PaidOrderPage },
+    { path: '/ReportPage', component: ReportPage },
     { path: '/ProductView', component: ProductView },
+    { path: '/BrandView', component: BrandView },
+    { path: '/CustomerView', component: CustomerView },
+    { path: '/SupplierView', component: SupplierView },
     { path: '/WareHouseView', component: WareHouseView },
     { path: '/UserView', component: UserView },
-    { path: '/InventoryList', component: InventoryList },
-    { path: '/PaidOrderPage', component: PaidOrderPage },
     { path: '/PaidView', component: PaidView },
     { path: '/Invoice/:id', component: Invoice, layout: null, },
-    { path: '/ReportPage', component: ReportPage },
     { path: '/ReportSale', component: ReportSale },
     { path: '/ReportInventory', component: ReportInventory },
+    { path: '/InventoryList', component: InventoryList },
 ]
 
 export { publicRoutes, privateRoutes }

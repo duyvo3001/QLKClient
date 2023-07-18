@@ -1,4 +1,4 @@
-import { React, useContext, useEffect, useState } from 'react'
+import { React, useContext } from 'react'
 import Table from "react-bootstrap/Table";
 import Button from 'react-bootstrap/Button';
 import { RiDeleteBin7Line } from "react-icons/ri";
@@ -83,7 +83,7 @@ const PaidOrderTable = () => {
 
     const updateNameProduction = (result) => {
         let IDProduct = document.getElementsByName("Product" + result)
-        
+
         let TenLK = RenderTable.DataProduct
             .filter((data) => IDProduct[0].value === data.label ? data.TenLK : "")
             .map((data) => data.TenLK)
@@ -116,7 +116,11 @@ const PaidOrderTable = () => {
     }
 
     function DeleteTable(ID) {
-        RenderTable.setRender(RenderTable.Render.filter(table => table.ID !== ID))
+        console.log(ID)
+        console.log(RenderTable)
+        RenderTable.setRender(RenderTable.Render.filter(
+            (table) => table?.ID != ID
+        ))
     }
 
     return (

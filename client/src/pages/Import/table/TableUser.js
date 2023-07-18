@@ -14,11 +14,11 @@ import UpdateAccess from "../../userManegement/UpdateAccess";
 import { GrDocumentUpdate } from 'react-icons/gr';
 import { MdOutlineCancel } from 'react-icons/md';
 const TableUser = (props) => {
-    const { filters, valuehidden } = props;
+    const { filters, valuehidden, searchBox } = props;
     return (
         <Table striped bordered hover>
             <THeadtable valuehidden={valuehidden} />
-            <TBodytable filters={filters} valuehidden={valuehidden} />
+            <TBodytable filters={filters} valuehidden={valuehidden} searchBox={searchBox} />
         </Table>
     )
 }
@@ -42,7 +42,7 @@ const THeadtable = (props) => {
     )
 }
 const TBodytable = (props) => {
-    const { filters, valuehidden } = props;
+    const { filters, valuehidden, searchBox } = props;
     const [Data, setData] = useState(null);
     const [formData, setFormData] = useState({});
     const [_idItem, setIdItem] = useState(null);
@@ -56,8 +56,11 @@ const TBodytable = (props) => {
     })
 
     useEffect(() => {
-        RequestRenderTable(filters, setData, "StaffPage")
-    }, [filters])
+        if (searchBox?.length !== 0 && searchBox?.length !== undefined)
+            setData(searchBox)
+        else
+            RequestRenderTable(filters, setData, "StaffPage")
+    }, [filters, searchBox])
 
     const HandleChange = (event) => {
         const { name, value } = event.target;
@@ -154,8 +157,8 @@ const TBodytable = (props) => {
             )
 
     }
-    const datatable = Data?.data.result?.map(
-        key => <tr>
+    const datatable = Data?.data?.result !== undefined ? Data?.data?.result?.map(key =>
+        <tr>
             <td>
                 <div className={key._id} hidden={false}>
                     {key['MaNV']}{" "}
@@ -304,7 +307,157 @@ const TBodytable = (props) => {
                 </Button>{" "}
             </td>
         </tr>
-    )
+    ) : Data?.map((key) => (
+        <tr>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key['MaNV']}{" "}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="MaNV"
+                    value={key['MaNV']}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.TenNV}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="TenNV"
+                    value={key.TenNV}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.GioiTinh}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="GioiTinh"
+                    value={key.GioiTinh}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.DiaChi}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="DiaChi"
+                    value={key.DiaChi}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.NgaySinh}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="NgaySinh"
+                    value={key.NgaySinh}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.USER_NV}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="USER_NV"
+                    value={key.USER_NV}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.SDT}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="SDT"
+                    value={key.SDT}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.Email}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="Email"
+                    value={key.Email}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.NgayTao}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="NgayTao"
+                    value={key.NgayTao}
+                />
+            </td>
+            <td hidden={valuehidden}>
+                <DropdownSetting
+                    HandleDelete={() =>
+                        HandleDelete(
+                            key.MaNV,
+                            "deleteUser",
+                            RequestRenderTable,
+                            filters,
+                            setData,
+                            "StaffPage"
+                        )
+                    }
+                    handleEdit={() => HandleEdit(key._id, setIdItem)} />
+            </td>
+            <td className={key._id + "hidden"} hidden={true}>
+                <Button size="sm" variant="warning" onClick={
+                    () => UpdateEditUser(
+                        key._id,
+                        formData,
+                        AccessRight,
+                        setIdItem,
+                        CancelEdit,
+                        RequestRenderTable,
+                        filters,
+                        setData,
+                        "User"
+                    )}>
+                    <GrDocumentUpdate /></Button>{" "}
+                <UpdatePassword showAlter={showAlter} HandleChange={HandleChange} />{" "}
+
+                <UpdateAccess IDdata={key._id} Data={RenderAccess(Data, key._id)} HandleChange={HandleChange} />{" "}
+
+                <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => CancelEdit(key._id, setIdItem)}>
+                    <MdOutlineCancel />
+                </Button>{" "}
+            </td>
+        </tr>
+    ))
     return (
         <tbody>
             {datatable}

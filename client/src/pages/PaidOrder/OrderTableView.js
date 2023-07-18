@@ -8,11 +8,11 @@ import { HandleDelete } from '../Import/table/ActionFunction/HandleDelete';
 
 import Button from 'react-bootstrap/esm/Button';
 const OrderTableView = (props) => {
-    const { filters } = props;
+    const { filters, searchBox } = props;
     return (
         <Table striped bordered hover>
             <THeadtable />
-            <TBodytable filters={filters} />
+            <TBodytable searchBox={searchBox} filters={filters} />
         </Table>
     );
 }
@@ -33,17 +33,20 @@ const THeadtable = () => {
 const TBodytable = (props) => {
 
     const [Data, setData] = useState(null);
-    const { filters } = props;
+    const { filters, searchBox } = props;
 
     useEffect(() => {
-        RequestRenderTable(filters, setData, "HomePaid");
-    }, [filters]);
+        if (searchBox?.length !== 0 && searchBox?.length !== undefined)
+            setData(searchBox)
+        else
+            RequestRenderTable(filters, setData, "HomePaid");
+    }, [filters,searchBox]);
 
     function deletePaid(IDPaidOrder, DeleteOrder, RequestRenderTable, filters, setData, HomePaid) {
         HandleDelete(IDPaidOrder, DeleteOrder, RequestRenderTable, filters, setData, HomePaid)
     }
 
-    const datatable = Data?.data.result?.map((key) => (
+    const datatable = Data?.data?.result !== undefined ? Data?.data.result?.map((key) => (
         <tr>
             <td>
                 <div className={key._id}>
@@ -93,7 +96,55 @@ const TBodytable = (props) => {
                 </Button>
             </td>
         </tr>
-    ))
+    )) : Data?.map((key) => (<tr>
+        <td>
+            <div className={key._id}>
+                {key.IDPaidOrder}{" "}
+            </div>
+        </td>
+        <td>
+            <div className={key._id}>
+                {key.IDCustomer}{" "}
+            </div>
+        </td>
+        <td>
+            <div className={key._id}>
+                {key.Discount}{" "} %
+            </div>
+        </td>
+        <td>
+            <div className={key._id} >
+                <div className="scroll-bar">
+                    {key.Product.map((index) => {
+                        return <div>
+                            {index.NameProduct} x {index.Qty}
+                        </div>
+                    })}{" "}
+                </div>
+            </div>
+        </td>
+        <td>
+            <div className={key._id}>
+                {key.Date}{" "}
+            </div>
+        </td>
+        <td>
+            <Button className='mb-3' href={'Invoice' + "/" + key.IDPaidOrder}><AiOutlinePrinter /></Button>
+            <Button className='mb-3' variant='warning'><AiOutlineEdit /></Button>
+            <Button className='mb-3'
+                onClick={() =>
+                    HandleDelete(
+                        key.IDPaidOrder,
+                        "DeleteOrder",
+                        RequestRenderTable,
+                        filters, setData,
+                        "HomePaid")
+                }
+                variant='danger'>
+                <RiDeleteBin2Line />
+            </Button>
+        </td>
+    </tr>))
 
     return (
         <tbody>{datatable}</tbody>

@@ -11,17 +11,17 @@ import { HandleEdit } from "./ActionFunction/HandleEdit";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 function tableDTSupplier(props) {
-    const { filters ,valuehidden } = props;
+    const { filters, valuehidden, searchBox } = props;
     return (
         <Table striped bordered hover>
             <THeadtable valuehidden={valuehidden} />
-            <TBodytable filters={filters} valuehidden={valuehidden} />
+            <TBodytable searchBox={searchBox} filters={filters} valuehidden={valuehidden} />
         </Table>
     )
 }
 //render table
 const THeadtable = (props) => {
-    const {valuehidden} = props;
+    const { valuehidden } = props;
     return (
         <thead>
             <tr>
@@ -40,19 +40,22 @@ const TBodytable = (props) => {
     const [formData, setFormData] = useState({});
     const [_idItem, setIdItem] = useState(null);
     const [Data, setData] = useState(null);
-    const { filters ,valuehidden } = props;
+    const { filters, valuehidden ,searchBox } = props;
 
     useEffect(() => {
-        RequestRenderTable(filters, setData, "HomeSupplier")
-    }, [filters])
-   
+        if (searchBox?.length !== 0 && searchBox?.length !== undefined)
+            setData(searchBox)
+        else
+            RequestRenderTable(filters, setData, "HomeSupplier")
+    }, [filters, searchBox])
+
     const HandleChange = (event) => {
         const { name, value } = event.target;
         const _id = _idItem;
         setFormData({ ...formData, [name]: value, _id });
     };
-    const datatable = Data?.data.result?.map(
-        key => <tr>
+    const datatable = Data?.data?.result !== undefined ? Data?.data.result?.map(key =>
+        <tr>
             <td>
                 <div className={key._id} hidden={false}>
                     {key['MaNCC']}{" "}
@@ -114,24 +117,24 @@ const TBodytable = (props) => {
                 />
             </td>
             <td hidden={valuehidden}>
-                <DropdownSetting 
-                HandleDelete={() =>
-                    HandleDelete(
-                        key.MaLK,
-                        "deleteStock",
-                        RequestRenderTable,
-                        filters,
-                        setData,
-                        "ImportStock"
-                    )
-                }
-                handleEdit={() => HandleEdit(key._id, setIdItem)} />
+                <DropdownSetting
+                    HandleDelete={() =>
+                        HandleDelete(
+                            key.MaLK,
+                            "deleteStock",
+                            RequestRenderTable,
+                            filters,
+                            setData,
+                            "ImportStock"
+                        )
+                    }
+                    handleEdit={() => HandleEdit(key._id, setIdItem)} />
             </td>
             <td className={key._id + "hidden"} hidden={true}>
                 <Button
                     variant="secondary"
                     onClick={() => CancelEdit(key._id, setIdItem)}>
-                    <AiOutlineCloseCircle/>
+                    <AiOutlineCloseCircle />
                 </Button>{" "}
 
                 <Button variant="warning" onClick={
@@ -144,12 +147,107 @@ const TBodytable = (props) => {
                         filters,
                         setData,
                         "Supplier"
-                        )}>
-                    <BiEdit/></Button>{" "}
+                    )}>
+                    <BiEdit /></Button>{" "}
             </td>
         </tr>
-    )
+    ) : Data?.map((key) => (
+        <tr>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key['MaNCC']}{" "}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="MaNCC"
+                    value={key['MaNCC']}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.TenNCC}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="TenNCC"
+                    value={key.TenNCC}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.DiaChi}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="DiaChi"
+                    value={key.DiaChi}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.SDT}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="SDT"
+                    value={key.SDT}
+                />
+            </td>
+            <td>
+                <div className={key._id} hidden={false}>
+                    {key.Email}
+                </div>
+                <TextArea
+                    className={key._id + "hidden"}
+                    hidden={true}
+                    onChange={HandleChange}
+                    name="Email"
+                    value={key.Email}
+                />
+            </td>
+            <td hidden={valuehidden}>
+                <DropdownSetting
+                    HandleDelete={() =>
+                        HandleDelete(
+                            key.MaLK,
+                            "deleteStock",
+                            RequestRenderTable,
+                            filters,
+                            setData,
+                            "ImportStock"
+                        )
+                    }
+                    handleEdit={() => HandleEdit(key._id, setIdItem)} />
+            </td>
+            <td className={key._id + "hidden"} hidden={true}>
+                <Button
+                    variant="secondary"
+                    onClick={() => CancelEdit(key._id, setIdItem)}>
+                    <AiOutlineCloseCircle />
+                </Button>{" "}
 
+                <Button variant="warning" onClick={
+                    () => UpdateEdit(
+                        key._id,
+                        formData,
+                        setIdItem,
+                        CancelEdit,
+                        RequestRenderTable,
+                        filters,
+                        setData,
+                        "Supplier"
+                    )}>
+                    <BiEdit /></Button>{" "}
+            </td>
+        </tr>))
     return (
         <tbody>
             {datatable}

@@ -1,11 +1,11 @@
 import { React, useState, useEffect } from "react";
-import { TableDT } from "../../Import/table/tableDTStock"
+import { tableDTBrand as TableDT } from "../../Import/table/tableDTBrand";
 import ButtonBottom from "../../Import/buttonBot/buttonBottom";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Request from "../../../api/Request";
-const ProductView = () => {
-    const [DataProduct, setDataProduct] = useState([]) //state dataProduct
+const BrandView = (props) => {
+    const [DataBrand, setDataBrand] = useState([]) //state dataProduct
     const [searchBox, setsearchBox] = useState([]) //state dataProduct
     const [filters, setfilters] = useState({
         page: 1,
@@ -20,14 +20,13 @@ const ProductView = () => {
         });
         setpageindex({ ...pageindex, page: newPage });
     };
-
     function RequestRouterSearch(Url, keyName, SetData) {
         Request
             .get(`/${Url}`,
                 { headers: { Authorization: sessionStorage.getItem("access_token") } })
             .then((response) => {
                 const object = []
-                if (Url === "SearchStock") {
+                if (Url === "SearchBrand") {
                     response?.data?.result?.map((key, index) => {
                         return object.push(
                             {
@@ -35,15 +34,8 @@ const ProductView = () => {
                                 label: key?.[keyName],
                                 key: keyName,
                                 _id: key._id,
-                                MaLK: key.MaLK,
-                                Color: key.Color,
-                                Donvi: key.Donvi,
-                                MaNCC: key.MaNCC,
                                 MaThuongHieu: key.MaThuongHieu,
-                                TinhTrangHang: key.TinhTrangHang,
-                                GiaBanLe: key?.GiaBanLe,
-                                Soluong: key?.Soluong,
-                                TenLK: key?.TenLK,
+                                TenThuongHieu: key.TenThuongHieu,
                                 NgayNhap: key?.NgayNhap
                             }
                         )
@@ -58,31 +50,27 @@ const ProductView = () => {
             })
             .catch((error) => { console.log(error) })
     }
-
     useEffect(() => {
-        RequestRouterSearch("SearchStock", "MaLK", setDataProduct)
+        RequestRouterSearch("SearchBrand", "MaThuongHieu", setDataBrand)
     }, [])
     const Onchangeformtable = async (event, newvalue) => { // when click and when type change event
-        if (newvalue) {// click event
-            // console.log(newvalue)
+        if (newvalue) // click event
             setsearchBox([newvalue])
-        }
     }
     const OnCloseAuto = (event, newvalue) => {
-        if(newvalue === "") {
+        if (newvalue === "")
             setsearchBox([])
-        }
     }
     return (
         <>
-            <h4>Manage: Product</h4>
+            <h4>Manage: Brand</h4>
             <div className="mb-3">
                 <Autocomplete
                     disablePortal
                     id="test"
                     fullWidth={true}
                     size="small"
-                    options={DataProduct}
+                    options={DataBrand}
                     sx={{ width: 200 }}
                     onChange={Onchangeformtable}
                     onInputChange={OnCloseAuto}
@@ -90,14 +78,12 @@ const ProductView = () => {
                     renderInput={
                         (params) => <TextField {...params}
                             label="Search"
-                            // onChange={Onchangeformtable}
-                            name={"Product"}
+                            name={"Brand"}
                         />
                     }
                 />
             </div>
             <TableDT searchBox={searchBox} className="mb-3" filters={filters} valuehidden={false} setfilters={setfilters} />
-            {/* truyen du lieu data product vao day  */}
             <ButtonBottom
                 pageindex={pageindex}
                 HandleButtonClick={HandleButtonClick}
@@ -106,4 +92,4 @@ const ProductView = () => {
     )
 }
 
-export default ProductView
+export default BrandView

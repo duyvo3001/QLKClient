@@ -8,7 +8,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 
-const uData = [4000, 3000, 2000, 2780, 1890, 2390, 6090];
 const pData = [1000, 6000, 3000, 4780, 2890, 5390, 5390];
 const Month = [
     'January',
@@ -39,7 +38,6 @@ function WeeklyReport() {
             height={400}
             series={[
                 { data: pData, label: 'Import', id: 'pvId' },
-                { data: uData, label: 'Sales', id: 'uvId' },
             ]}
             xAxis={[{ data: Day, scaleType: 'band' }]}
         />

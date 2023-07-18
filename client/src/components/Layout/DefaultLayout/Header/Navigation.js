@@ -57,21 +57,21 @@ const DropdownProduct = () => {
 const DropdownBrand = () => {
   return <NavDropdown title="Brand" id="basic-nav-dropdown1" >
     <NavDropdown.Item href="/importBrand">Add Brand</NavDropdown.Item>
-    <NavDropdown.Item href="/ProductView">Total Brand</NavDropdown.Item>
+    <NavDropdown.Item href="/BrandView">Total Brand</NavDropdown.Item>
   </NavDropdown>
 }
 
 const DropdownSupplier = () => {
   return <NavDropdown title="Supplier" id="basic-nav-dropdown1" >
     <NavDropdown.Item href="/importSupplier">Add Supplier</NavDropdown.Item>
-    <NavDropdown.Item href="/ProductView">Total Supplier</NavDropdown.Item>
+    <NavDropdown.Item href="/SupplierView">Total Supplier</NavDropdown.Item>
   </NavDropdown>
 }
 
 const DropdownCustomer = () => {
   return <NavDropdown title="Customer" id="basic-nav-dropdown1" >
     <NavDropdown.Item href="/customerPage">Add Customer</NavDropdown.Item>
-    <NavDropdown.Item href="/ProductView">Total Customer</NavDropdown.Item>
+    <NavDropdown.Item href="/CustomerView">Total Customer</NavDropdown.Item>
   </NavDropdown>
 }
 
