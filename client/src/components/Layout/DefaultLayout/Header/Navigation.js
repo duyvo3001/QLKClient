@@ -49,8 +49,9 @@ const DropdownSetting = () => {
 
 const DropdownProduct = () => {
   return <NavDropdown title="Product" id="basic-nav-dropdown1" >
-    <NavDropdown.Item href="/ImportStock">Add Product</NavDropdown.Item>
+    <NavDropdown.Item href="/ImportStock">Import Product</NavDropdown.Item>
     <NavDropdown.Item href="/ProductView">Manage Product</NavDropdown.Item>
+    <NavDropdown.Item href="/Addproduct">Add Product</NavDropdown.Item>
   </NavDropdown>
 }
 

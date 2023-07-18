@@ -283,7 +283,6 @@ const ImportStock = () => {
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="MaKho" />}
               /></Col>
           </Row>
-
           <Row className='mb-2 row'>
             <Col md={2}><Form.Label column="sm">Product status</Form.Label></Col>
             <Col md={4}>

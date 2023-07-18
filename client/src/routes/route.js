@@ -20,6 +20,7 @@ import ReportInventory from '../pages/report/Inventory/ReportInventory';
 import BrandView from '../pages/dashBoard/Brandview/BrandView';
 import CustomerView from '../pages/dashBoard/CustomerView/CustomerView';
 import SupplierView from '../pages/dashBoard/SupplierView/SupplierView';
+import Addproduct from '../pages/addProduct/Addproduct';
 //public Route
 const publicRoutes = [
     { path: '/login', component: Login, layout: null },
@@ -47,6 +48,7 @@ const privateRoutes = [
     { path: '/ReportSale', component: ReportSale },
     { path: '/ReportInventory', component: ReportInventory },
     { path: '/InventoryList', component: InventoryList },
+    { path: '/Addproduct', component: Addproduct },
 ]
 
 export { publicRoutes, privateRoutes }

@@ -62,6 +62,7 @@ const ProductView = () => {
     useEffect(() => {
         RequestRouterSearch("SearchStock", "MaLK", setDataProduct)
     }, [])
+    
     const Onchangeformtable = async (event, newvalue) => { // when click and when type change event
         if (newvalue) {// click event
             // console.log(newvalue)
