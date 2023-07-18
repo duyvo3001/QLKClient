@@ -10,15 +10,14 @@ function UpdateAccess(props) {
     const { HandleChange, Data } = props
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    const updatevalue = Boolean(Data[0]?.update === "true")
-    const createvalue = Boolean(Data[0]?.create === "true")
-    const deletevalue = Boolean(Data[0]?.valuedelete === "true")
-    const readvalue = Boolean(Data[0]?.read === "true")
+    const updatevalue = Boolean(Data[0]?.update !== undefined ? Data[0]?.update === "true" : console.log(Data));
+    const createvalue = Boolean(Data[0]?.create !== undefined ? Data[0]?.create === "true" : console.log(Data))
+    const deletevalue = Boolean(Data[0]?.valuedelete !== undefined ? Data[0]?.valuedelete === "true" : console.log(Data))
+    const readvalue = Boolean(Data[0]?.read !== undefined ? Data[0]?.read === "true" : console.log(Data))
     return (
         <>
             <Button variant="success" onClick={handleShow} size="sm">
-                <MdOutlineManageAccounts/>
+                <MdOutlineManageAccounts />
             </Button>
 
             <Modal show={show} onHide={handleClose}>

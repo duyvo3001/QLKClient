@@ -45,7 +45,7 @@ const UserView = () => {
                                 SDT: key?.SDT,
                                 Email: key?.Email,
                                 NgayTao: key?.NgayTao,
-                                accessrights: key?.accessrights,
+                                AccessRight: key?.AccessRight,
                                 pass_nv :key?.pass_nv
                             }
                         )

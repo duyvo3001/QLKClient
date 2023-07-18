@@ -145,7 +145,7 @@ const TBodytable = (props) => {
 
     }
     function RenderAccess(Data, ID) {
-        return Data?.data?.result
+        const test =  Data?.data?.result !== undefined ? Data?.data?.result
             ?.filter((key) => {
                 if (key?._id === ID) {
                     return key
@@ -154,8 +154,11 @@ const TBodytable = (props) => {
             ?.map((key) => {
                 return key?.AccessRight
             }
-            )
-
+            ) :  Data[0].AccessRight
+            console.log("check",Data)
+            console.log(test)
+            console.log("=========================================================")
+            return test
     }
     const datatable = Data?.data?.result !== undefined ? Data?.data?.result?.map(key =>
         <tr>
