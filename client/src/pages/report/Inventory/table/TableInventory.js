@@ -1,12 +1,13 @@
 import React from 'react'
 import Table from "react-bootstrap/Table";
 
-const TableInventory = () => {
+const TableInventory = (props) => {
+    const {DataProduct} = props
     return (
         <>
             <Table>
                 <THeadtable />
-                <TBodytable />
+                <TBodytable DataProduct={DataProduct} />
             </Table>
         </>
     )
@@ -17,21 +18,38 @@ const THeadtable = () => {
             <tr>
                 <th>ID Product</th>
                 <th>Name Product</th>
-                <th>Name Product</th>
+                <th>Color</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Retail price</th>
+                <th>Day Import</th>
+                <th>Stock status</th>
+                <th>Action</th>
             </tr>
         </thead>
     )
 }
 
-const TBodytable = () => {
-    return (
-        <tbody>
-            <tr>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
+const TBodytable = (props) => {
+    const {DataProduct} = props
+
+    const datatable = DataProduct.map((key) => 
+    (
+        <tr>
+                <td>{key.MaLK}</td>
+                <td>{key.TenLK}</td>
+                <td>{key.Color}</td>
+                <td>{key.Donvi}</td>
+                <td>{key.Soluong}</td>
+                <td>{key.GiaBanLe}</td>
+                <td>{key.NgayNhap}</td>
+                <td>{key.TinhTrangHang}</td>
+                <td></td>
             </tr>
-        </tbody>
+    )
+    )
+    return (
+        <tbody>{datatable}</tbody>
     )
 }
 export default TableInventory

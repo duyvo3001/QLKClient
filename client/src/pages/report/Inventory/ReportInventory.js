@@ -1,15 +1,17 @@
 import { useEffect, React, useState } from 'react'
 import { BarChart } from '@mui/x-charts/BarChart';
 import Container from "react-bootstrap/Container";
-import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material';
 import Request from "../../../api/Request";
+import TableInventory from './table/TableInventory';
+import ButtonBottom from '../../Import/buttonBot/buttonBottom';
 
-const pData = [1000, 6000, 3000, 4780, 2890, 5390, 5390];
+
+const pData = [1000, 6000, 3000, 4780, 2890, 5390, 5390, 3000, 4780, 2890, 5390, 5390];
+
 const Month = [
     'January',
     'February',
@@ -38,81 +40,54 @@ function WeeklyReport() {
             width={900}
             height={400}
             series={[
-                { data: pData, label: 'Import', id: 'pvId' },
+                { data: pData, label: '2020', id: 'pvId' },
             ]}
-            xAxis={[{ data: Day, scaleType: 'band' }]}
+            xAxis={[{ data: Month, scaleType: 'band' }]}
         />
     );
 }
 const ReportInventory = () => {
+    const [filters, setfilters] = useState({
+        page: 1,
+    });
+    const [pageindex, setpageindex] = useState({
+        page: 1,
+    });
+    const HandleButtonClick = (newPage) => {
+        setfilters({
+            ...filters,
+            page: newPage,
+        });
+        setpageindex({ ...pageindex, page: newPage });
+    };
+    const [getarrYear, setarrYear] = useState([])
     const [DataProduct, setDataProduct] = useState([]) //state dataProduct
-    const [searchBox, setsearchBox] = useState([]) //state dataProduct
-    function RequestRouterSearch(Url, keyName, SetData) {
-        Request
-            .get(`/${Url}`,
-                { headers: { Authorization: sessionStorage.getItem("access_token") } })
-            .then((response) => {
-                const object = []
-                if (Url === "SearchStock") {
-                    response?.data?.result?.map((key, index) => {
-                        return object.push(
-                            {
-                                index,
-                                label: key?.[keyName],
-                                key: keyName,
-                                _id: key._id,
-                                MaLK: key.MaLK,
-                                Color: key.Color,
-                                Donvi: key.Donvi,
-                                MaNCC: key.MaNCC,
-                                MaThuongHieu: key.MaThuongHieu,
-                                TinhTrangHang: key.TinhTrangHang,
-                                GiaBanLe: key?.GiaBanLe,
-                                Soluong: key?.Soluong,
-                                TenLK: key?.TenLK,
-                                NgayNhap: key?.NgayNhap
-                            }
-                        )
-                    })
-                }
-                else {
-                    response?.data?.result?.map((key) => {
-                        return object.push({ label: key?.[keyName], key: keyName })
-                    })
-                }
-                SetData(object)
-            })
-            .catch((error) => { console.log(error) })
+    const [datayear, setdatayear] = useState(null)
+    const getYearAutocomplete = () => {
+        const currentYear = new Date().getFullYear();
+        const Year2002 = 2020
+        let arrYear = []
+        for (let i = Year2002; i <= currentYear; i++) {
+            arrYear.push({ label: i.toString() });
+        }
+        setarrYear(arrYear)
     }
-
     useEffect(() => {
-        RequestRouterSearch("SearchStock", "MaLK", setDataProduct)
+        getYearAutocomplete()
     }, [])
+    useEffect(() => {
+        const _year = datayear || new Date().getFullYear()
+        Request
+            .get(`/inventoryReport/${_year}`,
+                { headers: { Authorization: sessionStorage.getItem("access_token") } })
+            .then((response) => { setDataProduct(response.data.result) })
+            .catch((error) => { console.log(error) })
+
+    }, [datayear])
 
     const Onchangeformtable = async (event, newvalue) => { // when click and when type change event
-        if (newvalue) {// click event
-            // console.log(newvalue)
-            setsearchBox([newvalue])
-        }
+        setdatayear(newvalue.label)
     }
-    const OnCloseAuto = (event, newvalue) => {
-        if (newvalue === "") {
-            setsearchBox([])
-        }
-    }
-    const top100Films = [
-        { label: 'January', },
-        { label: 'February', },
-        { label: 'March', },
-        { label: 'April', },
-        { label: 'June', },
-        { label: 'July', },
-        { label: 'August', },
-        { label: 'September', },
-        { label: 'October', },
-        { label: 'November', },
-        { label: 'December', },
-    ];
     return (
         <>
             <Container fluid="xxl">
@@ -128,47 +103,22 @@ const ReportInventory = () => {
                             id="test"
                             fullWidth={true}
                             size="small"
-                            options={DataProduct}
+                            options={getarrYear}
                             sx={{ width: 200 }}
                             onChange={Onchangeformtable}
-                            onInputChange={OnCloseAuto}
                             name={"ID"}
                             renderInput={
                                 (params) => <TextField {...params}
-                                    label="Search product"
-                                    name={"Product"}
+                                    label="Search year"
+                                    name={"year"}
                                 />
                             }
                         /></Col>
-                    {/* <Col md={2} sm={4} lg={2}>
-                        <Autocomplete
-                            la
-                            disablePortal
-                            fullWidth={true}
-                            id="MaThuongHieu"
-                            size="small"
-                            options={top100Films}
-                            sx={{ width: 150 }}
-                            name="MaThuongHieu"
-                            renderInput={(params) => <TextField {...params} label="Month" name="MaThuongHieu" />}
-                        /></Col>
-                     <Col md={2} sm={4} lg={2}>
-                        <Autocomplete
-                            la
-                            disablePortal
-                            fullWidth={true}
-                            id="MaThuongHieu"
-                            size="small"
-                            options={top100Films}
-                            sx={{ width: 150 }}
-                            name="MaThuongHieu"
-                            renderInput={(params) => <TextField {...params} label="Month" name="MaThuongHieu" />}
-                        /></Col> */}
-                </Row>
-
-                <Row >
                 </Row>
                 <WeeklyReport />
+                <TableInventory DataProduct={DataProduct} />
+                <ButtonBottom pageindex={pageindex}
+                    HandleButtonClick={HandleButtonClick} />
             </Container>
         </>
     )
