@@ -36,6 +36,7 @@ const ProductView = () => {
                                 key: keyName,
                                 _id: key._id,
                                 MaLK: key.MaLK,
+                                MaKho : key.MaKho,
                                 Color: key.Color,
                                 Donvi: key.Donvi,
                                 MaNCC: key.MaNCC,

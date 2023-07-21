@@ -18,13 +18,14 @@ const THeadtable = () => {
             <tr>
                 <th>ID Product</th>
                 <th>Name Product</th>
+                <th>ID Warehouse</th>
                 <th>Color</th>
                 <th>Unit</th>
                 <th>Quantity</th>
                 <th>Retail price</th>
                 <th>Day Import</th>
                 <th>Stock status</th>
-                <th>Action</th>
+                {/* <th>Action</th> */}
             </tr>
         </thead>
     )
@@ -38,13 +39,14 @@ const TBodytable = (props) => {
         <tr>
                 <td>{key.MaLK}</td>
                 <td>{key.TenLK}</td>
+                <td>{key.MaKho}</td>
                 <td>{key.Color}</td>
                 <td>{key.Donvi}</td>
                 <td>{key.Soluong}</td>
-                <td>{key.GiaBanLe}</td>
+                <td>{key.GiaBanLe.toLocaleString()}</td>
                 <td>{key.NgayNhap}</td>
                 <td>{key.TinhTrangHang}</td>
-                <td></td>
+                {/* <td></td> */}
             </tr>
     )
     )

@@ -18,7 +18,7 @@ const PaidOrderPage = () => {
         CreateOrder: false,
         Print: true
     })
-    const [getID , setID] = useState(null)
+    const [getID, setID] = useState(null)
     const [DataCustomer, setDataCustomer] = useState([]) //state.dataCustomer
     const [DataProduct, setDataProduct] = useState([]) //state.dataProduct
     const [formData, setFormData] = useState({}) //state formdata to request server
@@ -174,6 +174,12 @@ const PaidOrderPage = () => {
         }
 
         Render.map((key) => { // check empty the Name Product
+            if (key.Qty == "0") {
+                setShow({
+                    valueShow: true,
+                    message: "Out of stock :" + " " +key.NameProduct
+                })
+            }
             if (key.NameProduct === "") {
                 setShow({
                     valueShow: true,
@@ -183,52 +189,52 @@ const PaidOrderPage = () => {
             }
         })
 
-        if (checkErr === true) {
-            Request.post('/PaidOrder',
-                {
-                    formData, Render
-                },
-                {
-                    headers: { 'Authorization': sessionStorage.getItem("access_token") }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        setDisount(0)
-                       console.log(response);
-                        setFormData({})
-                        setSuccess({
-                            valueShow: true,
-                            message: response.data.message
-                        })
-                        setPaid({
-                            CreateOrder: true,
-                            Print: false
-                        })
-                        setID(response.data.ID)
-                        const inputFields = [
-                            'searchCustomer',
-                            'search1',
-                            'Quantity1',
-                            'Rate1',
-                            'GrossAmount',
-                            'Vat',
-                            'Discount',
-                            'DisplayDiscount',
-                            'NetAmount'
-                        ];
+        // if (checkErr === true) {
+        //     Request.post('/PaidOrder',
+        //         {
+        //             formData, Render
+        //         },
+        //         {
+        //             headers: { 'Authorization': sessionStorage.getItem("access_token") }
+        //         })
+        //         .then(response => {
+        //             if (response.status === 200) {
+        //                 setDisount(0)
+        //                console.log(response);
+        //                 setFormData({})
+        //                 setSuccess({
+        //                     valueShow: true,
+        //                     message: response.data.message
+        //                 })
+        //                 setPaid({
+        //                     CreateOrder: true,
+        //                     Print: false
+        //                 })
+        //                 setID(response.data.ID)
+        //                 const inputFields = [
+        //                     'searchCustomer',
+        //                     'search1',
+        //                     'Quantity1',
+        //                     'Rate1',
+        //                     'GrossAmount',
+        //                     'Vat',
+        //                     'Discount',
+        //                     'DisplayDiscount',
+        //                     'NetAmount'
+        //                 ];
 
-                        inputFields.forEach((fieldName) => {
-                            const elements = document.getElementsByName(fieldName);
-                            if (elements.length > 0) {
-                                elements[0].value = "";
-                            }
-                        });
-                    }
-                })
-                .catch(err => {
-                    console.error("err", err);
-                })
-        }
+        //                 inputFields.forEach((fieldName) => {
+        //                     const elements = document.getElementsByName(fieldName);
+        //                     if (elements.length > 0) {
+        //                         elements[0].value = "";
+        //                     }
+        //                 });
+        //             }
+        //         })
+        //         .catch(err => {
+        //             console.error("err", err);
+        //         })
+        // }
     }
     return (
         <>
@@ -303,7 +309,7 @@ const PaidOrderPage = () => {
                                 Creare Order
                             </div>
                         </Button>
-                        <Button variant='warning' hidden={Paid.Print} href={'Invoice' + "/" + getID }>Print</Button>
+                        <Button variant='warning' hidden={Paid.Print} href={'Invoice' + "/" + getID}>Print</Button>
                         <Button variant='primary' hidden={Paid.Print} href='/PaidOrderPage'>New Order</Button>
                     </Col>
                 </Row>
