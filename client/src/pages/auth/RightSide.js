@@ -1,5 +1,5 @@
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import React from 'react'
 import Container from 'react-bootstrap/esm/Container'
 import classnames from 'classnames/bind'
@@ -9,13 +9,18 @@ import Stack from 'react-bootstrap/Stack';
 import Request from '../../api/Request.js'
 import { AuthContext } from "../../context/AuthContext.js";
 import Alert from 'react-bootstrap/Alert';
-
+import PropTypes from 'prop-types';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import { Navigate } from 'react-router-dom';
 import * as style from './Login.module.scss'
 const cx = classnames.bind(style)
 
 const RightSide = () => {
   const { setIsAuthenticated } = useContext(AuthContext);
+
+  const [propresslogin, setProgress] = useState(true)
 
   const [formData, setFormData] = useState({});
 
@@ -26,21 +31,31 @@ const RightSide = () => {
     message: "hello world"
   });
 
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    Request.post('/signin', { formData }, { headers: { 'Authorization': sessionStorage.getItem("access_token") } },
-    )
-      .then((res) => {
-        if (res.status === 200) {
-          sessionStorage.setItem('access_token', res.data.access_token);
+  const handleSubmit = () => {
+    // event.preventDefault();
+    Request
+      .post('/signin',
+        { formData },
+        { headers: { 'Authorization': sessionStorage.getItem("access_token") } },
+      )
+      .then(response => {
+        console.log(response)
+        if (response.status === 200) {
+          sessionStorage.setItem('access_token', response.data.access_token);
+          setProgress(false)
           setLoggedIn(true);
           setIsAuthenticated(true);
+        }
+        else {
+          setShow({
+            valueShow: true,
+            message: response?.data?.message
+          })
         }
       })
       .catch(error => {
@@ -89,6 +104,41 @@ const RightSide = () => {
       );
     }
   }
+  function LinearProgressWithLabel(props) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ width: '100%', mr: 1 }}>
+          <LinearProgress variant="determinate" {...props} />
+        </Box>
+        <Box sx={{ minWidth: 35 }}>
+          <Typography variant="body2" color="text.secondary" hidden={propresslogin}>{`${Math.round(
+            props.value,
+          )}%`}</Typography>
+        </Box>
+      </Box>
+    );
+  }
+  LinearProgressWithLabel.propTypes = {
+    value: PropTypes.number.isRequired,
+  };
+  function LinearWithValueLabel() {
+    const [progress, setProgress] = React.useState(10);
+
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 8));
+      }, 2000);
+      return () => {
+        clearInterval(timer);
+      };
+    }, []);
+
+    return (
+      <Box sx={{ width: '100%' }}>
+        <LinearProgressWithLabel value={progress} hidden={propresslogin} />
+      </Box>
+    );
+  }
   return (
     <Container className={cx('body1')}>
 
@@ -96,7 +146,7 @@ const RightSide = () => {
         <section>
           <AlertDismissible />
           <h1 className="justify-content-md-center">SIGN IN</h1>
-          <Form onSubmit={handleSubmit} >
+          <Form >
             <Form.Control
               placeholder="User Name"
               name="user_nv"
@@ -115,9 +165,17 @@ const RightSide = () => {
               className="mb-3"
             />
             <Stack className="col-md-7 mx-auto d-flex">
-              <Button type='submit' variant="outline-primary">LOG IN</Button>
+              <Button type='button' onClick={handleSubmit} variant="outline-primary">LOG IN</Button>
             </Stack>
+            <div className="mb-3">
+              <p>Account : admin  </p>
+              <p>Password : admin123</p>
+            </div>
           </Form>
+          <div>
+            <p hidden={propresslogin}>Please wait this may take some time</p>
+            <LinearWithValueLabel />
+          </div>
         </section>
       </div>
 
