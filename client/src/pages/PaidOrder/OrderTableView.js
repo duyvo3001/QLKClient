@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/esm/Button';
 const OrderTableView = (props) => {
     const { filters, searchBox } = props;
     return (
-        <Table striped bordered hover>
+        <Table hover>
             <THeadtable />
             <TBodytable searchBox={searchBox} filters={filters} />
         </Table>
@@ -24,6 +24,7 @@ const THeadtable = () => {
                 <th>Customer</th>
                 <th>Discount</th>
                 <th>Total Product - Qty</th>
+                <th>Net Amount</th>
                 <th>Date</th>
                 <th>Action</th>
             </tr>
@@ -41,10 +42,6 @@ const TBodytable = (props) => {
         else
             RequestRenderTable(filters, setData, "HomePaid");
     }, [filters,searchBox]);
-
-    function deletePaid(IDPaidOrder, DeleteOrder, RequestRenderTable, filters, setData, HomePaid) {
-        HandleDelete(IDPaidOrder, DeleteOrder, RequestRenderTable, filters, setData, HomePaid)
-    }
 
     const datatable = Data?.data?.result !== undefined ? Data?.data.result?.map((key) => (
         <tr>
@@ -76,7 +73,12 @@ const TBodytable = (props) => {
             </td>
             <td>
                 <div className={key._id}>
-                    {key.Date}{" "}
+                    {key.NetAmount?.toLocaleString()}{" "}
+                </div>
+            </td>
+            <td>
+                <div className={key._id}>
+                    {key.Date?.toLocaleString()}{" "}
                 </div>
             </td>
             <td>

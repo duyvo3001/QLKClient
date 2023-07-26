@@ -38,6 +38,7 @@ const RightSide = () => {
 
   const handleSubmit = () => {
     // event.preventDefault();
+    setProgress(false)
     Request
       .post('/signin',
         { formData },
@@ -47,7 +48,6 @@ const RightSide = () => {
         console.log(response)
         if (response.status === 200) {
           sessionStorage.setItem('access_token', response.data.access_token);
-          setProgress(false)
           setLoggedIn(true);
           setIsAuthenticated(true);
         }
@@ -83,7 +83,8 @@ const RightSide = () => {
             message: "Login failed"
           })
         }
-      });
+      })
+     
   };
 
   if (loggedIn) {
@@ -126,8 +127,8 @@ const RightSide = () => {
 
     useEffect(() => {
       const timer = setInterval(() => {
-        setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 8));
-      }, 2000);
+        setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 10));
+      }, 3000);
       return () => {
         clearInterval(timer);
       };
@@ -173,7 +174,7 @@ const RightSide = () => {
             </div>
           </Form>
           <div>
-            <p hidden={propresslogin}>Please wait this may take some time</p>
+            <p hidden={propresslogin}>Please wait this may take some time to boost server</p>
             <LinearWithValueLabel />
           </div>
         </section>

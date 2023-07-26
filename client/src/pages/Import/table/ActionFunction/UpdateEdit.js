@@ -18,6 +18,8 @@ class serviceUrl {
                 return new serviceUrl('/UpdateCustomer', "CustomerPage")
             case "User":
                 return new serviceUrl('/updateUser', "StaffPage")
+            case "Category":
+                return new serviceUrl('/updateCategory', "CategoryPage")
         }
     }
 }
@@ -69,4 +71,4 @@ const UpdateEditUser = (_id, formData, AccessRight, setIdItem, CancelEdit, Reque
             console.error(error);
         });
 }
-export { UpdateEdit ,UpdateEditUser}
+export { UpdateEdit, UpdateEditUser }

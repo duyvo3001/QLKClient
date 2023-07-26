@@ -12,9 +12,9 @@ const TableInvoice = (props) => {
   const { DataProduct } = props
 
   return (
-    <Table bordered>
+    <Table>
       <THeadtable />
-      <TBodytable borderless DataProduct={DataProduct} />
+      <TBodytable DataProduct={DataProduct} />
     </Table>
   )
 }
@@ -42,10 +42,9 @@ const TBodytable = (props) => {
       <td>{(key?.GiaBanLe * key?.Qty)?.toLocaleString()}</td>
     </tr>
   ))
-  // console.log(DataProduct)
+ 
   return (
-    <tbody>{datatable}
-    </tbody>
+    <tbody>{datatable}</tbody>
   )
 }
 const Invoice = () => {

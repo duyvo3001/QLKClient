@@ -18,7 +18,7 @@ const cx = classnames.bind(style);
 function TableCustomer(props) {
     const { filters, valuehidden, searchBox } = props;
     return (
-        <Table striped bordered hover>
+        <Table hover>
             <THeadtable valuehidden={valuehidden} />
             <TBodytable filters={filters} searchBox={searchBox} valuehidden={valuehidden} />
         </Table>

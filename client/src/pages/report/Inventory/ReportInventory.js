@@ -1,5 +1,4 @@
 import { useEffect, React, useState } from 'react'
-// import { BarChart } from '@mui/x-charts/BarChart';
 import Container from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,10 +6,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Request from "../../../api/Request";
 import TableInventory from './table/TableInventory';
+import Button from 'react-bootstrap/esm/Button';
 // import ButtonBottom from '../../Import/buttonBot/buttonBottom';
-
-
-// const pData = [1000, 6000, 3000, 4780, 2890, 5390, 5390, 3000, 4780, 2890, 5390, 5390];
 
 const Month = [
     { data: 1, label: 'January' },
@@ -26,38 +23,29 @@ const Month = [
     { data: 11, label: 'November' },
     { data: 12, label: 'December ' },
 ];
-// const Day = [
-//     'Monday',
-//     'Tuesday',
-//     'Wednesday',
-//     'Thursday',
-//     'Friday',
-//     'Saturday',
-//     'Sunday'
-// ]
-// function WeeklyReport() {
-//     return (
-//         <BarChart
-//             width={900}
-//             height={400}
-//             series={[
-//                 { data: pData, label: '2020', id: 'pvId' },
-//             ]}
-//             xAxis={[{ data: Month, scaleType: 'band' }]}
-//         />
-//     );
-// }
+const Stockstatus = [
+    { key: "Stockstatus", label: 'GOOD' },
+    { key: "Stockstatus", label: 'BAD' },
+    { key: "Stockstatus", label: 'CANCEL' }
+];
 const ReportInventory = () => {
-    const [getarrYear, setarrYear] = useState([])
+    const [DataBrand, setDataBrand] = useState([])
+    const [DataCategory, setDataCategory] = useState([])
+    const [DataWarehouse, setDataWarehouse] = useState([]);
     const [DataProduct, setDataProduct] = useState([]) //state dataProduct
-    const [datayear, setdatayear] = useState(null)
-    const [datamonth, setdatamonth] = useState(null)
+    const [formData, setFormData] = useState({
+        MaThuongHieu: "",
+        Category: "",
+        MaKho: "",
+        TinhTrangHang: "",
+    });
     const [filters, setfilters] = useState({
         page: 1,
     });
     const [pageindex, setpageindex] = useState({
         page: 1,
     });
+
     const HandleButtonClick = (newPage) => {
         setfilters({
             ...filters,
@@ -65,44 +53,87 @@ const ReportInventory = () => {
         });
         setpageindex({ ...pageindex, page: newPage });
     };
-    const getYearAutocomplete = () => {
-        const currentYear = new Date().getFullYear();
-        const Year2002 = 2020
-        let arrYear = []
-        for (let i = Year2002; i <= currentYear; i++) {
-            arrYear.push({ label: i.toString() });
-        }
-        setarrYear(arrYear)
-    }
 
+    function RequestRouterSearch(Url, keyName, SetData) {
+        Request
+            .get(`/${Url}`,
+                { headers: { Authorization: sessionStorage.getItem("access_token") } })
+            .then((response) => {
+                const object = []
+                response?.data?.result?.map((key) => {
+                    return object.push({ label: key?.[keyName], key: keyName })
+                })
+                SetData(object)
+            })
+            .catch((error) => { console.log(error) })
+    }
     useEffect(() => {
-        getYearAutocomplete()
+        RequestRouterSearch("SearchCategory", "Category", setDataCategory)
+        RequestRouterSearch("SearchBrand", "MaThuongHieu", setDataBrand)
+        RequestRouterSearch("SearchWarehouse", "MaKho", setDataWarehouse)
     }, [])
 
     useEffect(() => {
-        const _year = datayear || new Date().getFullYear()
-        const _month = datamonth || 0
         Request
-            .get(`/inventoryReport/${_year}/${_month}`,
+            .post(`/inventoryReport`,
+                { formData },
                 { headers: { Authorization: sessionStorage.getItem("access_token") } })
             .then((response) => { setDataProduct(response.data.result) })
             .catch((error) => { console.log(error) })
 
-    }, [datayear, datamonth])
+    }, [formData])
 
-    const OnchangeYeartable = async (event, newvalue) => { // when click and when type change event
-        setdatayear(newvalue.label)
-    }
-
-    const OnchangeMonthtable = async (event, newvalue) => { // when click and when type change event
-        console.log(newvalue.data)
-        setdatamonth(newvalue.data)
-    }
-    const OnCloseAuto = (event, newvalue) => {
-        if (newvalue === "") {
-            setdatamonth(0)
+    const HandleChange = (event, newvalue) => {
+        if (newvalue) {
+            switchUpdate(newvalue)
         }
     }
+
+    function switchUpdate(newvalue) {
+        switch (newvalue?.key || newvalue) {
+            case "MaThuongHieu":
+                updatePrestaste("MaThuongHieu", newvalue)
+                break;
+            case "Category":
+                updatePrestaste("Category", newvalue)
+                break;
+            case "MaKho":
+                updatePrestaste("MaKho", newvalue)
+                break;
+            default:
+                updatePrestaste("TinhTrangHang", newvalue)
+                break;
+        }
+    }
+
+    function updatePrestaste(params, newvalue) {
+        setFormData(prevState => ({
+            ...prevState,
+            [params]: newvalue?.label || ""
+        }));
+    }
+
+    const MaKhoOnclose = (event, newvalue) => {
+        if (newvalue === "") {
+            switchUpdate("MaKho")
+        }
+    }
+    const MaThuongHieuOnclose = (event, newvalue) => {
+        if (newvalue === "") {
+            switchUpdate("MaThuongHieu")
+        }
+    }
+    const CategoryOnclose = (event, newvalue) => {
+        if (newvalue === "") {
+            switchUpdate("Category")
+        }
+    }
+    const TinhTrangHangOnclose = (event, newvalue) => {
+        if (newvalue === "") {
+            switchUpdate("TinhTrangHang")
+        }
+    }
+
     return (
         <>
             <Container fluid="xxl">
@@ -112,45 +143,79 @@ const ReportInventory = () => {
                     </Col>
                 </Row>
                 <Row className='mb-2 row'>
-                    <Col md={2} sm={4} lg={2}>
+                    <Col md={5} sm={5} lg={2}>
+                        <Autocomplete
+                            fullWidth={true}
+                            loading={true}
+                            disablePortal
+                            id="MaKho"
+                            size="small"
+                            options={DataWarehouse}
+                            sx={{ width: 180 }}
+                            onChange={HandleChange}
+                            onInputChange={MaKhoOnclose}
+                            name="MaKho"
+                            renderInput={(params) => <TextField {...params} label="Ware House" name="MaKho" />}
+                        /></Col>
+                    <Col md={5} sm={5} lg={2}>
                         <Autocomplete
                             disablePortal
                             id="test"
                             fullWidth={true}
-                            size="medium"
-                            options={getarrYear}
-                            sx={{ width: 200 }}
-                            defaultValue={{ label: "2023" }}
-                            onChange={OnchangeYeartable}
+                            size="small"
+                            options={DataCategory}
+                            sx={{ width: 180 }}
+                            onChange={HandleChange}
+                            onInputChange={CategoryOnclose}
                             name={"ID"}
                             renderInput={
                                 (params) => <TextField {...params}
-                                    label="Search year"
-                                    name={"year"}
+                                    label="Category"
+                                    name={"Category"}
                                 />
                             }
                         /></Col>
-                    <Col md={2} sm={4} lg={2}>
+                    <Col md={5} sm={5} lg={2}>
                         <Autocomplete
                             disablePortal
                             id="test"
                             fullWidth={true}
-                            size="medium"
-                            options={Month}
-                            sx={{ width: 200 }}
-                            onChange={OnchangeMonthtable}
-                            onInputChange={OnCloseAuto}
-
+                            size="small"
+                            options={DataBrand}
+                            sx={{ width: 180 }}
+                            onChange={HandleChange}
+                            onInputChange={MaThuongHieuOnclose}
                             name={"ID"}
                             renderInput={
                                 (params) => <TextField {...params}
-                                    label="Search Month"
-                                    name={"Month"}
+                                    label="ID Brand"
+                                    name={"Brand"}
                                 />
                             }
                         /></Col>
+                    <Col md={5} sm={5} lg={2}>
+                        <Autocomplete
+                            disablePortal
+                            id="test"
+                            fullWidth={true}
+                            size="small"
+                            options={Stockstatus}
+                            sx={{ width: 180 }}
+                            onChange={HandleChange}
+                            onInputChange={TinhTrangHangOnclose}
+                            name={"ID"}
+                            renderInput={
+                                (params) => <TextField {...params}
+                                    label="Stock status"
+                                    name={"Brand"}
+                                />
+                            }
+                        /></Col>
+                        <Col md={5} sm={5} lg={2}>
+                            <Button>Print</Button>
+                        </Col>
                 </Row>
-                {/* <WeeklyReport /> */}
+
                 <TableInventory DataProduct={DataProduct} />
                 {/* <ButtonBottom pageindex={pageindex}
                     HandleButtonClick={HandleButtonClick} /> */}

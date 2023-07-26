@@ -30,6 +30,7 @@ const ImportStock = () => {
   });
 
   const [DataBrand, setDataBrand] = useState([])
+  const [DataCategory, setDataCategory] = useState([])
   const [DataWarehouse, setDataWarehouse] = useState([]);
   const [DataSupplier, setDataSupplier] = useState([]);
 
@@ -42,7 +43,7 @@ const ImportStock = () => {
       setFormData({ ...formData, [name]: value });
     }
   };
-  // const HandleSelection = (event, value) =>{console.log(value);
+
   //   setSelected(value);}
   const HandleData = (event) => {
     event.preventDefault();
@@ -120,6 +121,7 @@ const ImportStock = () => {
   }
   useEffect(() => {
 
+    RequestRouterSearch("SearchCategory", "Category", setDataCategory)
     RequestRouterSearch("SearchBrand", "MaThuongHieu", setDataBrand)
     RequestRouterSearch("SearchWarehouse", "MaKho", setDataWarehouse)
     RequestRouterSearch("SearchSupplier", "MaNCC", setDataSupplier)
@@ -162,19 +164,18 @@ const ImportStock = () => {
         <h4 className="mb-3">Import : Product</h4>
         <Form onSubmit={HandleData}>
           <Row className='mb-2 row'>
-            <Col md={2}><Form.Label column="sm">ID Product</Form.Label></Col>
+            <Col md={2}><Form.Label column="sm">Category</Form.Label></Col>
             <Col md={4}>
-              <TextField
+              <Autocomplete
+                disablePortal
                 fullWidth={true}
-                id="outlined-number"
-                type="text"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                name="MaLK"
+                id="IDCategory"
+                size="small"
+                options={DataCategory}
                 sx={{ width: 350 }}
                 onChange={HandleChange}
-                size="small"
+                name="IDCategory"
+                renderInput={(params) => <TextField {...params} onChange={HandleChange} name="IDCategory" />}
               /></Col>
             <Col md={2}><Form.Label column="sm">Name Product</Form.Label></Col>
             <Col md={4}>
@@ -291,6 +292,7 @@ const ImportStock = () => {
                 disablePortal
                 id="combo-box-demo"
                 size="small"
+                defaultValue={{ label: "GOOD", key: "TinhTrangHang" }}
                 options={StatusProduct}
                 sx={{ width: 350 }}
                 onChange={HandleChange}

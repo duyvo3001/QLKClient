@@ -16,7 +16,7 @@ const cx = classnames.bind(style);
 const TableWareHouse = (props) => {
     const { filters, valuehidden, searchBox } = props;
     return (
-        <Table striped bordered hover>
+        <Table hover>
             <THeadtable valuehidden={valuehidden} />
             <TBodytable searchBox={searchBox} filters={filters} valuehidden={valuehidden} />
         </Table>

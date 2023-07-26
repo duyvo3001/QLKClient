@@ -16,7 +16,7 @@ import { MdOutlineCancel } from 'react-icons/md';
 const TableUser = (props) => {
     const { filters, valuehidden, searchBox } = props;
     return (
-        <Table striped bordered hover>
+        <Table hover>
             <THeadtable valuehidden={valuehidden} />
             <TBodytable filters={filters} valuehidden={valuehidden} searchBox={searchBox} />
         </Table>

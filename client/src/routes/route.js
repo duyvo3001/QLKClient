@@ -14,19 +14,21 @@ import InventoryList from '../pages/inventory/InventoryList';
 import PaidOrderPage from '../pages/PaidOrder/PaidOrderPage';
 import PaidView from '../pages/dashBoard/PaidView/PaidView';
 import Invoice from '../pages/PaidOrder/Invoice';
-import ReportPage from '../pages/report/ReportPage';
 import ReportSale from '../pages/report/Sales/ReportSale';
 import ReportInventory from '../pages/report/Inventory/ReportInventory';
 import BrandView from '../pages/dashBoard/Brandview/BrandView';
 import CustomerView from '../pages/dashBoard/CustomerView/CustomerView';
 import SupplierView from '../pages/dashBoard/SupplierView/SupplierView';
-import Addproduct from '../pages/addProduct/Addproduct';
+import CategoryPage from '../pages/Category/CategoryPage';
+import OutOfStockPage from '../pages/report/Outofstock/OutOfStockPage';
+
+
 //public Route
 const publicRoutes = [
     { path: '/login', component: Login, layout: null },
     { path: '*', component: ErorPage }
 ]
-
+//pivate Route
 const privateRoutes = [
     { path: '/', component: DashBoard },
     { path: '/importBrand', component: ImportBrand },
@@ -36,7 +38,6 @@ const privateRoutes = [
     { path: '/UserPage', component: UserPage },
     { path: '/customerPage', component: ImportCustomer },
     { path: '/PaidOrderPage', component: PaidOrderPage },
-    { path: '/ReportPage', component: ReportPage },
     { path: '/ProductView', component: ProductView },
     { path: '/BrandView', component: BrandView },
     { path: '/CustomerView', component: CustomerView },
@@ -48,7 +49,8 @@ const privateRoutes = [
     { path: '/ReportSale', component: ReportSale },
     { path: '/ReportInventory', component: ReportInventory },
     { path: '/InventoryList', component: InventoryList },
-    { path: '/Addproduct', component: Addproduct },
+    { path: '/Category', component: CategoryPage },
+    { path: '/ReportOutOfStock', component: OutOfStockPage },
 ]
 
 export { publicRoutes, privateRoutes }

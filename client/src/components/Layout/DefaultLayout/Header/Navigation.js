@@ -26,7 +26,7 @@ const Navigation = () => {
             <DropdownWareHouse />
             <DropdownPaidOrder />
             <DropdownUser />
-            <Nav.Link href="/ReportPage">Report</Nav.Link>
+            <DropdownReport/>
             <DropdownSetting />
           </Nav>
         </Navbar.Collapse>
@@ -51,10 +51,16 @@ const DropdownProduct = () => {
   return <NavDropdown title="Product" id="basic-nav-dropdown1" >
     <NavDropdown.Item href="/ImportStock">Import Product</NavDropdown.Item>
     <NavDropdown.Item href="/ProductView">Manage Product</NavDropdown.Item>
-    <NavDropdown.Item href="/Addproduct">Add Product</NavDropdown.Item>
+    <NavDropdown.Item href="/Category">Add Category</NavDropdown.Item>
   </NavDropdown>
 }
-
+const DropdownReport = () => {
+  return <NavDropdown title="Report" id="basic-nav-dropdown1" >
+    <NavDropdown.Item href="/ReportInventory">Inventory</NavDropdown.Item>
+    <NavDropdown.Item href="/ReportSale">Sales</NavDropdown.Item>
+    <NavDropdown.Item href="/ReportOutOfStock">Out of Stock</NavDropdown.Item>
+  </NavDropdown>
+}
 const DropdownBrand = () => {
   return <NavDropdown title="Brand" id="basic-nav-dropdown1" >
     <NavDropdown.Item href="/importBrand">Add Brand</NavDropdown.Item>

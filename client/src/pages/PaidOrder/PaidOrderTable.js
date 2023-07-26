@@ -48,10 +48,9 @@ const PaidOrderTable = () => {
             const text1 = event.target.id;
             const parts = text1.split("-");
             const result = parts[0];
-
+    
             // update Max QTY
             let Soluong = updateQTY(newvalue)
-
             // update Render
             await RenderTable.setRender(updateRender(result, newvalue, Soluong)); // update table Render 
 
@@ -64,10 +63,14 @@ const PaidOrderTable = () => {
     }
 
     function updateQTY(newvalue) {
-        return RenderTable.DataProduct.map((data) => {// update Qty value
-            return data?.label === newvalue?.label ? data.Soluong : 0
-        })
-            .filter((data) => data)
+        return RenderTable.DataProduct
+            .map((data) => {// update Qty value
+                return data?.label === newvalue?.label ? data?.Soluong : 0
+            })
+            .filter((data) => {
+                console.log(data)
+                return data
+            })
     }
 
     function updateRate(result, newvalue) {
@@ -99,7 +102,7 @@ const PaidOrderTable = () => {
                     ID: result,
                     NameProduct: newvalue?.label,
                     Qty: 0,
-                    MaxQty: Soluong[0]
+                    MaxQty: Soluong
                 }
             }
             else {
@@ -125,7 +128,7 @@ const PaidOrderTable = () => {
 
     return (
         <>
-            <Table striped bordered hover>
+            <Table hover>
                 <THeadtable addTable={addTable} />
                 <TBodytable DeleteTable={DeleteTable}
                     Onchangeformtable={Onchangeformtable}
@@ -154,7 +157,7 @@ const TBodytable = (props) => {
                                 fullWidth={true}
                                 size="small"
                                 options={RenderTable.DataProduct}
-                                sx={{ width: 200 }}
+                                sx={{ width: 300 }}
                                 onChange={Onchangeformtable}
                                 name={"ID" + index.ID.toString()}
                                 renderInput={
@@ -163,7 +166,7 @@ const TBodytable = (props) => {
                             />
                         </td>
                         <td>
-                            <Form.Control as="textarea" name={"nameProduct" + index.ID.toString()} disabled></Form.Control>
+                            <Form.Control as="textarea" name={"nameProduct" + index.ID.toString()} ></Form.Control>
                         </td>
                         <td>
                             <Form.Control

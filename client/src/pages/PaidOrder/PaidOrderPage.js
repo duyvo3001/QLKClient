@@ -7,7 +7,6 @@ import Form from 'react-bootstrap/Form';
 import PaidOrderTable from './PaidOrderTable';
 import Request from '../../api/Request';
 import Alert from 'react-bootstrap/Alert';
-import { MdManageAccounts } from 'react-icons/md';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
@@ -158,7 +157,6 @@ const PaidOrderPage = () => {
     useEffect(() => {
         RequestRouterSearch("SearchStockExport", "MaLK", setDataProduct)
         RequestRouterSearch("SearchCustomer", "IDCustomer", setDataCustomer)
-
     }, [])
 
     function PaidOrder() {
@@ -179,6 +177,7 @@ const PaidOrderPage = () => {
                     valueShow: true,
                     message: "Out of stock :" + " " +key.NameProduct
                 })
+                checkErr = false
             }
             if (key.NameProduct === "") {
                 setShow({
@@ -186,6 +185,8 @@ const PaidOrderPage = () => {
                     message: "don't empty the Name Product"
                 })
                 checkErr = false
+
+                
             }
         })
 
@@ -244,14 +245,6 @@ const PaidOrderPage = () => {
                         Paid Order
                     </h4></Col>
 
-                </Row>
-                <Row>
-                    <Col md={2}> <p>
-                        Total Order :
-                    </p></Col>
-                    <Col className="mb-3" md={2}> <h4>
-                        <Button href='/PaidView'><MdManageAccounts /></Button>
-                    </h4></Col>
                 </Row>
                 <Row>
                     <Col className="mb-3" md={2}>Customer ID</Col>

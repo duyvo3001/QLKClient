@@ -5,7 +5,7 @@ const InventoryList = () => {
     return (
         <>
         <h4 className="mb-3">Inventory List</h4>
-            <Table striped bordered hover>
+            <Table hover>
                 <THeadtable />
                 <TBodytable />
             </Table>

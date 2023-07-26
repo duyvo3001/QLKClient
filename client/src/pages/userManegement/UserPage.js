@@ -42,8 +42,10 @@ const UserPage = () => {
   };
 
   function updateSex(Sex) {
-    if (Sex === "Male") { setSex("Male") }
-    else { setSex("Female") }
+    if (Sex === "Male")
+      setSex("Male")
+    else
+      setSex("Female")
   }
   function updateformData(name, value) {
     if (name !== "update" && name !== "create" && name !== "delete" && name !== "read" && name !== "Sex") {
@@ -122,7 +124,7 @@ const UserPage = () => {
     });
     setpageindex({ ...pageindex, page: newPage });
   };
-  
+
   return (
     <>
       <Container>
@@ -138,7 +140,7 @@ const UserPage = () => {
           </Row>
           <Row className='mb-2 row'>
             <Col md={2}><Form.Label column="sm">Date of birth</Form.Label></Col>
-            <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="date"  name="NgaySinh" /></Col>
+            <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="date" name="NgaySinh" /></Col>
             <Col md={2}><Form.Label column="sm">User Staff</Form.Label></Col>
             <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="text" name="USER_NV" /></Col>
           </Row>
@@ -146,10 +148,10 @@ const UserPage = () => {
             <Col md={2}><Form.Label column="sm">Password</Form.Label></Col>
             <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="password" name="pass_nv" /></Col>
             <Col md={2}><Form.Label column="sm">Email</Form.Label></Col>
-            <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="email" name="Email" /></Col>           
+            <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="email" name="Email" /></Col>
           </Row>
           <Row className='mb-2 row'>
-          <Col md={2}><Form.Label column="sm">Re password</Form.Label></Col>
+            <Col md={2}><Form.Label column="sm">Re password</Form.Label></Col>
             <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="password" name="repass_nv" /></Col>
 
             <Col md={2}><Form.Label column="sm">Phone</Form.Label></Col>
@@ -164,9 +166,9 @@ const UserPage = () => {
                 onClick={HandleChange} label="update" name="update" type="checkbox" />
               <Form.Check inline isValid="true" value={AccessRight.delete}
                 onClick={HandleChange} label="delete" name="delete" type="checkbox" />
-              <Form.Check inline isValid="true"label="create" value={AccessRight.create}
+              <Form.Check inline isValid="true" label="create" value={AccessRight.create}
                 onClick={HandleChange} name="create" type="checkbox" />
-              <Form.Check inline isValid="true"label="read" value={AccessRight.read}
+              <Form.Check inline isValid="true" label="read" value={AccessRight.read}
                 onClick={HandleChange} name="read" type="checkbox" />
             </Col>
           </Row>

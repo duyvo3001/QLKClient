@@ -23,7 +23,6 @@ const THeadtable = () => {
                 <th>Unit</th>
                 <th>Quantity</th>
                 <th>Retail price</th>
-                <th>Day Import</th>
                 <th>Stock status</th>
                 {/* <th>Action</th> */}
             </tr>
@@ -36,7 +35,7 @@ const TBodytable = (props) => {
 
     const datatable = DataProduct.map((key) => 
     (
-        <tr>
+        <tr key={key.MaLK}>
                 <td>{key.MaLK}</td>
                 <td>{key.TenLK}</td>
                 <td>{key.MaKho}</td>
@@ -44,9 +43,7 @@ const TBodytable = (props) => {
                 <td>{key.Donvi}</td>
                 <td>{key.Soluong}</td>
                 <td>{key.GiaBanLe.toLocaleString()}</td>
-                <td>{key.NgayNhap}</td>
                 <td>{key.TinhTrangHang}</td>
-                {/* <td></td> */}
             </tr>
     )
     )

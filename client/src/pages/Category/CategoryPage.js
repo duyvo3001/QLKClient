@@ -1,14 +1,14 @@
-import { tableDTBrand as TableDT } from "./table/tableDTBrand";
 import { React, useEffect, useState } from "react";
-import { AlterShowSuccess, AlterShowEror } from "../../components/Alter/AlterShow";
-import Container from "react-bootstrap/Container";
-import RowCol from "./RowCol";
-import ButtonSubmit from "./ButtonSubmit";
+import { AlterShowEror ,AlterShowSuccess } from "../../components/Alter/AlterShow";
+import {CategoryTable} from "./table/CategoryTable"
+import ButtonSubmit from "../Import/ButtonSubmit";
+import ButtonBottom from "../Import/buttonBot/buttonBottom";
+import RowCol1 from "../Import/RowColOne";
 import Form from "react-bootstrap/Form";
-import Request from "../../api/Request.js";
-import ButtonBottom from '../Import/buttonBot/buttonBottom'
+import Request from "../../api/Request";
+import Container from "react-bootstrap/Container";
 
-const ImportBrand = () => {
+const CategoryPage = () => {
     const [pageindex, setpageindex] = useState({
         page: 1,
     });
@@ -34,18 +34,14 @@ const ImportBrand = () => {
         event.preventDefault();
         Request
             .post(
-                "/PostBrand",
+                "/importCategory",
                 { formData },
                 { headers: { Authorization: sessionStorage.getItem("access_token") } }
             )
             .then((response) => {
                 if (response.status === 200) {
-
-                    let text = document.getElementsByName("MaThuongHieu")
-                    let text1 = document.getElementsByName("TenThuongHieu")
+                    let text = document.getElementsByName("IDcategory")
                     text[0].value = ""
-                    text1[0].value = ""
-
                     setFormData({})
 
                     setShow({
@@ -84,23 +80,21 @@ const ImportBrand = () => {
 
     return (
         <Container>
-            <h4 className="mb-3">Import : Brand</h4>
+            <h4 className="mb-3">Import : Category</h4>
             <Form onSubmit={HandleData}>
-                <RowCol
+                <RowCol1
                     handle={HandleChange}
-                    text1="ID Brand"
-                    ID1="MaThuongHieu"
-                    text2="Name Brand"
-                    ID2="TenThuongHieu"
+                    text1="ID Category"
+                    ID1="IDcategory"
                 />
                 <ButtonSubmit />
             </Form>
             <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
             <AlterShowSuccess Show={Show} setShow={setShow} />
-            <TableDT filters={filters} valuehidden={true} />
+            <CategoryTable filters={filters} valuehidden={false} />
             <ButtonBottom pageindex={pageindex} HandleButtonClick={HandleButtonClick} />
         </Container>
     );
-};
+}
 
-export default ImportBrand;
+export default CategoryPage

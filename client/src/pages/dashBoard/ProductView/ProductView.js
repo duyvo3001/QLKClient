@@ -85,7 +85,7 @@ const ProductView = () => {
                     fullWidth={true}
                     size="small"
                     options={DataProduct}
-                    sx={{ width: 200 }}
+                    sx={{ width: 400 }}
                     onChange={Onchangeformtable}
                     onInputChange={OnCloseAuto}
                     name={"ID"}

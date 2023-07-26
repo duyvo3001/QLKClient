@@ -13,7 +13,7 @@ import { BiEdit } from "react-icons/bi";
 function TableDT(props) {
     const { filters, valuehidden, searchBox } = props;
     return (
-        <Table striped bordered hover>
+        <Table hover>
             <THeadtable valuehidden={valuehidden} />
             <TBodytable filters={filters} valuehidden={valuehidden} searchBox={searchBox} />
         </Table>
@@ -26,6 +26,7 @@ const THeadtable = (props) => {
         <thead>
             <tr>
                 <th>ID Product</th>
+                <th>Category</th>
                 <th>Name Product</th>
                 <th>ID Brand</th>
                 <th>ID Warehouse</th>
@@ -69,11 +70,14 @@ const TBodytable = (props) => {
     const datatable = Data?.data?.result !== undefined ? Data?.data?.result?.map((key) => (
         <tr key={key.MaLK}>
             <td>
+                <div>{key.MaLK}{" "}</div>
+            </td>
+            <td>
                 <div className={key._id} hidden={false}>
-                    {key.MaLK}{" "}
+                    {key?.Category}{" "}
                 </div>
                 <TextArea className={key._id + "hidden"} hidden={true}
-                    onChange={HandleChange} name="MaLK" value={key.MaLK} />
+                    onChange={HandleChange} name="Category" value={key?.Category} />
             </td>
             <td>
                 <div className={key._id} hidden={false}>
@@ -132,11 +136,9 @@ const TBodytable = (props) => {
                     onChange={HandleChange} name="GiaBanLe" value={key.GiaBanLe} />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div>
                     {key.NgayNhap}{" "}
                 </div>
-                <TextArea className={key._id + "hidden"} hidden={true}
-                    onChange={HandleChange} name="NgayNhap" value={key.NgayNhap} />
             </td>
             <td>
                 <div className={key._id} hidden={false}>
