@@ -20,11 +20,9 @@ const THeadtable = () => {
     return (
         <thead>
             <tr>
-                <th>ID Paid Order</th>
+                <th>ID Export Order</th>
                 <th>Customer</th>
-                <th>Discount</th>
                 <th>Total Product - Qty</th>
-                <th>Net Amount</th>
                 <th>Date</th>
                 <th>Action</th>
             </tr>
@@ -56,11 +54,6 @@ const TBodytable = (props) => {
                 </div>
             </td>
             <td>
-                <div className={key._id}>
-                    {key.Discount}{" "} %
-                </div>
-            </td>
-            <td>
                 <div className={key._id} >
                     <div className="scroll-bar">
                         {key.Product.map((index) => {
@@ -69,11 +62,6 @@ const TBodytable = (props) => {
                             </div>
                         })}{" "}
                     </div>
-                </div>
-            </td>
-            <td>
-                <div className={key._id}>
-                    {key.NetAmount?.toLocaleString()}{" "}
                 </div>
             </td>
             <td>
@@ -107,11 +95,6 @@ const TBodytable = (props) => {
         <td>
             <div className={key._id}>
                 {key.IDCustomer}{" "}
-            </div>
-        </td>
-        <td>
-            <div className={key._id}>
-                {key.Discount}{" "} %
             </div>
         </td>
         <td>

@@ -17,7 +17,7 @@ const THeadtable = () => {
     return (
         <thead>
             <tr>
-                <th>ID Paid Order</th>
+                <th>ID Export Order</th>
                 <th>Customer</th>
                 <th>Discount</th>
                 <th>Total Product - Qty</th>
@@ -29,7 +29,6 @@ const THeadtable = () => {
 }
 const TBodytable = (props) => {
     const { DataInvoice } = props
-    console.log(DataInvoice)
     const datatable = DataInvoice.map((key) => (
         <tr>
             <td> {key.IDPaidOrder}{" "}</td>

@@ -19,7 +19,7 @@ const ImportStock = () => {
     page: 1,
   });
   const [formData, setFormData] = useState({});
-
+  console.log(formData)
   const [Show, setShow] = useState({
     valueShow: false,
     message: ""
@@ -40,7 +40,14 @@ const ImportStock = () => {
     }
     else {
       const { name, value } = event.target;
-      setFormData({ ...formData, [name]: value });
+      console.info(name, value)
+      if (name !== "MaThuongHieu"
+        || name !== "Category"
+        || name !== "TinhTrangHang"
+        || name !== "MaNCC"
+        || name !== "MaKho") {
+        setFormData({ ...formData, [name]: value });
+      }
     }
   };
 
@@ -167,15 +174,15 @@ const ImportStock = () => {
             <Col md={2}><Form.Label column="sm">Category</Form.Label></Col>
             <Col md={4}>
               <Autocomplete
-                disablePortal
+                // disablePortal
                 fullWidth={true}
-                id="IDCategory"
+                id="Category"
                 size="small"
                 options={DataCategory}
                 sx={{ width: 350 }}
                 onChange={HandleChange}
-                name="IDCategory"
-                renderInput={(params) => <TextField {...params} onChange={HandleChange} name="IDCategory" />}
+                name="Category"
+                renderInput={(params) => <TextField {...params} onChange={HandleChange} name="Category" />}
               /></Col>
             <Col md={2}><Form.Label column="sm">Name Product</Form.Label></Col>
             <Col md={4}>
@@ -284,13 +291,14 @@ const ImportStock = () => {
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="MaKho" />}
               /></Col>
           </Row>
+
           <Row className='mb-2 row'>
             <Col md={2}><Form.Label column="sm">Product status</Form.Label></Col>
             <Col md={4}>
               <Autocomplete
                 fullWidth={true}
                 disablePortal
-                id="combo-box-demo"
+                id="TinhTrangHang"
                 size="small"
                 defaultValue={{ label: "GOOD", key: "TinhTrangHang" }}
                 options={StatusProduct}

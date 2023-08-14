@@ -1,4 +1,4 @@
-import { React, useEffect, useState, Component, useRef } from 'react'
+import { React, useEffect, useState, useRef } from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Table from "react-bootstrap/Table";
@@ -25,8 +25,6 @@ const THeadtable = () => {
         <th>ID product</th>
         <th>Name product</th>
         <th>Qyt</th>
-        <th>Price</th>
-        <th>Amount</th>
       </tr>
     </thead>
   )
@@ -38,11 +36,9 @@ const TBodytable = (props) => {
       <td>{key?.IDProduct}</td>
       <td>{key?.NameProduct}</td>
       <td>{key?.Qty}</td>
-      <td>{key?.GiaBanLe?.toLocaleString()}</td>
-      <td>{(key?.GiaBanLe * key?.Qty)?.toLocaleString()}</td>
     </tr>
   ))
- 
+
   return (
     <tbody>{datatable}</tbody>
   )
@@ -56,19 +52,11 @@ const Invoice = () => {
   }
   const [Data, setData] = useState({
     IDInvoice: "",
-    Discount: 0,
     NameCustomer: "",
     Contact: ""
   })
   const [DataProduct, setDataProduct] = useState([])
-  const [TotalAmount, setTotalAmount] = useState(
-    {
-      GrossAmount: 0,
-      Vat: 0,
-      Discount: 0,
-      NetAmount: 0
-    }
-  )
+
   const Contact = (IDCustomer) => {
     return Request
       .get(
@@ -89,12 +77,11 @@ const Invoice = () => {
       { headers: { Authorization: sessionStorage.getItem("access_token") } }
     )
       .then(async (Response) => {
-        const { IDCustomer, IDPaidOrder, Discount, Product } = Response.data.result[0]
+        const { IDCustomer, IDPaidOrder, Product } = Response.data.result[0]
         const Customer = Contact(IDCustomer)
         setData(
           {
             IDInvoice: IDPaidOrder,
-            Discount: Discount,
             NameCustomer: (await Customer).NameCustomer,
             Contact: (await Customer).Phone
           }
@@ -103,20 +90,6 @@ const Invoice = () => {
       })
       .catch()
   }, [])
-
-  useEffect(() => {
-
-    let GrossAmount = 0;
-    DataProduct.map((key) => {
-      GrossAmount += key.GiaBanLe * key.Qty
-    })
-    setTotalAmount({
-      GrossAmount: GrossAmount,
-      Vat: GrossAmount * 1 / 10,
-      Discount: GrossAmount * Data?.Discount / 100,
-      NetAmount: GrossAmount / 10 + GrossAmount - GrossAmount * Data?.Discount / 100
-    })
-  }, [DataProduct])
 
   return (
     <>
@@ -149,26 +122,6 @@ const Invoice = () => {
             <Col md={2}><p>: {Data.Contact}</p></Col>
           </Row>
           <TableInvoice DataProduct={DataProduct} />
-          <Row>
-            <Col md={7} lg={8}></Col>
-            <Col md={3} lg={2}>Gross Amount</Col>
-            <Col md={2} lg={2}>: {TotalAmount.GrossAmount?.toLocaleString()} $</Col>
-          </Row>
-          <Row>
-            <Col md={7} lg={8}></Col>
-            <Col md={3} lg={2}>Vat 10%</Col>
-            <Col md={2} lg={2}>: {TotalAmount.Vat?.toLocaleString()} $</Col>
-          </Row>
-          <Row>
-            <Col md={7} lg={8}></Col>
-            <Col md={3} lg={2}>Disount</Col>
-            <Col md={2} lg={2}>: {TotalAmount.Discount?.toLocaleString()} $</Col>
-          </Row>
-          <Row>
-            <Col md={7} lg={8}></Col>
-            <Col md={3} lg={2}><h5>Net Amount</h5></Col>
-            <Col md={2} lg={2}><h5>: {TotalAmount.NetAmount?.toLocaleString()} $</h5></Col>
-          </Row>
         </Container>
       </div>
     </>

@@ -97,9 +97,9 @@ const DropdownWareHouse = () => {
 }
 
 const DropdownPaidOrder = () => {
-  return <NavDropdown title="Paid Order" id="basic-nav-dropdown1" >
-    <NavDropdown.Item href="/PaidOrderPage">Add Paid Order</NavDropdown.Item>
-    <NavDropdown.Item href="/PaidView">Total Paid</NavDropdown.Item>
+  return <NavDropdown title="Export Order" id="basic-nav-dropdown1" >
+    <NavDropdown.Item href="/ExportOrderPage">Add Export Order</NavDropdown.Item>
+    <NavDropdown.Item href="/PaidView">Total Order</NavDropdown.Item>
   </NavDropdown>
 }
 export default Navigation

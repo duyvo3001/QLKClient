@@ -19,18 +19,13 @@ const UserPage = () => {
     page: 1,
   });
   const [formData, setFormData] = useState({});
-
-
   const [AccessRight, setAccessRight] = useState({
     update: "false",
     create: "false",
     read: "false",
     valuedelete: "false",
   })
-
   const [Sex, setSex] = useState("Male");
-
-
   const HandleChange = async (event) => {
     const { name, value } = event.target;
     const Sex = event.target.id
@@ -47,12 +42,14 @@ const UserPage = () => {
     else
       setSex("Female")
   }
+
   function updateformData(name, value) {
     if (name !== "update" && name !== "create" && name !== "delete" && name !== "read" && name !== "Sex") {
       console.log(name, value)
       setFormData({ ...formData, [name]: value });
     }
   }
+  
   function updateAccessRight(name, value) {
     switch (name) {
       case "update":

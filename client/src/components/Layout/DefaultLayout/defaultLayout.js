@@ -1,17 +1,14 @@
-import Navigation from "./Header/Navigation";
 import DashFooter from "./Footer/DashFooter";
 import React from "react";
-import "./defaultLayout.module.scss"
-// import SideBarLeft from "./Sidebar/SideBarLeft";
-
+import "./defaultLayout.scss"
+import SideBarLeft from "./Sidebar/SideBarLeft";
 
 const defaultLayout = ({ children }) => {
   return (
     <>
-      <Navigation />
-      {/* <SideBarLeft/> */}
-      <div className="container">
-        <div className="content">{children}</div>
+      <SideBarLeft />
+      <div className="maincontent" >
+        <div>{children}</div>
       </div>
       <DashFooter />
     </>

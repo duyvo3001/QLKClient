@@ -37,7 +37,6 @@ const PaidView = () => {
                                 _id: key._id,
                                 IDPaidOrder: key.IDPaidOrder,
                                 IDCustomer: key.IDCustomer,
-                                Discount: key.Discount,
                                 Product: key.Product,
                                 Date: key?.Date
                             }
@@ -66,7 +65,7 @@ const PaidView = () => {
     }
     return (
         <>
-            <h4 >Manage : Paid Order</h4>
+            <h4 >Manage : Export Order</h4>
             <div className="mb-3">
                 <Autocomplete
                     disablePortal
@@ -81,7 +80,7 @@ const PaidView = () => {
                     renderInput={
                         (params) => <TextField {...params}
                             label="Search"
-                            name={"Brand"}
+                            name={"ExportOrder"}
                         />
                     }
                 />

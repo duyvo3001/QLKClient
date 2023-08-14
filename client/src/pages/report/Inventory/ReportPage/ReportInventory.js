@@ -1,40 +1,37 @@
-import { useEffect, React, useState } from 'react'
+import { useEffect, React, useState, useRef } from 'react'
 import Container from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Request from "../../../api/Request";
-import TableInventory from './table/TableInventory';
+import ReactToPrint from 'react-to-print';
+import Request from "../../../../api/Request";
+import TableInventory from '../table/TableInventory';
 import Button from 'react-bootstrap/esm/Button';
 // import ButtonBottom from '../../Import/buttonBot/buttonBottom';
+import { useNavigate } from 'react-router-dom';
+// import SetData ,{DataContext} from '../../set_formData/SetData';
+import PrintReportInventory from '../print/PrintReportInventory';
 
-const Month = [
-    { data: 1, label: 'January' },
-    { data: 2, label: 'February' },
-    { data: 3, label: 'March' },
-    { data: 4, label: 'April' },
-    { data: 5, label: 'May' },
-    { data: 6, label: 'June' },
-    { data: 7, label: 'July' },
-    { data: 8, label: 'August' },
-    { data: 9, label: 'September' },
-    { data: 10, label: 'October' },
-    { data: 11, label: 'November' },
-    { data: 12, label: 'December ' },
-];
-const Stockstatus = [
-    { key: "Stockstatus", label: 'GOOD' },
-    { key: "Stockstatus", label: 'BAD' },
-    { key: "Stockstatus", label: 'CANCEL' }
-];
-const ReportInventory = () => {
+const DataProvider = () => {
+    // const context = useContext(DataContext);
+    // console.info(context)
+    const navigate = useNavigate();
+    const componentRef = useRef();
+    const Stockstatus = [
+        { key: "Stockstatus", label: 'GOOD' },
+        { key: "Stockstatus", label: 'BAD' },
+        { key: "Stockstatus", label: 'CANCEL' }
+    ];
     const [DataBrand, setDataBrand] = useState([])
     const [DataCategory, setDataCategory] = useState([])
     const [DataWarehouse, setDataWarehouse] = useState([]);
+    const [DataStock, setDataStock] = useState([]);
     const [DataProduct, setDataProduct] = useState([]) //state dataProduct
+
     const [formData, setFormData] = useState({
         MaThuongHieu: "",
+        MaLK: "",
         Category: "",
         MaKho: "",
         TinhTrangHang: "",
@@ -68,6 +65,7 @@ const ReportInventory = () => {
             .catch((error) => { console.log(error) })
     }
     useEffect(() => {
+        RequestRouterSearch("SearchStock", "MaLK", setDataStock)
         RequestRouterSearch("SearchCategory", "Category", setDataCategory)
         RequestRouterSearch("SearchBrand", "MaThuongHieu", setDataBrand)
         RequestRouterSearch("SearchWarehouse", "MaKho", setDataWarehouse)
@@ -80,10 +78,13 @@ const ReportInventory = () => {
                 { headers: { Authorization: sessionStorage.getItem("access_token") } })
             .then((response) => { setDataProduct(response.data.result) })
             .catch((error) => { console.log(error) })
+        console.log(formData)
+        // context?.Setformdatafunc(formData)
 
     }, [formData])
 
     const HandleChange = (event, newvalue) => {
+        console.log(newvalue)
         if (newvalue) {
             switchUpdate(newvalue)
         }
@@ -100,6 +101,9 @@ const ReportInventory = () => {
             case "MaKho":
                 updatePrestaste("MaKho", newvalue)
                 break;
+            case "MaLK":
+                updatePrestaste("MaLK", newvalue)
+                break;
             default:
                 updatePrestaste("TinhTrangHang", newvalue)
                 break;
@@ -112,7 +116,11 @@ const ReportInventory = () => {
             [params]: newvalue?.label || ""
         }));
     }
-
+    const StockOnclose = (event, newvalue) => {
+        if (newvalue === "") {
+            switchUpdate("MaLK")
+        }
+    }
     const MaKhoOnclose = (event, newvalue) => {
         if (newvalue === "") {
             switchUpdate("MaKho")
@@ -133,17 +141,33 @@ const ReportInventory = () => {
             switchUpdate("TinhTrangHang")
         }
     }
-
+    const NavigatepagePrint = (event) => {
+        navigate('/PrintInventory')
+    }
     return (
         <>
-            <Container fluid="xxl">
+            <Container>
                 <Row className='mb-2 row'>
                     <Col className="mb-3">
-                        <h4>Report Inventory</h4>
+                        <h4>Inventory Report</h4>
                     </Col>
                 </Row>
                 <Row className='mb-2 row'>
-                    <Col md={5} sm={5} lg={2}>
+                    <Col md={6} sm={12} lg={6}>
+                        <Autocomplete
+                            fullWidth={true}
+                            loading={true}
+                            disablePortal
+                            id="Product"
+                            size="small"
+                            options={DataStock}
+                            sx={{ width: 500 }}
+                            onChange={HandleChange}
+                            onInputChange={StockOnclose}
+                            name="Product"
+                            renderInput={(params) => <TextField {...params} label="Product" name="Product" />}
+                        /></Col>
+                    <Col md={6} sm={12} lg={6}>
                         <Autocomplete
                             fullWidth={true}
                             loading={true}
@@ -151,12 +175,14 @@ const ReportInventory = () => {
                             id="MaKho"
                             size="small"
                             options={DataWarehouse}
-                            sx={{ width: 180 }}
+                            sx={{ width: 190 }}
                             onChange={HandleChange}
                             onInputChange={MaKhoOnclose}
                             name="MaKho"
-                            renderInput={(params) => <TextField {...params} label="Ware House" name="MaKho" />}
+                            renderInput={(params) => <TextField {...params} label="Ware House" name="Hang" />}
                         /></Col>
+                </Row>
+                <Row className='mb-2 row'>
                     <Col md={5} sm={5} lg={2}>
                         <Autocomplete
                             disablePortal
@@ -164,7 +190,7 @@ const ReportInventory = () => {
                             fullWidth={true}
                             size="small"
                             options={DataCategory}
-                            sx={{ width: 180 }}
+                            sx={{ width: 190 }}
                             onChange={HandleChange}
                             onInputChange={CategoryOnclose}
                             name={"ID"}
@@ -182,7 +208,7 @@ const ReportInventory = () => {
                             fullWidth={true}
                             size="small"
                             options={DataBrand}
-                            sx={{ width: 180 }}
+                            sx={{ width: 190 }}
                             onChange={HandleChange}
                             onInputChange={MaThuongHieuOnclose}
                             name={"ID"}
@@ -200,7 +226,7 @@ const ReportInventory = () => {
                             fullWidth={true}
                             size="small"
                             options={Stockstatus}
-                            sx={{ width: 180 }}
+                            sx={{ width: 190 }}
                             onChange={HandleChange}
                             onInputChange={TinhTrangHangOnclose}
                             name={"ID"}
@@ -211,17 +237,52 @@ const ReportInventory = () => {
                                 />
                             }
                         /></Col>
-                        <Col md={5} sm={5} lg={2}>
-                            <Button>Print</Button>
-                        </Col>
+                    <Col md={5} sm={5} lg={2}>
+                        <ReactToPrint
+                            trigger={() => {
+                                return (<Button className='mb-3' variant='success'>Print Invoice</Button>)
+                            }}
+                            content={() => componentRef.current}
+                            documentTitle='Invoice'
+                            pageStyle='print'
+                        />
+                    </Col>
                 </Row>
-
-                <TableInventory DataProduct={DataProduct} />
                 {/* <ButtonBottom pageindex={pageindex}
                     HandleButtonClick={HandleButtonClick} /> */}
             </Container>
+            <div ref={componentRef}>
+                <div><h3>Inventory Report</h3></div>
+                <div>
+                    <Row>
+                        <Col md={2} lg={2}>Category</Col>
+                        <Col>{formData.Category}</Col>
+                    </Row>                <Row>
+                        <Col md={2} lg={2}>Brand</Col>
+                        <Col>{formData.MaThuongHieu}</Col>
+                    </Row>
+                    <Row>
+                        <Col md={2} lg={2}>Ware house</Col>
+                        <Col>{formData.MaKho}</Col>
+                    </Row>
+                    <Row>
+                        <Col md={2} lg={2}>Stock status</Col>
+                        <Col>{formData.TinhTrangHang}</Col>
+                    </Row>
+                </div>
+                <TableInventory DataProduct={DataProduct} />
+            </div>
         </>
     )
 }
-
+const ReportInventory = () => {
+    return (
+        // <SetData>
+        <>
+            <DataProvider />
+            {/* <PrintReportInventory hidden={false} /> */}
+        </>
+        // </SetData>
+    )
+}
 export default ReportInventory

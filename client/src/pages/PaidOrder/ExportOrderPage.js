@@ -3,15 +3,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/esm/Button';
-import Form from 'react-bootstrap/Form';
-import PaidOrderTable from './PaidOrderTable';
+import ExportOrderTable from './ExportOrderTable';
 import Request from '../../api/Request';
 import Alert from 'react-bootstrap/Alert';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
 export const DataOnchange = createContext(null);
-const PaidOrderPage = () => {
+const ExportOrderPage = () => {
 
     const [Paid, setPaid] = useState({
         CreateOrder: false,
@@ -21,7 +20,6 @@ const PaidOrderPage = () => {
     const [DataCustomer, setDataCustomer] = useState([]) //state.dataCustomer
     const [DataProduct, setDataProduct] = useState([]) //state.dataProduct
     const [formData, setFormData] = useState({}) //state formdata to request server
-    const [Disount, setDisount] = useState(0) //state discount 
     const [show, setShow] = useState({
         valueShow: false,
         message: ""
@@ -38,54 +36,6 @@ const PaidOrderPage = () => {
             MaxQty: 0
         }
     ])
-    useEffect(() => {
-        let GrossAmountData = 0;
-        let Giaban = 0;
-
-        Render.map((key) => {// set value of GrossAmount
-
-            if (key.NameProduct?.trim() !== "" && key.Qty !== 0) {
-                const setValue = document.getElementsByName('GrossAmount')
-                DataProduct.map((index) => {
-                    if (index.label === key.NameProduct) {
-                        Giaban = index.GiaBanLe
-                    }
-                })
-                GrossAmountData += key.Qty * Giaban
-                setValue[0].value = GrossAmountData?.toLocaleString();
-            }
-        })
-
-        if (GrossAmountData !== 0) {// set value of Vat
-            const setValue = document.getElementsByName('Vat')
-            const numberVAT = GrossAmountData / 10;
-            setValue[0].value = "+" + numberVAT?.toLocaleString();
-        }
-
-        if (Disount !== 0) {// display Discount value
-            const setValue = document.getElementsByName('DisplayDiscount')
-            const numberDiscount = GrossAmountData * Disount / 100
-            setValue[0].value = "-" + numberDiscount?.toLocaleString();
-        }
-
-        if (GrossAmountData !== 0 && Disount !== 0) { // set value of NetAmount
-            const setValue = document.getElementsByName('NetAmount')
-            const numberNetAmount = GrossAmountData / 10 + GrossAmountData - GrossAmountData * Disount / 100
-            setValue[0].value = numberNetAmount?.toLocaleString('en-CA', { useGrouping: true })
-        }
-        else {
-            const setValue = document.getElementsByName('NetAmount')
-            const numberNetAmount = GrossAmountData / 10 + GrossAmountData
-            setValue[0].value = numberNetAmount?.toLocaleString('en-CA', { useGrouping: true });
-        }
-
-    }, [Render, Disount])
-
-    const OnchangeDiscount = (event) => {
-        const { name, value } = event.target;
-        setDisount(+value)
-        setFormData({ ...formData, [name]: value });
-    }
 
     const Onchangeform = (event, newvalue) => { //get value onchange
         if (newvalue) {
@@ -171,11 +121,12 @@ const PaidOrderPage = () => {
             checkErr = false
         }
 
+        // eslint-disable-next-line array-callback-return
         Render.map((key) => { // check empty the Name Product
-            if (key.Qty == "0") {
+            if (key.Qty === "0") {
                 setShow({
                     valueShow: true,
-                    message: "Out of stock :" + " " +key.NameProduct
+                    message: `Out of stock : ${key.NameProduct}`
                 })
                 checkErr = false
             }
@@ -185,8 +136,6 @@ const PaidOrderPage = () => {
                     message: "don't empty the Name Product"
                 })
                 checkErr = false
-
-                
             }
         })
 
@@ -200,8 +149,8 @@ const PaidOrderPage = () => {
                 })
                 .then(response => {
                     if (response.status === 200) {
-                        setDisount(0)
-                       console.log(response);
+
+                        console.log(response);
                         setFormData({})
                         setSuccess({
                             valueShow: true,
@@ -216,12 +165,6 @@ const PaidOrderPage = () => {
                             'searchCustomer',
                             'search1',
                             'Quantity1',
-                            'Rate1',
-                            'GrossAmount',
-                            'Vat',
-                            'Discount',
-                            'DisplayDiscount',
-                            'NetAmount'
                         ];
 
                         inputFields.forEach((fieldName) => {
@@ -242,7 +185,7 @@ const PaidOrderPage = () => {
             <Container>
                 <Row className="mb-3">
                     <Col className="mb-1"> <h4>
-                        Paid Order
+                        Export Order
                     </h4></Col>
 
                 </Row>
@@ -273,28 +216,10 @@ const PaidOrderPage = () => {
                     value={
                         { DataProduct, setDataProduct, Render, setRender }
                     }>{
-                        <PaidOrderTable />
+                        <ExportOrderTable />
                     }
                 </DataOnchange.Provider>
-                <Row>
-                    <Col md={2}>Gross Amount</Col>
-                    <Col className="mb-3" md={3}><Form.Control size="sm" name='GrossAmount' type="text" disabled /></Col>
-                </Row>
-                <Row>
-                    <Col md={2}>Vat 10%</Col>
-                    <Col className="mb-3" md={3}><Form.Control size="sm" name="Vat" value="" type="text" disabled /></Col>
-                </Row>
-                <Row>
-                    <Col md={2}>Disount</Col>
-                    <Col className="mb-3" md={3}>
-                        <Form.Control size="sm" name='Discount' onChange={OnchangeDiscount} min={0} max={100} width={50} type="number" />
-                        <Form.Control disabled size="sm" name='DisplayDiscount' />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={2}>Net Amount</Col>
-                    <Col className="mb-3" md={3}><Form.Control size="sm" name="NetAmount" type="text" disabled /></Col>
-                </Row>
+
                 <Row>
                     <Col md={4}>
                         <Button variant='success' onClick={PaidOrder} hidden={Paid.CreateOrder} >
@@ -302,8 +227,8 @@ const PaidOrderPage = () => {
                                 Creare Order
                             </div>
                         </Button>
-                        <Button variant='warning' hidden={Paid.Print} href={'Invoice' + "/" + getID}>Print</Button>
-                        <Button variant='primary' hidden={Paid.Print} href='/PaidOrderPage'>New Order</Button>
+                        <Button variant='warning' hidden={Paid.Print} href={`Invoice/${getID}`}>Print</Button>
+                        <Button variant='primary' hidden={Paid.Print} href='/ExportOrderPage'>New Order</Button>
                     </Col>
                 </Row>
             </Container>
@@ -311,4 +236,4 @@ const PaidOrderPage = () => {
     )
 }
 
-export default PaidOrderPage
+export default ExportOrderPage

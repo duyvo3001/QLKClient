@@ -4,27 +4,17 @@ import Button from 'react-bootstrap/Button';
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { SiAddthis } from "react-icons/si";
 import Form from 'react-bootstrap/Form';
-import { DataOnchange } from './PaidOrderPage';
+import { DataOnchange } from './ExportOrderPage';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-const PaidOrderTable = () => {
+const ExportOrderTable = () => {
     const RenderTable = useContext(DataOnchange)
-
-    const updateAmount = (ID, Qty, Product) => { // Update amount
-        const setNameProduct = document.getElementsByName("Amount" + ID)
-        let Rate = 0;
-        RenderTable.DataProduct?.map((key) => {
-            return Product === key.label ? Rate = key.GiaBanLe : 0
-        })
-        const numberAmount = Rate * Qty
-        setNameProduct[0].value = numberAmount?.toLocaleString()
-    }
 
     const OnchangeQty = (event) => { // Update Qty 
         const { name, value } = event.target;
         let Product = "";
-
+        
         const updateRender = RenderTable.Render?.map((key, index) => {// setvalue for Render
             if (event.target.id - 1 === index) {
                 Product = key.NameProduct;
@@ -40,7 +30,6 @@ const PaidOrderTable = () => {
             }
         })
         RenderTable.setRender(updateRender);
-        updateAmount(event.target.id, value, Product);
     }
 
     const Onchangeformtable = async (event, newvalue) => { // when click and when type change event
@@ -53,9 +42,6 @@ const PaidOrderTable = () => {
             let Soluong = updateQTY(newvalue)
             // update Render
             await RenderTable.setRender(updateRender(result, newvalue, Soluong)); // update table Render 
-
-            //handle Rate
-            updateRate(result, newvalue)
             // update Name
             updateNameProduction(result)
 
@@ -71,17 +57,6 @@ const PaidOrderTable = () => {
                 console.log(data)
                 return data
             })
-    }
-
-    function updateRate(result, newvalue) {
-        const rate = document.getElementsByName("Rate" + result)
-
-        RenderTable.DataProduct.map((data) => {
-            if (data?.label === newvalue?.label) {
-                let valueGiabanle = +data?.GiaBanLe
-                return rate[0].value = valueGiabanle?.toLocaleString()
-            }
-        })
     }
 
     const updateNameProduction = (result) => {
@@ -154,10 +129,10 @@ const TBodytable = (props) => {
                             <Autocomplete
                                 disablePortal
                                 id={index?.ID.toString()}
-                                fullWidth={true}
-                                size="small"
+                                // fullWidth={true}
+                                // size="small"
                                 options={RenderTable.DataProduct}
-                                sx={{ width: 300 }}
+                                // sx={{ width: 400 }}
                                 onChange={Onchangeformtable}
                                 name={"ID" + index.ID.toString()}
                                 renderInput={
@@ -178,8 +153,6 @@ const TBodytable = (props) => {
                                 min={0} max={+index.MaxQty} step="1"
                             />
                         </td>
-                        <td><Form.Control className="mb-3" name={"Rate" + index.ID.toString()} type="text" disabled /></td>
-                        <td><Form.Control className="mb-3" name={"Amount" + index.ID.toString()} type="text" disabled /></td>
                         <td>
                             <Button type='button'
                                 onClick={() => DeleteTable(index?.ID.toString())}
@@ -200,8 +173,6 @@ const THeadtable = (props) => {
                 <th>ID Product</th>
                 <th>Name Product</th>
                 <th>Quantity</th>
-                <th>Rate</th>
-                <th>Amount</th>
                 <th>
                     <Button type='button' onClick={addTable} variant="success"><SiAddthis /></Button>
                 </th>
@@ -209,4 +180,4 @@ const THeadtable = (props) => {
         </thead>
     );
 };
-export default PaidOrderTable
+export default ExportOrderTable

@@ -31,7 +31,6 @@ const THeadtable = (props) => {
         <thead>
             <tr>
                 <th>ID Brand</th>
-                <th>Name Brand</th>
                 <th>Date Import</th>
                 <th hidden={valuehidden}>Action</th>
             </tr>
@@ -74,18 +73,6 @@ const TBodytable = (props) => {
                         onChange={HandleChange}
                         name="MaThuongHieu"
                         value={key['MaThuongHieu']}
-                    />
-                </td>
-                <td>
-                    <div className={key._id} hidden={false}>
-                        {key.TenThuongHieu}
-                    </div>
-                    <TextArea
-                        className={key._id + "hidden"}
-                        hidden={true}
-                        onChange={HandleChange}
-                        name="TenThuongHieu"
-                        value={key.TenThuongHieu}
                     />
                 </td>
                 <td>
@@ -142,18 +129,6 @@ const TBodytable = (props) => {
                         onChange={HandleChange}
                         name="MaThuongHieu"
                         value={key['MaThuongHieu']}
-                    />
-                </td>
-                <td>
-                    <div className={key._id} hidden={false}>
-                        {key.TenThuongHieu}
-                    </div>
-                    <TextArea
-                        className={key._id + "hidden"}
-                        hidden={true}
-                        onChange={HandleChange}
-                        name="TenThuongHieu"
-                        value={key.TenThuongHieu}
                     />
                 </td>
                 <td>

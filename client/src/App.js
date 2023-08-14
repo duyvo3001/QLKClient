@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Routes, Route, Navigate, useParams } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { publicRoutes, privateRoutes } from './routes/route'
 import defaultLayout from './components/Layout/DefaultLayout/defaultLayout'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,9 +13,7 @@ function PrivateRoute({ children }) {
   }
   else return <Navigate to="/login" />;
 }
-function Getitem() {
-  let { item } = useParams();
-}
+
 function App() {
 
   return (

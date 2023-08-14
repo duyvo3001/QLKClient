@@ -11,17 +11,17 @@ import ProductView from '../pages/dashBoard/ProductView/ProductView';
 import UserView from '../pages/dashBoard/UserView/UserView';
 import WareHouseView from '../pages/dashBoard/WareHouseView/WareHouseView';
 import InventoryList from '../pages/inventory/InventoryList';
-import PaidOrderPage from '../pages/PaidOrder/PaidOrderPage';
+import ExportOrderPage from '../pages/PaidOrder/ExportOrderPage';
 import PaidView from '../pages/dashBoard/PaidView/PaidView';
 import Invoice from '../pages/PaidOrder/Invoice';
 import ReportSale from '../pages/report/Sales/ReportSale';
-import ReportInventory from '../pages/report/Inventory/ReportInventory';
+import ReportInventory from '../pages/report/Inventory/ReportPage/ReportInventory';
 import BrandView from '../pages/dashBoard/Brandview/BrandView';
 import CustomerView from '../pages/dashBoard/CustomerView/CustomerView';
 import SupplierView from '../pages/dashBoard/SupplierView/SupplierView';
 import CategoryPage from '../pages/Category/CategoryPage';
 import OutOfStockPage from '../pages/report/Outofstock/OutOfStockPage';
-
+import PrintReportInventory from '../pages/report/Inventory/print/PrintReportInventory';
 
 //public Route
 const publicRoutes = [
@@ -37,7 +37,7 @@ const privateRoutes = [
     { path: '/ImportStock', component: ImportStock },
     { path: '/UserPage', component: UserPage },
     { path: '/customerPage', component: ImportCustomer },
-    { path: '/PaidOrderPage', component: PaidOrderPage },
+    { path: '/ExportOrderPage', component: ExportOrderPage },
     { path: '/ProductView', component: ProductView },
     { path: '/BrandView', component: BrandView },
     { path: '/CustomerView', component: CustomerView },
@@ -46,11 +46,12 @@ const privateRoutes = [
     { path: '/UserView', component: UserView },
     { path: '/PaidView', component: PaidView },
     { path: '/Invoice/:id', component: Invoice, layout: null, },
-    { path: '/ReportSale', component: ReportSale },
+    { path: '/ReportExport', component: ReportSale },
     { path: '/ReportInventory', component: ReportInventory },
     { path: '/InventoryList', component: InventoryList },
     { path: '/Category', component: CategoryPage },
     { path: '/ReportOutOfStock', component: OutOfStockPage },
+    { path: '/PrintInventory', component: PrintReportInventory },
 ]
 
 export { publicRoutes, privateRoutes }

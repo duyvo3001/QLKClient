@@ -2,7 +2,7 @@ import { tableDTBrand as TableDT } from "./table/tableDTBrand";
 import { React, useEffect, useState } from "react";
 import { AlterShowSuccess, AlterShowEror } from "../../components/Alter/AlterShow";
 import Container from "react-bootstrap/Container";
-import RowCol from "./RowCol";
+import RowColOne from "./RowColOne";
 import ButtonSubmit from "./ButtonSubmit";
 import Form from "react-bootstrap/Form";
 import Request from "../../api/Request.js";
@@ -42,9 +42,7 @@ const ImportBrand = () => {
                 if (response.status === 200) {
 
                     let text = document.getElementsByName("MaThuongHieu")
-                    let text1 = document.getElementsByName("TenThuongHieu")
                     text[0].value = ""
-                    text1[0].value = ""
 
                     setFormData({})
 
@@ -86,12 +84,10 @@ const ImportBrand = () => {
         <Container>
             <h4 className="mb-3">Import : Brand</h4>
             <Form onSubmit={HandleData}>
-                <RowCol
+                <RowColOne
                     handle={HandleChange}
                     text1="ID Brand"
                     ID1="MaThuongHieu"
-                    text2="Name Brand"
-                    ID2="TenThuongHieu"
                 />
                 <ButtonSubmit />
             </Form>

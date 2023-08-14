@@ -9,28 +9,16 @@ import Request from "../../../api/Request";
 import { BarChart } from '@mui/x-charts/BarChart';
 import TableSale from './table/TableSale';
 
-const Month = [
-    { data: 1, label: 'January' },
-    { data: 2, label: 'February' },
-    { data: 3, label: 'March' },
-    { data: 4, label: 'April' },
-    { data: 5, label: 'May' },
-    { data: 6, label: 'June' },
-    { data: 7, label: 'July' },
-    { data: 8, label: 'August' },
-    { data: 9, label: 'September' },
-    { data: 10, label: 'October' },
-    { data: 11, label: 'November' },
-    { data: 12, label: 'December ' },
-];
-
 const ReportSale = () => {
+    const [formData, setFormData] = useState({
+        Category: "none",
+        MaThuongHieu: "none",
+    })
     const [getarrYear, setarrYear] = useState([])
-    const [DataInvoice, setDataInvoice] = useState([]) //state dataProduct
     const [datayear, setdatayear] = useState(null)
-    const [datamonth, setdatamonth] = useState(null)
-    const [uData, setuData]  = useState([0,0,0,0,0,0,0,0,0,0,0,0]);
-
+    const [uData, setuData] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const [uDataCategory, setuDataCategory] = useState([0])
+    const [uDataBrand, setuDataBrand] = useState([0])
     const xLabels = [
         'January',
         'February',
@@ -45,16 +33,42 @@ const ReportSale = () => {
         'November',
         'December ',
     ];
-   
-    const SimpleBarChart = () => {
+    const [xLabelsCategory, setxLabelsCategory] = useState(["onload"])
+    const [xLabelsBrand, setxLabelsBrand] = useState(["onload"])
+
+    const YearSaleBarChart = () => {
         return (
             <BarChart
-                width={1200}
-                height={400}
+                width={1000}
+                height={200}
                 series={[
-                    { data: uData, label: 'Sales', id: 'uvId' },
+                    { data: uData, label: 'Export', id: 'uvId' },
                 ]}
                 xAxis={[{ data: xLabels, scaleType: 'band' }]}
+            />
+        );
+    }
+    const CategoryBarChart = () => {
+        return (
+            <BarChart
+                width={1000}
+                height={200}
+                series={[
+                    { data: uDataCategory, label: 'Category', id: 'uvId' },
+                ]}
+                xAxis={[{ data: xLabelsCategory, scaleType: 'band' }]}
+            />
+        );
+    }
+    const BrandBarChart = () => {
+        return (
+            <BarChart
+                width={1000}
+                height={200}
+                series={[
+                    { data: uDataBrand, label: 'Brand', id: 'uvId' },
+                ]}
+                xAxis={[{ data: xLabelsBrand, scaleType: 'band' }]}
             />
         );
     }
@@ -67,48 +81,78 @@ const ReportSale = () => {
         }
         setarrYear(arrYear)
     }
-
+    // function RequestRouterSearch(Url, keyName, SetData) {
+    //     Request
+    //         .get(`/${Url}`,
+    //             { headers: { Authorization: sessionStorage.getItem("access_token") } })
+    //         .then((response) => {
+    //             const object = []
+    //             response?.data?.result?.map((key) => {
+    //                 return object.push({ label: key?.[keyName], key: keyName })
+    //             })
+    //             SetData(object)
+    //         })
+    //         .catch((error) => { console.log(error) })
+    // }
     useEffect(() => {
         getYearAutocomplete()
     }, [])
 
     useEffect(() => {
         const _year = datayear || new Date().getFullYear()
-        const _month = datamonth || 0
+
         Request
-            .get(`/SaleReport/${_year}/${_month}`,
+            .get(`/SaleReport/${_year}`,
                 { headers: { Authorization: sessionStorage.getItem("access_token") } })
             .then((response) => {
-                setDataInvoice(response.data.result)
                 setuData(response.data.uData)
             })
             .catch((error) => { console.log(error) })
+        Request
+            .get(`/CategoryReport/${_year}`,
+                { headers: { Authorization: sessionStorage.getItem("access_token") } })
+            .then((response) => {
+                setuDataCategory(response.data.uDataCategory)
+                setxLabelsCategory(response.data.labelCategory)
+            })
+            .catch((error) => { console.log(error) })
+        Request
+            .get(`/BrandReport/${_year}`,
+                { headers: { Authorization: sessionStorage.getItem("access_token") } })
+            .then((response) => {
+                setuDataBrand(response.data.uDataBrand)
+                setxLabelsBrand(response.data.labelBrand)
+            })
+            .catch((error) => { console.log(error) })
 
-    }, [datayear, datamonth])
+    }, [datayear, formData])
+
+    // const HandleChange = (event, newvalue) => {
+    //     if (newvalue.key === "MaThuongHieu")
+    //         updateValue("MaThuongHieu", newvalue)
+    //     else
+    //         updateValue("Category", newvalue)
+
+    //     function updateValue(key, value) {
+    //         setFormData(prevState => ({
+    //             ...prevState,
+    //             [key]: value?.label
+    //         }));
+    //     }
+    // };
 
     const OnchangeYeartable = async (event, newvalue) => { // when click and when type change event
         setdatayear(newvalue.label)
     }
 
-    const OnchangeMonthtable = async (event, newvalue) => { // when click and when type change event
-        console.log(newvalue.data)
-        setdatamonth(newvalue.data)
-    }
-    const OnCloseAuto = (event, newvalue) => {
-        if (newvalue === "") {
-            setdatamonth(0)
-        }
-    }
     return (
         <>
             <Container>
                 <Row className='mb-2 row'>
-                    <Col className="mb-3">
+                    <Col md={2}>
                         <h4>Report Sales</h4>
                     </Col>
-                </Row>
-                <Row className='mb-2 row'>
-                    <Col md={2} sm={4} lg={2}>
+                    <Col md={2}>
                         <Autocomplete
                             disablePortal
                             id="test"
@@ -126,29 +170,23 @@ const ReportSale = () => {
                                 />
                             }
                         /></Col>
-                    <Col md={2} sm={4} lg={2}>
-                        <Autocomplete
-                            disablePortal
-                            id="test"
-                            fullWidth={true}
-                            size="small"
-                            options={Month}
-                            sx={{ width: 200 }}
-                            onChange={OnchangeMonthtable}
-                            onInputChange={OnCloseAuto}
-
-                            name={"ID"}
-                            renderInput={
-                                (params) => <TextField {...params}
-                                    label="Search Month"
-                                    name={"Month"}
-                                />
-                            }
-                        /></Col>
                 </Row>
-                <SimpleBarChart />
-                <TableSale DataInvoice={DataInvoice} />
             </Container>
+            <Row>
+
+                <Col>
+                    <div className='auto'>
+                        <YearSaleBarChart />
+                    </div>
+                    <div className='auto'>
+                        <CategoryBarChart />
+                    </div>
+                    <div className='auto'>
+                        <BrandBarChart />
+                    </div>
+                </Col>
+            </Row>
+            {/* <TableSale DataInvoice={DataInvoice} /> */}
         </>
     )
 }

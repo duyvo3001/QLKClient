@@ -1,8 +1,7 @@
-
 import { useState, useContext, useEffect } from "react";
 import React from 'react'
 import Container from 'react-bootstrap/esm/Container'
-import classnames from 'classnames/bind'
+
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
@@ -14,8 +13,6 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Navigate } from 'react-router-dom';
-import * as style from './Login.module.scss'
-const cx = classnames.bind(style)
 
 const RightSide = () => {
   const { setIsAuthenticated } = useContext(AuthContext);
@@ -141,7 +138,7 @@ const RightSide = () => {
     );
   }
   return (
-    <Container className={cx('body1')}>
+    <Container className='body1'>
 
       <div className="mb-3">
         <section>
