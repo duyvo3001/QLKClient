@@ -7,7 +7,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Request from "../../../api/Request";
 import { BarChart } from '@mui/x-charts/BarChart';
-import TableSale from './table/TableSale';
 
 const ReportSale = () => {
     const [formData, setFormData] = useState({

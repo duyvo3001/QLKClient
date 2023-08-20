@@ -4,8 +4,8 @@ import ExpandLess from "@mui/icons-material/ExpandLess"
 import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
@@ -35,6 +35,7 @@ const SideBarLeft = () => {
   const [isDrawerOpen, setisDrawerOpen] = useState(false)
   const [open, setOpen] = useState({
     Product: false,
+    Inventory: false,
     Brand: false,
     Supplier: false,
     Customer: false,
@@ -58,16 +59,11 @@ const SideBarLeft = () => {
             <MenuIcon />
           </Button>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }} >
-          {"Ware house system"}
-        </Typography>
+            {"Ware house system"}
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={isDrawerOpen} onClose={() => { setisDrawerOpen(false) }}>
-        {/* <Box p={2} width='250px' textAlign='center' role='presentation'>
-          <Typography variant='h6' component='div'>
-            SideBar
-          </Typography>
-        </Box> */}
         <List disablePadding sx={{ width: '100%', maxWidth: 360 }}>
           <Toolbar></Toolbar>
           <Stack sx={{ width: "100%" }}
@@ -75,7 +71,7 @@ const SideBarLeft = () => {
             justifyContent="center"
           >
             <Avatar>
-              <FestivalIcon/>
+              <FestivalIcon />
             </Avatar>
           </Stack>
           {/* ----- Dashboard ------------------------------------------*/}
@@ -112,6 +108,24 @@ const SideBarLeft = () => {
                   <CategoryIcon />
                 </ListItemIcon>
                 <ListItemText primary="Category" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+          {/* ----- Inventory  ------------------------------------------*/}
+          <ListItemButton onClick={() => handleClick("Inventory")}>
+            <ListItemIcon>
+              <InventoryIcon />
+            </ListItemIcon>
+            <ListItemText primary="Inventory" />
+            {open.Inventory ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open.Inventory} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton href="/InventoryManagement" sx={{ pl: 6 }}>
+                <ListItemIcon>
+                  <ManageAccountsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Mangement" />
               </ListItemButton>
             </List>
           </Collapse>
@@ -299,15 +313,15 @@ const SideBarLeft = () => {
           </ListItemButton>
           <Collapse in={open.Setting} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton href="/userPage" sx={{ pl: 6 }}>
+              <ListItemButton href="/UserProfile" sx={{ pl: 6 }}>
                 <ListItemIcon>
-                  <AddIcon />
+                  <PersonIcon />
                 </ListItemIcon>
-                <ListItemText primary="Add" />
+                <ListItemText primary="User Profile" />
               </ListItemButton>
             </List>
           </Collapse>
-          {/* ----- Dashboard ------------------------------------------*/}
+          {/* ----- logout ------------------------------------------*/}
           <ListItemButton href="/login" onClick={Logout}>
             <ListItemIcon>
               <LogoutIcon />

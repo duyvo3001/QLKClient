@@ -23,13 +23,6 @@ const DashFooter = () => {
               </svg>
             </a>
           </li>
-          <li className='ms-3'>
-            <a className='text-muted' href='/'>
-              <svg className='bi' width={24} height={24}>
-                <use xlinkHref='#facebook' />
-              </svg>
-            </a>
-          </li>
         </ul>
       </footer>
     </div>

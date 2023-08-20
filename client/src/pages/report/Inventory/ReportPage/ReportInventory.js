@@ -1,5 +1,4 @@
 import { useEffect, React, useState, useRef } from 'react'
-import Container from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -8,15 +7,8 @@ import ReactToPrint from 'react-to-print';
 import Request from "../../../../api/Request";
 import TableInventory from '../table/TableInventory';
 import Button from 'react-bootstrap/esm/Button';
-// import ButtonBottom from '../../Import/buttonBot/buttonBottom';
-import { useNavigate } from 'react-router-dom';
-// import SetData ,{DataContext} from '../../set_formData/SetData';
-import PrintReportInventory from '../print/PrintReportInventory';
 
 const DataProvider = () => {
-    // const context = useContext(DataContext);
-    // console.info(context)
-    const navigate = useNavigate();
     const componentRef = useRef();
     const Stockstatus = [
         { key: "Stockstatus", label: 'GOOD' },
@@ -141,116 +133,112 @@ const DataProvider = () => {
             switchUpdate("TinhTrangHang")
         }
     }
-    const NavigatepagePrint = (event) => {
-        navigate('/PrintInventory')
-    }
+
     return (
         <>
-            <Container>
-                <Row className='mb-2 row'>
-                    <Col className="mb-3">
-                        <h4>Inventory Report</h4>
-                    </Col>
-                </Row>
-                <Row className='mb-2 row'>
-                    <Col md={6} sm={12} lg={6}>
-                        <Autocomplete
-                            fullWidth={true}
-                            loading={true}
-                            disablePortal
-                            id="Product"
-                            size="small"
-                            options={DataStock}
-                            sx={{ width: 500 }}
-                            onChange={HandleChange}
-                            onInputChange={StockOnclose}
-                            name="Product"
-                            renderInput={(params) => <TextField {...params} label="Product" name="Product" />}
-                        /></Col>
-                    <Col md={6} sm={12} lg={6}>
-                        <Autocomplete
-                            fullWidth={true}
-                            loading={true}
-                            disablePortal
-                            id="MaKho"
-                            size="small"
-                            options={DataWarehouse}
-                            sx={{ width: 190 }}
-                            onChange={HandleChange}
-                            onInputChange={MaKhoOnclose}
-                            name="MaKho"
-                            renderInput={(params) => <TextField {...params} label="Ware House" name="Hang" />}
-                        /></Col>
-                </Row>
-                <Row className='mb-2 row'>
-                    <Col md={5} sm={5} lg={2}>
-                        <Autocomplete
-                            disablePortal
-                            id="test"
-                            fullWidth={true}
-                            size="small"
-                            options={DataCategory}
-                            sx={{ width: 190 }}
-                            onChange={HandleChange}
-                            onInputChange={CategoryOnclose}
-                            name={"ID"}
-                            renderInput={
-                                (params) => <TextField {...params}
-                                    label="Category"
-                                    name={"Category"}
-                                />
-                            }
-                        /></Col>
-                    <Col md={5} sm={5} lg={2}>
-                        <Autocomplete
-                            disablePortal
-                            id="test"
-                            fullWidth={true}
-                            size="small"
-                            options={DataBrand}
-                            sx={{ width: 190 }}
-                            onChange={HandleChange}
-                            onInputChange={MaThuongHieuOnclose}
-                            name={"ID"}
-                            renderInput={
-                                (params) => <TextField {...params}
-                                    label="ID Brand"
-                                    name={"Brand"}
-                                />
-                            }
-                        /></Col>
-                    <Col md={5} sm={5} lg={2}>
-                        <Autocomplete
-                            disablePortal
-                            id="test"
-                            fullWidth={true}
-                            size="small"
-                            options={Stockstatus}
-                            sx={{ width: 190 }}
-                            onChange={HandleChange}
-                            onInputChange={TinhTrangHangOnclose}
-                            name={"ID"}
-                            renderInput={
-                                (params) => <TextField {...params}
-                                    label="Stock status"
-                                    name={"Brand"}
-                                />
-                            }
-                        /></Col>
-                    <Col md={5} sm={5} lg={2}>
-                        <ReactToPrint
-                            trigger={() => {
-                                return (<Button className='mb-3' variant='success'>Print Invoice</Button>)
-                            }}
-                            content={() => componentRef.current}
-                            documentTitle='Invoice'
-                            pageStyle='print'
-                        />
-                    </Col>
-                </Row>
-                {/* <ButtonBottom pageindex={pageindex}
+            <Row className='mb-2 row'>
+                <Col className="mb-3">
+                    <h4>Inventory Report</h4>
+                </Col>
+            </Row>
+            <Row className='mb-2 row'>
+                <Col md={6} sm={12} lg={6}>
+                    <Autocomplete
+                        fullWidth={true}
+                        loading={true}
+                        disablePortal
+                        id="Product"
+                        size="small"
+                        options={DataStock}
+                        sx={{ width: 500 }}
+                        onChange={HandleChange}
+                        onInputChange={StockOnclose}
+                        name="Product"
+                        renderInput={(params) => <TextField {...params} label="Product" name="Product" />}
+                    /></Col>
+                <Col md={6} sm={12} lg={6}>
+                    <Autocomplete
+                        fullWidth={true}
+                        loading={true}
+                        disablePortal
+                        id="MaKho"
+                        size="small"
+                        options={DataWarehouse}
+                        sx={{ width: 190 }}
+                        onChange={HandleChange}
+                        onInputChange={MaKhoOnclose}
+                        name="MaKho"
+                        renderInput={(params) => <TextField {...params} label="Ware House" name="Hang" />}
+                    /></Col>
+            </Row>
+            <Row className='mb-2 row'>
+                <Col md={5} sm={5} lg={2}>
+                    <Autocomplete
+                        disablePortal
+                        id="test"
+                        fullWidth={true}
+                        size="small"
+                        options={DataCategory}
+                        sx={{ width: 190 }}
+                        onChange={HandleChange}
+                        onInputChange={CategoryOnclose}
+                        name={"ID"}
+                        renderInput={
+                            (params) => <TextField {...params}
+                                label="Category"
+                                name={"Category"}
+                            />
+                        }
+                    /></Col>
+                <Col md={5} sm={5} lg={2}>
+                    <Autocomplete
+                        disablePortal
+                        id="test"
+                        fullWidth={true}
+                        size="small"
+                        options={DataBrand}
+                        sx={{ width: 190 }}
+                        onChange={HandleChange}
+                        onInputChange={MaThuongHieuOnclose}
+                        name={"ID"}
+                        renderInput={
+                            (params) => <TextField {...params}
+                                label="ID Brand"
+                                name={"Brand"}
+                            />
+                        }
+                    /></Col>
+                <Col md={5} sm={5} lg={2}>
+                    <Autocomplete
+                        disablePortal
+                        id="test"
+                        fullWidth={true}
+                        size="small"
+                        options={Stockstatus}
+                        sx={{ width: 190 }}
+                        onChange={HandleChange}
+                        onInputChange={TinhTrangHangOnclose}
+                        name={"ID"}
+                        renderInput={
+                            (params) => <TextField {...params}
+                                label="Stock status"
+                                name={"Brand"}
+                            />
+                        }
+                    /></Col>
+                <Col md={5} sm={5} lg={2}>
+                    <ReactToPrint
+                        trigger={() => {
+                            return (<Button className='mb-3' variant='success'>Print Invoice</Button>)
+                        }}
+                        content={() => componentRef.current}
+                        documentTitle='Invoice'
+                        pageStyle='print'
+                    />
+                </Col>
+            </Row>
+            {/* <ButtonBottom pageindex={pageindex}
                     HandleButtonClick={HandleButtonClick} /> */}
-            </Container>
             <div ref={componentRef}>
                 <div><h3>Inventory Report</h3></div>
                 <div>
@@ -277,12 +265,9 @@ const DataProvider = () => {
 }
 const ReportInventory = () => {
     return (
-        // <SetData>
         <>
             <DataProvider />
-            {/* <PrintReportInventory hidden={false} /> */}
         </>
-        // </SetData>
     )
 }
 export default ReportInventory

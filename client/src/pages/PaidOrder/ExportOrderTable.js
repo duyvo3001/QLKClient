@@ -130,7 +130,7 @@ const TBodytable = (props) => {
                                 disablePortal
                                 id={index?.ID.toString()}
                                 // fullWidth={true}
-                                // size="small"
+                                size="small"
                                 options={RenderTable.DataProduct}
                                 // sx={{ width: 400 }}
                                 onChange={Onchangeformtable}

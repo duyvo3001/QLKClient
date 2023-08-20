@@ -10,7 +10,6 @@ import DashBoard from '../pages/dashBoard/DashBoard';
 import ProductView from '../pages/dashBoard/ProductView/ProductView';
 import UserView from '../pages/dashBoard/UserView/UserView';
 import WareHouseView from '../pages/dashBoard/WareHouseView/WareHouseView';
-import InventoryList from '../pages/inventory/InventoryList';
 import ExportOrderPage from '../pages/PaidOrder/ExportOrderPage';
 import PaidView from '../pages/dashBoard/PaidView/PaidView';
 import Invoice from '../pages/PaidOrder/Invoice';
@@ -20,9 +19,10 @@ import BrandView from '../pages/dashBoard/Brandview/BrandView';
 import CustomerView from '../pages/dashBoard/CustomerView/CustomerView';
 import SupplierView from '../pages/dashBoard/SupplierView/SupplierView';
 import CategoryPage from '../pages/Category/CategoryPage';
-import OutOfStockPage from '../pages/report/Outofstock/OutOfStockPage';
+import ReportOutOfStockPage from '../pages/report/Outofstock/ReportOutOfStockPage';
 import PrintReportInventory from '../pages/report/Inventory/print/PrintReportInventory';
-
+import InventoryManagement from '../pages/inventory/InventoryManagement';
+import UserSetting from '../pages/userManegement/UserSetting';
 //public Route
 const publicRoutes = [
     { path: '/login', component: Login, layout: null },
@@ -48,10 +48,11 @@ const privateRoutes = [
     { path: '/Invoice/:id', component: Invoice, layout: null, },
     { path: '/ReportExport', component: ReportSale },
     { path: '/ReportInventory', component: ReportInventory },
-    { path: '/InventoryList', component: InventoryList },
     { path: '/Category', component: CategoryPage },
-    { path: '/ReportOutOfStock', component: OutOfStockPage },
+    { path: '/ReportOutOfStock', component: ReportOutOfStockPage },
     { path: '/PrintInventory', component: PrintReportInventory },
+    { path: '/InventoryManagement', component: InventoryManagement },
+    { path: '/UserProfile', component: UserSetting },
 ]
 
 export { publicRoutes, privateRoutes }
