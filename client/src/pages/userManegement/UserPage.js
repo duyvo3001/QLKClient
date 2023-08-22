@@ -9,8 +9,7 @@ import ButtonSubmit from "../Import/ButtonSubmit";
 import Request from "../../api/Request";
 import TableUser from "../Import/table/TableUser";
 import ButtonBottom from "../Import/buttonBot/buttonBottom";
-
-
+import AccessRight from "./AccessRight";
 const UserPage = () => {
   const [pageindex, setpageindex] = useState({
     page: 1,
@@ -19,7 +18,7 @@ const UserPage = () => {
     page: 1,
   });
   const [formData, setFormData] = useState({});
-  const [AccessRight, setAccessRight] = useState({
+  const [Accessright, setAccessright] = useState({
     update: "false",
     create: "false",
     read: "false",
@@ -33,7 +32,7 @@ const UserPage = () => {
 
     updateSex(Sex)
 
-    updateAccessRight(name, value)
+    updateAccessright(name, value)
   };
 
   function updateSex(Sex) {
@@ -49,8 +48,8 @@ const UserPage = () => {
       setFormData({ ...formData, [name]: value });
     }
   }
-  
-  function updateAccessRight(name, value) {
+
+  function updateAccessright(name, value) {
     switch (name) {
       case "update":
         if (value === "false") updatePrevState(name, "true")
@@ -74,26 +73,26 @@ const UserPage = () => {
   function updatePrevState(key, value) {
     switch (key) {
       case "update":
-        setAccessRight(prevState => ({
+        setAccessright(prevState => ({
           ...prevState,
           update: value
         }));
         break;
       case "create":
-        setAccessRight(prevState => ({
+        setAccessright(prevState => ({
           ...prevState,
           create: value
         }));
         break;
       case "delete":
-        setAccessRight(prevState => ({
+        setAccessright(prevState => ({
           ...prevState,
           delete: value
         }));
         break;
 
       default:
-        setAccessRight(prevState => ({
+        setAccessright(prevState => ({
           ...prevState,
           read: value
         }));
@@ -106,7 +105,7 @@ const UserPage = () => {
     event.preventDefault();
     Request.post(
       "/createstaff",
-      { formData, AccessRight, Sex },
+      { formData, Accessright, Sex },
       { headers: { Authorization: sessionStorage.getItem("access_token") } }
     ).then((response) => { console.log(response) })
       .catch((error) => {
@@ -121,6 +120,7 @@ const UserPage = () => {
     });
     setpageindex({ ...pageindex, page: newPage });
   };
+
 
   return (
     <>
@@ -159,16 +159,17 @@ const UserPage = () => {
               Access right
             </Col>
             <Col md={10}>
-              <Form.Check inline isValid="true" value={AccessRight.update}
+              <Form.Check inline isValid="true" value={Accessright.update}
                 onClick={HandleChange} label="update" name="update" type="checkbox" />
-              <Form.Check inline isValid="true" value={AccessRight.delete}
+              <Form.Check inline isValid="true" value={Accessright.delete}
                 onClick={HandleChange} label="delete" name="delete" type="checkbox" />
-              <Form.Check inline isValid="true" label="create" value={AccessRight.create}
+              <Form.Check inline isValid="true" label="create" value={Accessright.create}
                 onClick={HandleChange} name="create" type="checkbox" />
-              <Form.Check inline isValid="true" label="read" value={AccessRight.read}
+              <Form.Check inline isValid="true" label="read" value={Accessright.read}
                 onClick={HandleChange} name="read" type="checkbox" />
             </Col>
           </Row>
+          <AccessRight/>
           <ButtonSubmit />
         </Form>
       </Container>
