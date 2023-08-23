@@ -75,9 +75,15 @@ const AccessRight = (props) => {
         }
     }
     const HandleClick = (event) => {
-        const { checked , name } = event.target
-        console.log(name.slice(-7));  
-        console.log(checked ,name)
+
+        const { checked, name } = event.target
+        console.log(checked, name)
+        if (name.includes("Product") === true) {
+            if (name.includes("update") === true) {
+                CheckType("Product","update",checked)
+            }
+        }
+
         // setAccessright(
         //     prevState => ({
         //         ...prevState,
@@ -86,6 +92,17 @@ const AccessRight = (props) => {
         //         }
         //     })
         // )
+    }
+
+    function CheckType(param1,param2,param3) {
+        setAccessright(
+            prevState => ({
+                ...prevState,
+                [param1]: {
+                    [param2]: param3,
+                }
+            })
+        )
     }
     const GridItem = (props) => {
         const { name, ItemName } = props

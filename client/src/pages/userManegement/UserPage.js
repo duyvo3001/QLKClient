@@ -68,6 +68,7 @@ const UserPage = () => {
       read: false
     },
   })
+  console.info(Accessright)
   const [Sex, setSex] = useState("Male");
 
   const HandleChange = async (event) => {

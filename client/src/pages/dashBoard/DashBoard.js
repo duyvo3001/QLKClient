@@ -1,10 +1,29 @@
-import React from 'react'
+import { useEffect, React, useState } from 'react'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Request from "../../../src/api/Request";
+
 const DashBoard = () => {
+
+    const [count, setCount] = useState({
+        Inventory: 0,
+        InventoryQuantity: 0,
+        Export: 0,
+        ExportQuantity: 0
+    })
+
+    useEffect(() => {
+        Request.get("/Dashboard",
+            { headers: { Authorization: sessionStorage.getItem("access_token") } })
+            .then((response) => {
+                setCount(response?.data?.result)
+            })
+            .catch((error) => { console.error(error) })
+    }, [])
+
     return (
         <Container fixed >
             <Grid >
@@ -20,7 +39,7 @@ const DashBoard = () => {
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" textAlign={'center'} >
                                 Inventory
                             </Typography>
-                            <Typography variant="h4" component="div" textAlign={'center'}>7
+                            <Typography variant="h4" component="div" textAlign={'center'}>{count.Inventory}
                             </Typography>
                             <Typography textAlign={'center'} sx={{ mb: 1.5 }} color="text.secondary">
                                 items
@@ -34,7 +53,7 @@ const DashBoard = () => {
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" textAlign={'center'}>
                                 Total quantity
                             </Typography>
-                            <Typography variant="h4" component="div" textAlign={'center'}>7
+                            <Typography variant="h4" component="div" textAlign={'center'}>{count.InventoryQuantity}
                             </Typography>
                             <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={'center'}>
                                 product
@@ -53,7 +72,7 @@ const DashBoard = () => {
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" textAlign={'center'} >
                                 Export order
                             </Typography>
-                            <Typography variant="h4" component="div" textAlign={'center'}>7
+                            <Typography variant="h4" component="div" textAlign={'center'}>{count.Export}
                             </Typography>
                             <Typography textAlign={'center'} sx={{ mb: 1.5 }} color="text.secondary">
                                 order
@@ -67,7 +86,7 @@ const DashBoard = () => {
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" textAlign={'center'}>
                                 Total product
                             </Typography>
-                            <Typography variant="h4" component="div" textAlign={'center'}>7
+                            <Typography variant="h4" component="div" textAlign={'center'}>{count.ExportQuantity}
                             </Typography>
                             <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign={'center'}>
                                 product
