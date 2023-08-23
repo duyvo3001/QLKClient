@@ -19,12 +19,57 @@ const UserPage = () => {
   });
   const [formData, setFormData] = useState({});
   const [Accessright, setAccessright] = useState({
-    update: "false",
-    create: "false",
-    read: "false",
-    valuedelete: "false",
+    Product: {
+      create: false,
+      delete: false,
+      update: false,
+      read: false,
+    },
+    Inventory: {
+      create: false,
+      delete: false,
+      update: false,
+      read: false
+    },
+    Brand: {
+      create: false,
+      delete: false,
+      update: false,
+      read: false
+    },
+    Supllier: {
+      create: false,
+      delete: false,
+      update: false,
+      read: false
+    },
+    Customer: {
+      create: false,
+      delete: false,
+      update: false,
+      read: false
+    },
+    Warehouse: {
+      create: false,
+      delete: false,
+      update: false,
+      read: false
+    },
+    Export: {
+      create: false,
+      delete: false,
+      update: false,
+      read: false
+    },
+    User: {
+      create: false,
+      delete: false,
+      update: false,
+      read: false
+    },
   })
   const [Sex, setSex] = useState("Male");
+
   const HandleChange = async (event) => {
     const { name, value } = event.target;
     const Sex = event.target.id
@@ -159,17 +204,9 @@ const UserPage = () => {
               Access right
             </Col>
             <Col md={10}>
-              <Form.Check inline isValid="true" value={Accessright.update}
-                onClick={HandleChange} label="update" name="update" type="checkbox" />
-              <Form.Check inline isValid="true" value={Accessright.delete}
-                onClick={HandleChange} label="delete" name="delete" type="checkbox" />
-              <Form.Check inline isValid="true" label="create" value={Accessright.create}
-                onClick={HandleChange} name="create" type="checkbox" />
-              <Form.Check inline isValid="true" label="read" value={Accessright.read}
-                onClick={HandleChange} name="read" type="checkbox" />
+              <AccessRight setAccessright={setAccessright} />
             </Col>
           </Row>
-          <AccessRight/>
           <ButtonSubmit />
         </Form>
       </Container>
