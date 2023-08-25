@@ -32,7 +32,7 @@ const AccessRight = (props) => {
                 }
                 if(returnType(name) !== undefined){
                     setAccessright(draft =>{
-                        draft.Product.create = checked;
+                        draft.[typeOfobj].create = checked;
                     })
                 }
             }
