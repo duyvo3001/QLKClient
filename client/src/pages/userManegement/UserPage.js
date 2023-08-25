@@ -1,5 +1,6 @@
 /* eslint-disable default-case */
 import { React, useState } from "react";
+import { useImmer } from 'use-immer';
 import Container from "react-bootstrap/Container";
 import RowCol from "../Import/RowCol";
 import Form from 'react-bootstrap/Form';
@@ -18,7 +19,7 @@ const UserPage = () => {
     page: 1,
   });
   const [formData, setFormData] = useState({});
-  const [Accessright, setAccessright] = useState({
+  const [Accessright, setAccessright] = useImmer({
     Product: {
       create: false,
       delete: false,
@@ -205,7 +206,7 @@ const UserPage = () => {
               Access right
             </Col>
             <Col md={10}>
-              <AccessRight setAccessright={setAccessright} />
+              <AccessRight Accessright={Accessright} setAccessright={setAccessright} />
             </Col>
           </Row>
           <ButtonSubmit />
