@@ -60,7 +60,6 @@ const ImportStock = () => {
       { headers: { Authorization: sessionStorage.getItem("access_token") } }
     )
       .then((response) => {
-        console.log(response)
         if (response.status === 200) {
           const MaLK = document.getElementsByName("MaLK")
           const TenLK = document.getElementsByName("TenLK")

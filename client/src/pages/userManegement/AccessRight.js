@@ -1,14 +1,28 @@
 import { useState } from 'react'
+import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Grid } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 const AccessRight = (props) => {
     const { setAccessright, Accessright } = props;
     const [open, setOpen] = useState(false);
+    const objCrud = {
+        create: false, delete: false, update: false, read: false
+    }
+    const [acceptCKbox, setacceptCKbox] = useState({
+        Product: objCrud,
+        Inventory: objCrud,
+        Brand: objCrud,
+        Supllier: objCrud,
+        Customer: objCrud,
+        Warehouse: objCrud,
+        Export: objCrud,
+        User: objCrud
+    })
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const style = {
@@ -25,18 +39,32 @@ const AccessRight = (props) => {
     const HandleClick = (event) => {
         const { checked, name } = event.target
 
-        function getkeys(name, typeOfobj) {
-            if(name !== undefined ){
+        const getkeys = (name, typeOfobj) => {
+            if (name !== undefined) {
+                event.preventDefault();
+                // get type of nameType "create" or "update" or "delete" or "read"
                 const returnType = code => {
                     return Object.keys(nameType?.[typeOfobj]).find(key => nameType?.[typeOfobj][key] === code)
                 }
-                if(returnType(name) !== undefined){
-                    setAccessright(draft =>{
-                        draft.[typeOfobj].create = checked;
-                    })
+                if (returnType(name) !== undefined) {
+
+                    //update state of setAccessright
+                    const objType = { ...Accessright?.[typeOfobj], [returnType(name)]: checked }
+                    const objAccessRight = { ...Accessright, [typeOfobj]: objType }
+                    setAccessright(objAccessRight)
+
+                    //set checked Checkbox
+                    checkedCheckbox(typeOfobj, returnType(name))
                 }
             }
         }
+
+        const checkedCheckbox = (typeOfobj, TypeCheck) => {
+            const objacceptCKbox = { ...acceptCKbox?.[typeOfobj], [TypeCheck]: checked }
+            const objacceptCKboxset = { ...acceptCKbox, [typeOfobj]: objacceptCKbox }
+            setacceptCKbox(objacceptCKboxset)
+        }
+
         const checkedType = new Map([
             ["Product", getkeys(name, "Product")],
             ["Inventory", getkeys(name, "Inventory")],
@@ -48,74 +76,63 @@ const AccessRight = (props) => {
             ["User", getkeys(name, "User")]
         ])
         const pharseType = code => {
-            checkedType.get(code)
+            return checkedType.get(code)
         }
-        if (name.includes("Product") === true)
-            pharseType("Product")
-        else if (name.includes("Inventory") === true)
-            pharseType("Inventory")
-        else if (name.includes("Brand") === true)
-            pharseType("Brand")
-        else if (name.includes("Supllier") === true)
-            pharseType("Supllier")
-        else if (name.includes("Customer") === true)
-            pharseType("Customer")
-        else if (name.includes("Warehouse") === true)
-            pharseType("Warehouse")
-        else if (name.includes("Export") === true)
-            pharseType("Export")
-        else if (name.includes("User") === true)
-            pharseType("User")
 
+        switch (true) {
+            case name.includes("Product"):
+                pharseType("Product");
+                break;
+            case name.includes("Inventory"):
+                pharseType("Inventory");
+                break;
+            case name.includes("Brand"):
+                pharseType("Brand");
+                break;
+            case name.includes("Supplier"):
+                pharseType("Supplier");
+                break;
+            case name.includes("Customer"):
+                pharseType("Customer");
+                break;
+            case name.includes("Warehouse"):
+                pharseType("Warehouse");
+                break;
+            case name.includes("Export"):
+                pharseType("Export");
+                break;
+            case name.includes("User"):
+                pharseType("User");
+                break;
+            default:
+                // Handle the case when none of the conditions are met
+                break;
+        }
     }
     const nameType = {
         Product: {
-            create: "createProduct",
-            delete: "deleteProduct",
-            update: "updateProduct",
-            read: "readProduct",
+            create: "createProduct", delete: "deleteProduct", update: "updateProduct", read: "readProduct",
         },
         Inventory: {
-            create: "createInventory",
-            delete: "deleteInventory",
-            update: "updateInventory",
-            read: "readInventory"
+            create: "createInventory", delete: "deleteInventory", update: "updateInventory", read: "readInventory"
         },
         Brand: {
-            create: "createBrand",
-            delete: "deleteBrand",
-            update: "updateBrand",
-            read: "readBrand"
+            create: "createBrand", delete: "deleteBrand", update: "updateBrand", read: "readBrand"
         },
         Supllier: {
-            create: "createSupllier",
-            delete: "deleteSupllier",
-            update: "updateSupllier",
-            read: "readSupllier"
+            create: "createSupllier", delete: "deleteSupllier", update: "updateSupllier", read: "readSupllier"
         },
         Customer: {
-            create: "createCustomer",
-            delete: "deleteCustomer",
-            update: "updateCustomer",
-            read: "readCustomer"
+            create: "createCustomer", delete: "deleteCustomer", update: "updateCustomer", read: "readCustomer"
         },
         Warehouse: {
-            create: "createWarehouse",
-            delete: "deleteWarehouse",
-            update: "updateWarehouse",
-            read: "readWarehouse"
+            create: "createWarehouse", delete: "deleteWarehouse", update: "updateWarehouse", read: "readWarehouse"
         },
         Export: {
-            create: "createExport",
-            delete: "deleteExport",
-            update: "updateExport",
-            read: "readExport"
+            create: "createExport", delete: "deleteExport", update: "updateExport", read: "readExport"
         },
         User: {
-            create: "createUser",
-            delete: "deleteUser",
-            update: "updateUser",
-            read: "readUser"
+            create: "createUser", delete: "deleteUser", update: "updateUser", read: "readUser"
         },
     }
     const GridItem = (props) => {
@@ -128,25 +145,25 @@ const AccessRight = (props) => {
             <Grid item xs={5} sm={5} md={5}>
                 <FormControlLabel
                     control={
-                        <Checkbox name={nameType.update} onChange={HandleClick} color="warning" />
+                        <Checkbox name={nameType.update} checked={acceptCKbox?.[ItemName].update} onChange={HandleClick} color="warning" />
                     }
                     label="update"
                 />
                 <FormControlLabel
                     control={
-                        <Checkbox name={nameType.create} onChange={HandleClick} color="success" />
+                        <Checkbox name={nameType.create} checked={acceptCKbox?.[ItemName].create} onChange={HandleClick} color="success" />
                     }
                     label="create"
                 />
                 <FormControlLabel
                     control={
-                        <Checkbox name={nameType.delete} onChange={HandleClick} color="error" />
+                        <Checkbox name={nameType.delete} checked={acceptCKbox?.[ItemName].delete} onChange={HandleClick} color="error" />
                     }
                     label="delete"
                 />
                 <FormControlLabel
                     control={
-                        <Checkbox name={nameType.read} onChange={HandleClick} color="info" />
+                        <Checkbox name={nameType.read} checked={acceptCKbox?.[ItemName].read} onChange={HandleClick} color="info" />
                     }
                     label="read"
                 />

@@ -1,6 +1,5 @@
 /* eslint-disable default-case */
 import { React, useState } from "react";
-import { useImmer } from 'use-immer';
 import Container from "react-bootstrap/Container";
 import RowCol from "../Import/RowCol";
 import Form from 'react-bootstrap/Form';
@@ -19,137 +18,41 @@ const UserPage = () => {
     page: 1,
   });
   const [formData, setFormData] = useState({});
-  const [Accessright, setAccessright] = useImmer({
-    Product: {
-      create: false,
-      delete: false,
-      update: false,
-      read: false,
-    },
-    Inventory: {
-      create: false,
-      delete: false,
-      update: false,
-      read: false
-    },
-    Brand: {
-      create: false,
-      delete: false,
-      update: false,
-      read: false
-    },
-    Supllier: {
-      create: false,
-      delete: false,
-      update: false,
-      read: false
-    },
-    Customer: {
-      create: false,
-      delete: false,
-      update: false,
-      read: false
-    },
-    Warehouse: {
-      create: false,
-      delete: false,
-      update: false,
-      read: false
-    },
-    Export: {
-      create: false,
-      delete: false,
-      update: false,
-      read: false
-    },
-    User: {
-      create: false,
-      delete: false,
-      update: false,
-      read: false
-    },
-  })
-  console.info(Accessright)
   const [Sex, setSex] = useState("Male");
+  const objCrud = {
+    create: false, delete: false, update: false, read: false
+  }
+  const [Accessright, setAccessright] = useState({
+    Product: objCrud,
+    Inventory: objCrud,
+    Brand: objCrud,
+    Supllier: objCrud,
+    Customer: objCrud,
+    Warehouse: objCrud,
+    Export: objCrud,
+    User: objCrud,
+  })
 
   const HandleChange = async (event) => {
     const { name, value } = event.target;
     const Sex = event.target.id
     updateformData(name, value)
-
     updateSex(Sex)
-
-    updateAccessright(name, value)
   };
 
   function updateSex(Sex) {
-    if (Sex === "Male")
-      setSex("Male")
-    else
-      setSex("Female")
+    setSex(Sex === "Male" ? "Male" : "Female");
   }
 
   function updateformData(name, value) {
-    if (name !== "update" && name !== "create" && name !== "delete" && name !== "read" && name !== "Sex") {
-      console.log(name, value)
+    if (name !== "Sex") {
       setFormData({ ...formData, [name]: value });
     }
   }
 
-  function updateAccessright(name, value) {
-    switch (name) {
-      case "update":
-        if (value === "false") updatePrevState(name, "true")
-        else updatePrevState(name, "false")
-        break;
-      case "create":
-        if (value === "false") updatePrevState(name, "true")
-        else updatePrevState(name, "false")
-        break;
-      case "delete":
-        if (value === "false") updatePrevState(name, "true")
-        else updatePrevState(name, "false")
-        break;
-      default:
-        if (value === "false") updatePrevState(name, "true")
-        else updatePrevState(name, "false")
-        break;
-    }
-  }
-
-  function updatePrevState(key, value) {
-    switch (key) {
-      case "update":
-        setAccessright(prevState => ({
-          ...prevState,
-          update: value
-        }));
-        break;
-      case "create":
-        setAccessright(prevState => ({
-          ...prevState,
-          create: value
-        }));
-        break;
-      case "delete":
-        setAccessright(prevState => ({
-          ...prevState,
-          delete: value
-        }));
-        break;
-
-      default:
-        setAccessright(prevState => ({
-          ...prevState,
-          read: value
-        }));
-        break;
-    }
-
-  }
-
   const HandleData = (event) => {
     event.preventDefault();
+    console.log(formData, Accessright, Sex)
     Request.post(
       "/createstaff",
       { formData, Accessright, Sex },
