@@ -19,7 +19,7 @@ const ImportStock = () => {
     page: 1,
   });
   const [formData, setFormData] = useState({});
-  console.log(formData)
+
   const [Show, setShow] = useState({
     valueShow: false,
     message: ""
@@ -33,19 +33,32 @@ const ImportStock = () => {
   const [DataCategory, setDataCategory] = useState([])
   const [DataWarehouse, setDataWarehouse] = useState([]);
   const [DataSupplier, setDataSupplier] = useState([]);
-
+  const [valueAuto, setvalueAuto] = useState({
+    Category: "",
+    MaThuongHieu: "",
+    Color: "",
+    MaKho: "",
+    MaNCC: "",
+    TinhTrangHang: "GOOD",
+  })
+  const HandleOnclose = (event) => {
+    console.log(event)
+  }
   const HandleChange = (event, newvalue) => {
     if (newvalue) {
+      console.info(event.target)
+      setvalueAuto({ ...valueAuto, [newvalue?.key]: newvalue?.label })
       setFormData({ ...formData, [newvalue?.key]: newvalue?.label });
     }
     else {
       const { name, value } = event.target;
-      console.info(name, value)
+      console.info(event, value, newvalue)
       if (name !== "MaThuongHieu"
         || name !== "Category"
         || name !== "TinhTrangHang"
         || name !== "MaNCC"
         || name !== "MaKho") {
+        // setvalueAuto({ ...valueAuto, [newvalue?.key]: newvalue?.label })
         setFormData({ ...formData, [name]: value });
       }
     }
@@ -54,35 +67,39 @@ const ImportStock = () => {
   //   setSelected(value);}
   const HandleData = (event) => {
     event.preventDefault();
-    Request.post(
-      "/PostStock",
-      { formData },
-      { headers: { Authorization: sessionStorage.getItem("access_token") } }
-    )
+    Request
+      .post(
+        "/PostStock",
+        { formData },
+        { headers: { Authorization: sessionStorage.getItem("access_token") } }
+      )
       .then((response) => {
+        console.info(response.status)
         if (response.status === 200) {
-          const MaLK = document.getElementsByName("MaLK")
-          const TenLK = document.getElementsByName("TenLK")
-          const Donvi = document.getElementsByName("Donvi")
-          const Soluong = document.getElementsByName("Soluong")
-          const MaThuongHieu = document.getElementsByName("MaThuongHieu")
-          const MaNCC = document.getElementsByName("MaNCC")
-          const Color = document.getElementsByName("Color")
-          const MaKho = document.getElementsByName("MaKho")
-          const GiaBanLe = document.getElementsByName("GiaBanLe")
-          const TinhTrangHang = document.getElementsByName("TinhTrangHang")
+          // const MaLK = document.getElementsByName("MaLK")
+          // const TenLK = document.getElementsByName("TenLK")
+          // const Donvi = document.getElementsByName("Donvi")
+          // const Soluong = document.getElementsByName("Soluong")
+          // const MaThuongHieu = document.getElementsByName("MaThuongHieu")
+          // const MaNCC = document.getElementsByName("MaNCC")
+          // const Color = document.getElementsByName("Color")
+          // const MaKho = document.getElementsByName("MaKho")
+          // const GiaBanLe = document.getElementsByName("GiaBanLe")
+          // const TinhTrangHang = document.getElementsByName("TinhTrangHang")
 
-          MaLK[0].value = "";
-          TenLK[0].value = "";
-          Donvi[0].value = "";
-          Soluong[0].value = "";
-          MaThuongHieu[0].value = "";
-          MaNCC[0].value = "";
-          Color[0].value = "";
-          MaKho[0].value = "";
-          GiaBanLe[0].value = "";
-          TinhTrangHang[0].value = "";
+          // MaLK[0].value = "";
+          // TenLK[0].value = "";
+          // Donvi[0].value = "";
+          // Soluong[0].value = "";
+          // MaThuongHieu[0].value = "";
+          // MaNCC[0].value = "";
+          // Color[0].value = "";
+          // MaKho[0].value = "";
+          // GiaBanLe[0].value = "";
+          // TinhTrangHang[0].value = "";
+
           setFormData({})
+
           setShow({
             valueShow: true,
             message: response.data.message
@@ -181,6 +198,8 @@ const ImportStock = () => {
                 sx={{ width: 350 }}
                 onChange={HandleChange}
                 name="Category"
+
+                value={valueAuto.Category}
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="Category" />}
               /></Col>
             <Col md={2}><Form.Label column="sm">Name Product</Form.Label></Col>
