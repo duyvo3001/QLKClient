@@ -7,7 +7,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Request from "../../../api/Request";
 import { BarChart } from '@mui/x-charts/BarChart';
-
+import { Grid } from '@mui/material';
 const ReportSale = () => {
     const [formData, setFormData] = useState({
         Category: "none",
@@ -38,7 +38,7 @@ const ReportSale = () => {
     const YearSaleBarChart = () => {
         return (
             <BarChart
-                width={1000}
+                width={900}
                 height={200}
                 series={[
                     { data: uData, label: 'Export', id: 'uvId' },
@@ -50,7 +50,7 @@ const ReportSale = () => {
     const CategoryBarChart = () => {
         return (
             <BarChart
-                width={1000}
+                width={900}
                 height={200}
                 series={[
                     { data: uDataCategory, label: 'Category', id: 'uvId' },
@@ -62,7 +62,7 @@ const ReportSale = () => {
     const BrandBarChart = () => {
         return (
             <BarChart
-                width={1000}
+                width={900}
                 height={200}
                 series={[
                     { data: uDataBrand, label: 'Brand', id: 'uvId' },
@@ -80,19 +80,7 @@ const ReportSale = () => {
         }
         setarrYear(arrYear)
     }
-    // function RequestRouterSearch(Url, keyName, SetData) {
-    //     Request
-    //         .get(`/${Url}`,
-    //             { headers: { Authorization: sessionStorage.getItem("access_token") } })
-    //         .then((response) => {
-    //             const object = []
-    //             response?.data?.result?.map((key) => {
-    //                 return object.push({ label: key?.[keyName], key: keyName })
-    //             })
-    //             SetData(object)
-    //         })
-    //         .catch((error) => { console.log(error) })
-    // }
+
     useEffect(() => {
         getYearAutocomplete()
     }, [])
@@ -126,19 +114,7 @@ const ReportSale = () => {
 
     }, [datayear, formData])
 
-    // const HandleChange = (event, newvalue) => {
-    //     if (newvalue.key === "MaThuongHieu")
-    //         updateValue("MaThuongHieu", newvalue)
-    //     else
-    //         updateValue("Category", newvalue)
 
-    //     function updateValue(key, value) {
-    //         setFormData(prevState => ({
-    //             ...prevState,
-    //             [key]: value?.label
-    //         }));
-    //     }
-    // };
 
     const OnchangeYeartable = async (event, newvalue) => { // when click and when type change event
         setdatayear(newvalue.label)
@@ -171,20 +147,23 @@ const ReportSale = () => {
                         /></Col>
                 </Row>
             </Container>
-            <Row>
-
-                <Col>
+            <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                <Grid>
                     <div className='auto'>
                         <YearSaleBarChart />
                     </div>
+                </Grid>
+                <Grid>
                     <div className='auto'>
                         <CategoryBarChart />
                     </div>
+                </Grid>
+                <Grid>
                     <div className='auto'>
                         <BrandBarChart />
                     </div>
-                </Col>
-            </Row>
+                </Grid>
+            </Grid>
             {/* <TableSale DataInvoice={DataInvoice} /> */}
         </>
     )

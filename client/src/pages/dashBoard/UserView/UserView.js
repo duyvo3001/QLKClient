@@ -4,6 +4,9 @@ import TableUser from "../../Import/table/TableUser"
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Request from "../../../api/Request";
+import Container from '@mui/material/Container';
+import { Grid } from "@mui/material";
+import Typography from '@mui/material/Typography';
 
 const UserView = () => {
     const [DataUser, setDataUser] = useState([]) //state dataProduct
@@ -46,7 +49,7 @@ const UserView = () => {
                                 Email: key?.Email,
                                 NgayTao: key?.NgayTao,
                                 AccessRight: key?.AccessRight,
-                                pass_nv :key?.pass_nv
+                                pass_nv: key?.pass_nv
                             }
                         )
                     })
@@ -73,26 +76,34 @@ const UserView = () => {
     }
     return (
         <>
-            <h4>Manage : User</h4>
-            <div className="mb-3">
-                <Autocomplete
-                    disablePortal
-                    id="test"
-                    fullWidth={true}
-                    size="small"
-                    options={DataUser}
-                    sx={{ width: 200 }}
-                    onChange={Onchangeformtable}
-                    onInputChange={OnCloseAuto}
-                    name={"ID"}
-                    renderInput={
-                        (params) => <TextField {...params}
-                            label="Search"
-                            name={"User"}
-                        />
-                    }
-                />
-            </div>
+            <Container fixed>
+                <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
+                    <Grid item xs={3} sm={3} md={3} className="mb-3">
+                        <h4>Manage : User</h4>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3}>
+                        <div className="mb-3">
+                            <Autocomplete
+                                disablePortal
+                                id="test"
+                                fullWidth={true}
+                                size="small"
+                                options={DataUser}
+                                sx={{ width: 200 }}
+                                onChange={Onchangeformtable}
+                                onInputChange={OnCloseAuto}
+                                name={"ID"}
+                                renderInput={
+                                    (params) => <TextField {...params}
+                                        label="Search"
+                                        name={"User"}
+                                    />
+                                }
+                            />
+                        </div>
+                    </Grid>
+                </Grid>
+            </Container>
             <TableUser searchBox={searchBox} className="mb-3" filters={filters} setfilters={setfilters} />
             <ButtonBottom
                 pageindex={pageindex}

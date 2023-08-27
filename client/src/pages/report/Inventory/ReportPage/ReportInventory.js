@@ -6,8 +6,9 @@ import TextField from '@mui/material/TextField';
 import ReactToPrint from 'react-to-print';
 import Request from "../../../../api/Request";
 import TableInventory from '../table/TableInventory';
-import Button from 'react-bootstrap/esm/Button';
-
+import { Button } from '@mui/material';
+import Container from '@mui/material/Container';
+import "../../scss/style.scss"
 const DataProvider = () => {
     const componentRef = useRef();
     const Stockstatus = [
@@ -136,126 +137,129 @@ const DataProvider = () => {
 
     return (
         <>
-            <Row className='mb-2 row'>
-                <Col className="mb-3">
-                    <h4>Inventory Report</h4>
-                </Col>
-            </Row>
-            <Row className='mb-2 row'>
-                <Col md={6} sm={12} lg={6}>
-                    <Autocomplete
-                        fullWidth={true}
-                        loading={true}
-                        disablePortal
-                        id="Product"
-                        size="small"
-                        options={DataStock}
-                        sx={{ width: 500 }}
-                        onChange={HandleChange}
-                        onInputChange={StockOnclose}
-                        name="Product"
-                        renderInput={(params) => <TextField {...params} label="Product" name="Product" />}
-                    /></Col>
-                <Col md={6} sm={12} lg={6}>
-                    <Autocomplete
-                        fullWidth={true}
-                        loading={true}
-                        disablePortal
-                        id="MaKho"
-                        size="small"
-                        options={DataWarehouse}
-                        sx={{ width: 190 }}
-                        onChange={HandleChange}
-                        onInputChange={MaKhoOnclose}
-                        name="MaKho"
-                        renderInput={(params) => <TextField {...params} label="Ware House" name="Hang" />}
-                    /></Col>
-            </Row>
-            <Row className='mb-2 row'>
-                <Col md={5} sm={5} lg={2}>
-                    <Autocomplete
-                        disablePortal
-                        id="test"
-                        fullWidth={true}
-                        size="small"
-                        options={DataCategory}
-                        sx={{ width: 190 }}
-                        onChange={HandleChange}
-                        onInputChange={CategoryOnclose}
-                        name={"ID"}
-                        renderInput={
-                            (params) => <TextField {...params}
-                                label="Category"
-                                name={"Category"}
-                            />
-                        }
-                    /></Col>
-                <Col md={5} sm={5} lg={2}>
-                    <Autocomplete
-                        disablePortal
-                        id="test"
-                        fullWidth={true}
-                        size="small"
-                        options={DataBrand}
-                        sx={{ width: 190 }}
-                        onChange={HandleChange}
-                        onInputChange={MaThuongHieuOnclose}
-                        name={"ID"}
-                        renderInput={
-                            (params) => <TextField {...params}
-                                label="ID Brand"
-                                name={"Brand"}
-                            />
-                        }
-                    /></Col>
-                <Col md={5} sm={5} lg={2}>
-                    <Autocomplete
-                        disablePortal
-                        id="test"
-                        fullWidth={true}
-                        size="small"
-                        options={Stockstatus}
-                        sx={{ width: 190 }}
-                        onChange={HandleChange}
-                        onInputChange={TinhTrangHangOnclose}
-                        name={"ID"}
-                        renderInput={
-                            (params) => <TextField {...params}
-                                label="Stock status"
-                                name={"Brand"}
-                            />
-                        }
-                    /></Col>
-                <Col md={5} sm={5} lg={2}>
-                    <ReactToPrint
-                        trigger={() => {
-                            return (<Button className='mb-3' variant='success'>Print Invoice</Button>)
-                        }}
-                        content={() => componentRef.current}
-                        documentTitle='Invoice'
-                        pageStyle='print'
-                    />
-                </Col>
-            </Row>
+            <Container>
+                <Row className='mb-2 row'>
+                    <Col className="mb-3">
+                        <h3>Inventory Report</h3>
+                    </Col>
+                </Row>
+                <Row className='mb-2 row'>
+                    <Col md={6} sm={12} lg={6}>
+                        <Autocomplete
+                            fullWidth={true}
+                            loading={true}
+                            disablePortal
+                            id="Product"
+                            size="small"
+                            options={DataStock}
+                            sx={{ width: 580 }}
+                            onChange={HandleChange}
+                            onInputChange={StockOnclose}
+                            name="Product"
+                            renderInput={(params) => <TextField {...params} label="Product" name="Product" />}
+                        /></Col>
+                    <Col md={6} sm={12} lg={6}>
+                        <Autocomplete
+                            fullWidth={true}
+                            loading={true}
+                            disablePortal
+                            id="MaKho"
+                            size="small"
+                            options={DataWarehouse}
+                            sx={{ width: 190 }}
+                            onChange={HandleChange}
+                            onInputChange={MaKhoOnclose}
+                            name="MaKho"
+                            renderInput={(params) => <TextField {...params} label="Ware House" name="Hang" />}
+                        /></Col>
+                </Row>
+                <Row className='mb-2 row'>
+                    <Col md={5} sm={5} lg={2}>
+                        <Autocomplete
+                            disablePortal
+                            id="test"
+                            fullWidth={true}
+                            size="small"
+                            options={DataCategory}
+                            sx={{ width: 190 }}
+                            onChange={HandleChange}
+                            onInputChange={CategoryOnclose}
+                            name={"ID"}
+                            renderInput={
+                                (params) => <TextField {...params}
+                                    label="Category"
+                                    name={"Category"}
+                                />
+                            }
+                        /></Col>
+                    <Col md={5} sm={5} lg={2}>
+                        <Autocomplete
+                            disablePortal
+                            id="test"
+                            fullWidth={true}
+                            size="small"
+                            options={DataBrand}
+                            sx={{ width: 190 }}
+                            onChange={HandleChange}
+                            onInputChange={MaThuongHieuOnclose}
+                            name={"ID"}
+                            renderInput={
+                                (params) => <TextField {...params}
+                                    label="ID Brand"
+                                    name={"Brand"}
+                                />
+                            }
+                        /></Col>
+                    <Col md={5} sm={5} lg={2}>
+                        <Autocomplete
+                            disablePortal
+                            id="test"
+                            fullWidth={true}
+                            size="small"
+                            options={Stockstatus}
+                            sx={{ width: 190 }}
+                            onChange={HandleChange}
+                            onInputChange={TinhTrangHangOnclose}
+                            name={"ID"}
+                            renderInput={
+                                (params) => <TextField {...params}
+                                    label="Stock status"
+                                    name={"Brand"}
+                                />
+                            }
+                        /></Col>
+                    <Col md={5} sm={5} lg={2}>
+                        <ReactToPrint
+                            trigger={() => {
+                                return (<Button sx={{ width: 190 }} className='mb-3' variant='contained'>Print Invoice</Button>)
+                            }}
+                            content={() => componentRef.current}
+                            documentTitle='Invoice'
+                            pageStyle='print'
+                        />
+                    </Col>
+                </Row>
+            </Container>
             {/* <ButtonBottom pageindex={pageindex}
                     HandleButtonClick={HandleButtonClick} /> */}
-            <div ref={componentRef}>
+            <div className='tablestyle' ref={componentRef}>
                 <div><h3>Inventory Report</h3></div>
                 <div>
                     <Row>
-                        <Col md={2} lg={2}>Category</Col>
-                        <Col>{formData.Category}</Col>
-                    </Row>                <Row>
-                        <Col md={2} lg={2}>Brand</Col>
-                        <Col>{formData.MaThuongHieu}</Col>
+                        <Col md={2} sm={1} lg={2}>Category</Col>
+                        <Col md={2} sm={1} lg={2}>: {formData.Category}</Col>
                     </Row>
                     <Row>
-                        <Col md={2} lg={2}>Ware house</Col>
-                        <Col>{formData.MaKho}</Col>
+                        <Col md={2} sm={1} lg={2}>Brand</Col>
+                        <Col md={2} sm={1} lg={2}>: {formData.MaThuongHieu}</Col>
                     </Row>
                     <Row>
-                        <Col md={2} lg={2}>Stock status</Col>
-                        <Col>{formData.TinhTrangHang}</Col>
+                        <Col md={2} sm={1} lg={2}>Ware house</Col>
+                        <Col md={2} sm={1} lg={2}>: {formData.MaKho}</Col>
+                    </Row>
+                    <Row>
+                        <Col md={2} sm={1} lg={2}>Stock status</Col>
+                        <Col md={2} sm={1} lg={2}>: {formData.TinhTrangHang}</Col>
                     </Row>
                 </div>
                 <TableInventory DataProduct={DataProduct} />

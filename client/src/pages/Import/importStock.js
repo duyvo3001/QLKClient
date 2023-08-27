@@ -41,9 +41,7 @@ const ImportStock = () => {
     MaNCC: "",
     TinhTrangHang: "GOOD",
   })
-  const HandleOnclose = (event) => {
-    console.log(event)
-  }
+
   const HandleChange = (event, newvalue) => {
     if (newvalue) {
       console.info(event.target)
@@ -75,28 +73,23 @@ const ImportStock = () => {
       )
       .then((response) => {
         console.info(response.status)
-        if (response.status === 200) {
-          // const MaLK = document.getElementsByName("MaLK")
-          // const TenLK = document.getElementsByName("TenLK")
-          // const Donvi = document.getElementsByName("Donvi")
-          // const Soluong = document.getElementsByName("Soluong")
-          // const MaThuongHieu = document.getElementsByName("MaThuongHieu")
-          // const MaNCC = document.getElementsByName("MaNCC")
-          // const Color = document.getElementsByName("Color")
-          // const MaKho = document.getElementsByName("MaKho")
-          // const GiaBanLe = document.getElementsByName("GiaBanLe")
-          // const TinhTrangHang = document.getElementsByName("TinhTrangHang")
-
-          // MaLK[0].value = "";
-          // TenLK[0].value = "";
-          // Donvi[0].value = "";
-          // Soluong[0].value = "";
-          // MaThuongHieu[0].value = "";
-          // MaNCC[0].value = "";
-          // Color[0].value = "";
-          // MaKho[0].value = "";
-          // GiaBanLe[0].value = "";
-          // TinhTrangHang[0].value = "";
+        if (response.status === 202) {
+          const TenLK = document.getElementsByName("TenLK")
+          const Donvi = document.getElementsByName("Donvi")
+          const Soluong = document.getElementsByName("Soluong")
+          const GiaBanLe = document.getElementsByName("GiaBanLe")
+          TenLK[0].value = "";
+          Donvi[0].value = "";
+          Soluong[0].value = "";
+          GiaBanLe[0].value = "";
+          setvalueAuto({
+            Category: "",
+            MaThuongHieu: "",
+            Color: "",
+            MaKho: "",
+            MaNCC: "",
+            TinhTrangHang: "GOOD",
+          })
 
           setFormData({})
 
@@ -198,7 +191,6 @@ const ImportStock = () => {
                 sx={{ width: 350 }}
                 onChange={HandleChange}
                 name="Category"
-
                 value={valueAuto.Category}
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="Category" />}
               /></Col>
@@ -228,6 +220,7 @@ const ImportStock = () => {
                 sx={{ width: 350 }}
                 onChange={HandleChange}
                 name="MaThuongHieu"
+                value={valueAuto.MaThuongHieu}
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="MaThuongHieu" />}
               />
             </Col>
@@ -242,6 +235,7 @@ const ImportStock = () => {
                 sx={{ width: 350 }}
                 onChange={HandleChange}
                 name="Color"
+                value={valueAuto.Color}
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="Color" />}
               /></Col>
           </Row>
@@ -306,6 +300,7 @@ const ImportStock = () => {
                 sx={{ width: 350 }}
                 onChange={HandleChange}
                 name="MaKho"
+                value={valueAuto.MaKho}
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="MaKho" />}
               /></Col>
           </Row>
@@ -322,6 +317,7 @@ const ImportStock = () => {
                 options={StatusProduct}
                 sx={{ width: 350 }}
                 onChange={HandleChange}
+                value={valueAuto.TinhTrangHang}
                 name="TinhTrangHang"
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="TinhTrangHang" />}
               />
@@ -337,6 +333,7 @@ const ImportStock = () => {
                 sx={{ width: 350 }}
                 onChange={HandleChange}
                 name="MaNCC"
+                value={valueAuto.MaNCC}
                 renderInput={(params) => <TextField {...params} onChange={HandleChange} name="MaNCC" />}
               />
             </Col>
