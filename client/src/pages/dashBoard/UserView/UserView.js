@@ -3,11 +3,11 @@ import ButtonBottom from "../../Import/buttonBot/buttonBottom";
 import TableUser from "../../Import/table/TableUser"
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Request from "../../../api/Request";
 import Container from '@mui/material/Container';
 import { Grid } from "@mui/material";
-import Typography from '@mui/material/Typography';
-
+import Request from "../../../api/Request";
+// import Typography from '@mui/material/Typography';
+import "../../../style/styleTable.scss"
 const UserView = () => {
     const [DataUser, setDataUser] = useState([]) //state dataProduct
     const [searchBox, setsearchBox] = useState([]) //state dataProduct
@@ -81,7 +81,7 @@ const UserView = () => {
                     <Grid item xs={3} sm={3} md={3} className="mb-3">
                         <h4>Manage : User</h4>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3}>
+                    <Grid className="content-wrapper" item xs={3} sm={3} md={3}>
                         <div className="mb-3">
                             <Autocomplete
                                 disablePortal
@@ -104,11 +104,13 @@ const UserView = () => {
                     </Grid>
                 </Grid>
             </Container>
-            <TableUser searchBox={searchBox} className="mb-3" filters={filters} setfilters={setfilters} />
-            <ButtonBottom
-                pageindex={pageindex}
-                HandleButtonClick={HandleButtonClick}
-            />
+            <div className="content-table">
+                <TableUser searchBox={searchBox} filters={filters} setfilters={setfilters} />
+                <ButtonBottom
+                    pageindex={pageindex}
+                    HandleButtonClick={HandleButtonClick}
+                />
+            </div>
         </>
     )
 }

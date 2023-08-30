@@ -4,6 +4,8 @@ import ButtonBottom from "../../Import/buttonBot/buttonBottom";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Request from "../../../api/Request";
+import Container from '@mui/material/Container';
+import { Grid } from "@mui/material";
 const BrandView = (props) => {
     const [DataBrand, setDataBrand] = useState([]) //state dataProduct
     const [searchBox, setsearchBox] = useState([]) //state dataProduct
@@ -63,31 +65,39 @@ const BrandView = (props) => {
     }
     return (
         <>
-            <h4>Manage: Brand</h4>
-            <div className="mb-3">
-                <Autocomplete
-                    disablePortal
-                    id="test"
-                    fullWidth={true}
-                    size="small"
-                    options={DataBrand}
-                    sx={{ width: 200 }}
-                    onChange={Onchangeformtable}
-                    onInputChange={OnCloseAuto}
-                    name={"ID"}
-                    renderInput={
-                        (params) => <TextField {...params}
-                            label="Search"
-                            name={"Brand"}
-                        />
-                    }
+            <Container fixed>
+                <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
+                    <Grid item xs={3} sm={3} md={3} className="mb-3">
+                        <h4>Manage: Brand</h4>
+                    </Grid>
+                    <Grid className="content-wrapper" item xs={3} sm={3} md={3}>
+                        <div className="mb-3">
+                            <Autocomplete
+                                disablePortal
+                                id="test"
+                                fullWidth={true}
+                                size="small"
+                                options={DataBrand}
+                                sx={{ width: 200 }}
+                                onChange={Onchangeformtable}
+                                onInputChange={OnCloseAuto}
+                                name={"ID"}
+                                renderInput={
+                                    (params) => <TextField {...params}
+                                        label="Search"
+                                        name={"Brand"}
+                                    />
+                                }
+                            />
+                        </div>
+                    </Grid>
+                </Grid>
+                <TableDT searchBox={searchBox} className="mb-3" filters={filters} valuehidden={false} setfilters={setfilters} />
+                <ButtonBottom
+                    pageindex={pageindex}
+                    HandleButtonClick={HandleButtonClick}
                 />
-            </div>
-            <TableDT searchBox={searchBox} className="mb-3" filters={filters} valuehidden={false} setfilters={setfilters} />
-            <ButtonBottom
-                pageindex={pageindex}
-                HandleButtonClick={HandleButtonClick}
-            />
+            </Container>
         </>
     )
 }

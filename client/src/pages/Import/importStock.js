@@ -10,7 +10,7 @@ import ButtonBottom from "../Import/buttonBot/buttonBottom";
 import { AlterShowSuccess, AlterShowEror } from "../../components/Alter/AlterShow";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-
+import "../../style/styleTable.scss"
 const ImportStock = () => {
   const [pageindex, setpageindex] = useState({
     page: 1,
@@ -38,13 +38,13 @@ const ImportStock = () => {
     MaThuongHieu: "",
     Color: "",
     MaKho: "",
-    MaNCC: "",
+    MaNCC:"",
     TinhTrangHang: "GOOD",
   })
 
   const HandleChange = (event, newvalue) => {
     if (newvalue) {
-      console.info(event.target)
+      console.info(newvalue)
       setvalueAuto({ ...valueAuto, [newvalue?.key]: newvalue?.label })
       setFormData({ ...formData, [newvalue?.key]: newvalue?.label });
     }
@@ -122,19 +122,25 @@ const ImportStock = () => {
     });
     setpageindex({ ...pageindex, page: newPage });
   };
+
   function RequestRouterSearch(Url, keyName, SetData) {
-    Request
-      .get(`/${Url}`,
-        { headers: { Authorization: sessionStorage.getItem("access_token") } })
-      .then((response) => {
-        const object = []
-        response?.data?.result?.map((key) => {
-          return object.push({ label: key?.[keyName], key: keyName })
+  
+      Request
+        .get(`/${Url}`,
+          { headers: { Authorization: sessionStorage.getItem("access_token") } })
+        .then((response) => {
+          const object = []
+          response?.data?.result?.map((key) => {
+            console.log(key)
+            return object.push({ label: key?.[keyName], key: keyName })
+          })
+          SetData(object)
         })
-        SetData(object)
-      })
-      .catch((error) => { console.log(error) })
+        .catch((error) => { console.log(error) })
+ 
   }
+ 
+
   useEffect(() => {
 
     RequestRouterSearch("SearchCategory", "Category", setDataCategory)
@@ -173,7 +179,9 @@ const ImportStock = () => {
       page: 1,
     })
   }, [Show, ShowEror])
+
   let valuehidden = true
+
   return (
     <>
       <Container fluid="xxl">
@@ -343,7 +351,7 @@ const ImportStock = () => {
           <AlterShowSuccess Show={Show} setShow={setShow} />
         </Form>
       </Container>
-      <div>
+      <div className="content-table">
         <TableDT filters={filters} valuehidden={valuehidden} />
         <ButtonBottom
           pageindex={pageindex}

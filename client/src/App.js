@@ -3,8 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { publicRoutes, privateRoutes } from './routes/route'
 import defaultLayout from './components/Layout/DefaultLayout/defaultLayout'
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import ReportPage from './pages/report/ReportPage';
-// import { AuthContext } from './context/AuthContext';
 
 function PrivateRoute({ children }) {
   const storedAuth = sessionStorage.getItem('isAuthenticated');

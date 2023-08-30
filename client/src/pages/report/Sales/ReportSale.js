@@ -9,10 +9,7 @@ import Request from "../../../api/Request";
 import { BarChart } from '@mui/x-charts/BarChart';
 import { Grid } from '@mui/material';
 const ReportSale = () => {
-    const [formData, setFormData] = useState({
-        Category: "none",
-        MaThuongHieu: "none",
-    })
+
     const [getarrYear, setarrYear] = useState([])
     const [datayear, setdatayear] = useState(null)
     const [uData, setuData] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -112,9 +109,7 @@ const ReportSale = () => {
             })
             .catch((error) => { console.log(error) })
 
-    }, [datayear, formData])
-
-
+    }, [datayear])
 
     const OnchangeYeartable = async (event, newvalue) => { // when click and when type change event
         setdatayear(newvalue.label)
@@ -125,7 +120,7 @@ const ReportSale = () => {
             <Container>
                 <Row className='mb-2 row'>
                     <Col md={2}>
-                        <h4>Report Sales</h4>
+                        <h4>Report Export</h4>
                     </Col>
                     <Col md={2}>
                         <Autocomplete

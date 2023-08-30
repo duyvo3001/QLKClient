@@ -4,6 +4,9 @@ import ButtonBottom from "../../Import/buttonBot/buttonBottom";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Request from "../../../api/Request";
+import Container from '@mui/material/Container';
+import { Grid } from "@mui/material";
+import "../../../style/styleTable.scss"
 const ProductView = () => {
     const [DataProduct, setDataProduct] = useState([]) //state dataProduct
     const [searchBox, setsearchBox] = useState([]) //state dataProduct
@@ -36,7 +39,7 @@ const ProductView = () => {
                                 key: keyName,
                                 _id: key._id,
                                 MaLK: key.MaLK,
-                                MaKho : key.MaKho,
+                                MaKho: key.MaKho,
                                 Color: key.Color,
                                 Donvi: key.Donvi,
                                 MaNCC: key.MaNCC,
@@ -63,7 +66,7 @@ const ProductView = () => {
     useEffect(() => {
         RequestRouterSearch("SearchStock", "MaLK", setDataProduct)
     }, [])
-    
+
     const Onchangeformtable = async (event, newvalue) => { // when click and when type change event
         if (newvalue) {// click event
             // console.log(newvalue)
@@ -71,39 +74,49 @@ const ProductView = () => {
         }
     }
     const OnCloseAuto = (event, newvalue) => {
-        if(newvalue === "") {
+        if (newvalue === "") {
             setsearchBox([])
         }
     }
     return (
         <>
-            <h4>Manage: Product</h4>
-            <div className="mb-3">
-                <Autocomplete
-                    disablePortal
-                    id="test"
-                    fullWidth={true}
-                    size="small"
-                    options={DataProduct}
-                    sx={{ width: 400 }}
-                    onChange={Onchangeformtable}
-                    onInputChange={OnCloseAuto}
-                    name={"ID"}
-                    renderInput={
-                        (params) => <TextField {...params}
-                            label="Search"
-                            // onChange={Onchangeformtable}
-                            name={"Product"}
+            <Container fixed>
+                <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
+                    <Grid item xs={3} sm={3} md={3} className="mb-3">
+                        <h4>Manage: Product</h4>
+                    </Grid>
+                    <Grid className="content-wrapper" item xs={3} sm={3} md={3}>
+                    <div className="mb-3">
+                        <Autocomplete
+                            disablePortal
+                            id="test"
+                            fullWidth={true}
+                            size="small"
+                            options={DataProduct}
+                            sx={{ width: 500 }}
+                            onChange={Onchangeformtable}
+                            onInputChange={OnCloseAuto}
+                            name={"ID"}
+                            renderInput={
+                                (params) => <TextField {...params}
+                                    label="Search"
+                                    // onChange={Onchangeformtable}
+                                    name={"Product"}
+                                />
+                            }
                         />
-                    }
+                    </div>
+                    </Grid>
+                </Grid>
+            </Container>
+            <div className="content-table">
+                <TableDT searchBox={searchBox} className="mb-3" filters={filters} valuehidden={false} setfilters={setfilters} />
+                {/* truyen du lieu data product vao day  */}
+                <ButtonBottom
+                    pageindex={pageindex}
+                    HandleButtonClick={HandleButtonClick}
                 />
             </div>
-            <TableDT searchBox={searchBox} className="mb-3" filters={filters} valuehidden={false} setfilters={setfilters} />
-            {/* truyen du lieu data product vao day  */}
-            <ButtonBottom
-                pageindex={pageindex}
-                HandleButtonClick={HandleButtonClick}
-            />
         </>
     )
 }

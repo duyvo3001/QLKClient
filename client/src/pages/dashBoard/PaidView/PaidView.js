@@ -4,7 +4,9 @@ import OrderTableView from "../../PaidOrder/OrderTableView";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Request from "../../../api/Request";
-
+import Container from '@mui/material/Container';
+import { Grid } from "@mui/material";
+import "../../../style/styleTable.scss"
 const PaidView = () => {
     const [DataPaidOrder, setDataPaidOrder] = useState([]) //state dataProduct
     const [searchBox, setsearchBox] = useState([]) //state dataProduct
@@ -65,31 +67,42 @@ const PaidView = () => {
     }
     return (
         <>
-            <h4 >Manage : Export Order</h4>
-            <div className="mb-3">
-                <Autocomplete
-                    disablePortal
-                    id="test"
-                    fullWidth={true}
-                    size="small"
-                    options={DataPaidOrder}
-                    sx={{ width: 200 }}
-                    onChange={Onchangeformtable}
-                    onInputChange={OnCloseAuto}
-                    name={"ID"}
-                    renderInput={
-                        (params) => <TextField {...params}
-                            label="Search"
-                            name={"ExportOrder"}
-                        />
-                    }
-                />
-            </div>
+            <Container fixed>
+                <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
+                    <Grid item xs={3} sm={3} md={3} className="mb-3">
+                        <h4 >Manage : Export Order</h4>
+                    </Grid>
+                    <Grid className="content-wrapper" item xs={3} sm={3} md={3}>
+
+                        <div className="mb-3">
+                            <Autocomplete
+                                disablePortal
+                                id="test"
+                                fullWidth={true}
+                                size="small"
+                                options={DataPaidOrder}
+                                sx={{ width: 200 }}
+                                onChange={Onchangeformtable}
+                                onInputChange={OnCloseAuto}
+                                name={"ID"}
+                                renderInput={
+                                    (params) => <TextField {...params}
+                                        label="Search"
+                                        name={"ExportOrder"}
+                                    />
+                                }
+                            />
+                        </div>
+                    </Grid>
+                </Grid>
+            </Container >
+            <div className="content-table">
             <OrderTableView className="mb-3" searchBox={searchBox} filters={filters} setfilters={setfilters} />
             <ButtonBottom
                 pageindex={pageindex}
                 HandleButtonClick={HandleButtonClick}
-            />
+                />
+                </div>
         </>
     )
 }

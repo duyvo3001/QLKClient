@@ -4,7 +4,9 @@ import ButtonBottom from "../../Import/buttonBot/buttonBottom";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Request from "../../../api/Request";
-
+import Container from '@mui/material/Container';
+import { Grid } from "@mui/material";
+import "../../../style/styleTable.scss"
 const WareHouseView = () => {
     const [DataWareHouse, setDataWareHouse] = useState([]) //state dataProduct
     const [searchBox, setsearchBox] = useState([]) //state dataProduct
@@ -66,31 +68,41 @@ const WareHouseView = () => {
     }
     return (
         <>
-            <h4>Manage: WareHouse</h4>
-            <div className="mb-3">
-                <Autocomplete
-                    disablePortal
-                    id="test"
-                    fullWidth={true}
-                    size="small"
-                    options={DataWareHouse}
-                    sx={{ width: 200 }}
-                    onChange={Onchangeformtable}
-                    onInputChange={OnCloseAuto}
-                    name={"ID"}
-                    renderInput={
-                        (params) => <TextField {...params}
-                            label="Search"
-                            name={"WareHouse"}
-                        />
-                    }
+            <Container fixed>
+                <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
+                    <Grid item xs={3} sm={3} md={3} className="mb-3">
+                        <h4>Manage: WareHouse</h4>
+                    </Grid>
+                    <Grid className="content-wrapper" item xs={3} sm={3} md={3}>
+                        <div className="mb-3">
+                            <Autocomplete
+                                disablePortal
+                                id="test"
+                                fullWidth={true}
+                                size="small"
+                                options={DataWareHouse}
+                                sx={{ width: 200 }}
+                                onChange={Onchangeformtable}
+                                onInputChange={OnCloseAuto}
+                                name={"ID"}
+                                renderInput={
+                                    (params) => <TextField {...params}
+                                        label="Search"
+                                        name={"WareHouse"}
+                                    />
+                                }
+                            />
+                        </div>
+                    </Grid>
+                </Grid>
+            </Container>
+            <div className="content-table">
+                <TableWareHouse searchBox={searchBox} className="mb-3" filters={filters} setfilters={setfilters} />
+                <ButtonBottom
+                    pageindex={pageindex}
+                    HandleButtonClick={HandleButtonClick}
                 />
             </div>
-            <TableWareHouse searchBox={searchBox} className="mb-3" filters={filters} setfilters={setfilters} />
-            <ButtonBottom
-                pageindex={pageindex}
-                HandleButtonClick={HandleButtonClick}
-            />
         </>
     )
 }

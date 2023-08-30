@@ -10,6 +10,7 @@ import Request from "../../api/Request";
 import TableUser from "../Import/table/TableUser";
 import ButtonBottom from "../Import/buttonBot/buttonBottom";
 import AccessRight from "./AccessRight";
+import "../../style/styleTable.scss"
 const UserPage = () => {
   const [pageindex, setpageindex] = useState({
     page: 1,
@@ -115,11 +116,13 @@ const UserPage = () => {
           <ButtonSubmit />
         </Form>
       </Container>
-      <TableUser filters={filters} valuehidden={true} />
-      <ButtonBottom
-        pageindex={pageindex}
-        HandleButtonClick={HandleButtonClick}
-      />
+      <div className="content-table">
+        <TableUser filters={filters} valuehidden={true} />
+        <ButtonBottom
+          pageindex={pageindex}
+          HandleButtonClick={HandleButtonClick}
+        />
+      </div>
     </>
   )
 }
