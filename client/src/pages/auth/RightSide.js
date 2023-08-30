@@ -45,6 +45,8 @@ const RightSide = () => {
         console.log(response)
         if (response.status === 200) {
           sessionStorage.setItem('access_token', response.data.access_token);
+          sessionStorage.setItem('id', response.data._id);
+          console.info(response.data.user_nv)
           setLoggedIn(true);
           setIsAuthenticated(true);
         }

@@ -11,7 +11,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { AlterShowEror, AlterShowSuccess } from '../../components/Alter/AlterShow';
 const UserSetting = () => {
-  const [formData, setformData] = useState({})
+  const [formData, setformData] = useState({ _id: sessionStorage.getItem("id") })
   const [pwData, setpwData] = useState({
     pass_nv: "",
     repass_nv: "",
@@ -26,13 +26,35 @@ const UserSetting = () => {
     valueShow: false,
     message: ""
   });
-  const [valueform, setvalueform] = useState({})
+  const [valueform, setvalueform] = useState({
+    TenNV: "",
+    GioiTinh: "Female",
+    Email: "",
+    SDT: null,
+    DiaChi: "",
+    pass_nv: "",
+    repass_nv: ""
+  })
 
   const handlechange = (event) => {
     const { name, value } = event.target
     setformData({ ...formData, [name]: value })
+    setvalueform({ ...valueform, [name]: value })
   }
+  const handlechangePass = (event) => {
+    const { name, value } = event.target
+    console.log(name, value)
+    if (name === "repass_nv"){
 
+      setpwData({ ...pwData, repass_nv: value })
+      setvalueform({ ...pwData, repass_nv: value })
+    }
+    else{
+
+      setpwData({ ...pwData, pass_nv: value })
+      setpwData({ ...pwData, pass_nv: value })
+    }
+  }
   useEffect(() => { // set eror re password 
     if (pwData.pass_nv !== pwData.repass_nv) {
       setpwData({ ...pwData, eror: true, label: "Incorrect password" })
@@ -42,14 +64,7 @@ const UserSetting = () => {
     }
   }, [pwData.pass_nv, pwData.repass_nv])
 
-  const handlechangePass = (event) => {
-    const { name, value } = event.target
-    console.log(name, value)
-    if (name === "repass_nv")
-      setpwData({ ...pwData, repass_nv: value })
-    else
-      setpwData({ ...pwData, pass_nv: value })
-  }
+
 
   const handleDataPass = () => {
     if (pwData.pass_nv !== pwData.repass_nv) {
@@ -64,7 +79,8 @@ const UserSetting = () => {
           {
             formData: {
               pass_nv: pwData.pass_nv,
-              repass_nv: pwData.repass_nv
+              repass_nv: pwData.repass_nv,
+              _id: sessionStorage.getItem("id")
             }
           },
           { headers: { Authorization: sessionStorage.getItem("access_token") } })
@@ -79,24 +95,43 @@ const UserSetting = () => {
         .catch((error) => {
           setShowEror({
             valueShow: true,
-            message: error
+            message: "error"
           })
         });
     }
   }
   const handleDataInfo = () => {
-
+    Request
+      .patch("/updateUser",
+        { formData },
+        { headers: { Authorization: sessionStorage.getItem("access_token") } })
+      .then(response => {
+        if (response?.status === 200) {
+          setShow({
+            valueShow: true,
+            message: "update successfully"
+          })
+        }
+      })
+      .catch((error) => {
+        setShowEror({
+          valueShow: true,
+          message: "error"
+        })
+      });
   }
   return (
     <>
       <Container>
+        <AlterShowSuccess Show={Show} setShow={setShow} />
+        <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
         <div>
           <h3 className="mb-3">User Profile</h3>
         </div>
         <Typography >Personal Information</Typography>
         <Grid className="mb-3" container spacing={{ xs: 2, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }}>
           <Grid item xs={6} sm={6} md={6}>
-            <TextField error={false} size="small" sx={{ minWidth: 500 }} name='TenNV' onChange={handlechange} label="Name"></TextField></Grid>
+            <TextField error={false} size="small" value={valueform.TenNV} sx={{ minWidth: 500 }} name='TenNV' onChange={handlechange} label="Name"></TextField></Grid>
           <Grid item xs={6} sm={6} md={6}>
             <FormControl>
               <RadioGroup
@@ -126,8 +161,6 @@ const UserSetting = () => {
           <Grid item xs={6} sm={6} md={6}>
             <Button color="error" size="small" onClick={handleDataInfo} variant="contained">SAVE CHANGE</Button></Grid>
         </Grid>
-        <AlterShowSuccess Show={Show} setShow={setShow} />
-        <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
         <Typography> Change Password</Typography>
         <Grid className="mb-3" container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid item xs={6} sm={6} md={6}>
