@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from 'react';
 const AuthContext = createContext();// dùng để lây giá trị 
 
 const AuthProvider = ({ children }) => {// dùng để lấy giá trị trong vùng code nào
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const storedAuth = sessionStorage.getItem('isAuthenticated');

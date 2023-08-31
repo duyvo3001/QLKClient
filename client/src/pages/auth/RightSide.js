@@ -1,17 +1,16 @@
 import { useState, useContext, useEffect } from "react";
 import React from 'react'
 import Container from 'react-bootstrap/esm/Container'
-
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import Request from '../../api/Request.js'
-import { AuthContext } from "../../context/AuthContext.js";
 import Alert from 'react-bootstrap/Alert';
 import PropTypes from 'prop-types';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { AuthContext } from "../../context/AuthContext.js";
 import { Navigate } from 'react-router-dom';
 
 const RightSide = () => {
@@ -61,13 +60,13 @@ const RightSide = () => {
         if (error?.res) {
           setShow({
             valueShow: false,
-            message: "No server response"
+            message: "Server no response"
           })
         }
         else if (error.res?.status === 400) {
           setShow({
             valueShow: false,
-            message: "No server response"
+            message: "Server no response"
           })
         }
         else if (error.res?.status === 401) {
