@@ -44,13 +44,11 @@ const ImportStock = () => {
 
   const HandleChange = (event, newvalue) => {
     if (newvalue) {
-      console.info(newvalue)
       setvalueAuto({ ...valueAuto, [newvalue?.key]: newvalue?.label })
       setFormData({ ...formData, [newvalue?.key]: newvalue?.label });
     }
     else {
       const { name, value } = event.target;
-      console.info(event, value, newvalue)
       if (name !== "MaThuongHieu"
         || name !== "Category"
         || name !== "TinhTrangHang"
@@ -72,7 +70,6 @@ const ImportStock = () => {
         { headers: { Authorization: sessionStorage.getItem("access_token") } }
       )
       .then((response) => {
-        console.info(response.status)
         if (response.status === 202) {
           const TenLK = document.getElementsByName("TenLK")
           const Donvi = document.getElementsByName("Donvi")
@@ -131,7 +128,6 @@ const ImportStock = () => {
         .then((response) => {
           const object = []
           response?.data?.result?.map((key) => {
-            console.log(key)
             return object.push({ label: key?.[keyName], key: keyName })
           })
           SetData(object)

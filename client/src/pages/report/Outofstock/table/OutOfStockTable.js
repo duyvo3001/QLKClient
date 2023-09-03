@@ -19,7 +19,7 @@ const THeadtable = () => {
       <tr>
         <th>ID Product</th>
         <th>Name Product</th>
-        <th>Color</th>
+        <th>Quantity</th>
         <th>Unit</th>
       </tr>
     </thead>

@@ -24,7 +24,7 @@ const RightSide = () => {
 
   const [show, setShow] = useState({
     valueShow: false,
-    message: "hello world"
+    message: ""
   });
 
   const handleChange = (event) => {
@@ -82,7 +82,7 @@ const RightSide = () => {
           })
         }
       })
-     
+
   };
 
   if (loggedIn) {

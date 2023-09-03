@@ -1,9 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
-
 const AuthContext = createContext();// dùng để lây giá trị 
 
 const AuthProvider = ({ children }) => {// dùng để lấy giá trị trong vùng code nào
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);// set null
 
   useEffect(() => {
     const storedAuth = sessionStorage.getItem('isAuthenticated');
@@ -13,7 +12,7 @@ const AuthProvider = ({ children }) => {// dùng để lấy giá trị trong v�
   }, []);
 
   useEffect(() => {
-    sessionStorage.setItem('isAuthenticated', JSON.stringify(isAuthenticated));
+    sessionStorage.setItem('isAuthenticated', JSON.stringify(isAuthenticated));// set value token o day 
   }, [isAuthenticated]);
 
   return (
