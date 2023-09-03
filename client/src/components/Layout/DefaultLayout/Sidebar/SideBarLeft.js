@@ -82,7 +82,7 @@ const SideBarLeft = () => {
             <ListItemText primary="Dashboard" />
           </ListItemButton>
           {/* ----- Product ------------------------------------------*/}
-          <ListItemButton onClick={() => handleClick("Product")}>
+          <ListItemButton hidden={false}onClick={() => handleClick("Product")}>
             <ListItemIcon>
               <ProductionQuantityLimitsIcon />
             </ListItemIcon>

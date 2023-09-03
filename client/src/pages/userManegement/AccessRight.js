@@ -47,14 +47,11 @@ const AccessRight = (props) => {
                     return Object.keys(nameType?.[typeOfobj]).find(key => nameType?.[typeOfobj][key] === code)
                 }
                 if (returnType(name) !== undefined) {
-
-                    //update state of setAccessright
-                    const objType = { ...Accessright?.[typeOfobj], [returnType(name)]: checked }
+                    const objType = { ...Accessright?.[typeOfobj], [returnType(name)]: checked } //update state of setAccessright
                     const objAccessRight = { ...Accessright, [typeOfobj]: objType }
+                    
                     setAccessright(objAccessRight)
-
-                    //set checked Checkbox
-                    checkedCheckbox(typeOfobj, returnType(name))
+                    checkedCheckbox(typeOfobj, returnType(name))//set checked Checkbox
                 }
             }
         }
@@ -62,6 +59,7 @@ const AccessRight = (props) => {
         const checkedCheckbox = (typeOfobj, TypeCheck) => {
             const objacceptCKbox = { ...acceptCKbox?.[typeOfobj], [TypeCheck]: checked }
             const objacceptCKboxset = { ...acceptCKbox, [typeOfobj]: objacceptCKbox }
+            
             setacceptCKbox(objacceptCKboxset)
         }
 
@@ -105,35 +103,28 @@ const AccessRight = (props) => {
                 pharseType("User");
                 break;
             default:
-                // Handle the case when none of the conditions are met
                 break;
         }
     }
+
+    function crud(params1, params2, params3, params4) {
+        return {
+            create: params1,
+            delete: params2,
+            update: params3,
+            read: params4,
+        }
+    }
+
     const nameType = {
-        Product: {
-            create: "createProduct", delete: "deleteProduct", update: "updateProduct", read: "readProduct",
-        },
-        Inventory: {
-            create: "createInventory", delete: "deleteInventory", update: "updateInventory", read: "readInventory"
-        },
-        Brand: {
-            create: "createBrand", delete: "deleteBrand", update: "updateBrand", read: "readBrand"
-        },
-        Supllier: {
-            create: "createSupllier", delete: "deleteSupllier", update: "updateSupllier", read: "readSupllier"
-        },
-        Customer: {
-            create: "createCustomer", delete: "deleteCustomer", update: "updateCustomer", read: "readCustomer"
-        },
-        Warehouse: {
-            create: "createWarehouse", delete: "deleteWarehouse", update: "updateWarehouse", read: "readWarehouse"
-        },
-        Export: {
-            create: "createExport", delete: "deleteExport", update: "updateExport", read: "readExport"
-        },
-        User: {
-            create: "createUser", delete: "deleteUser", update: "updateUser", read: "readUser"
-        },
+        Product: crud("createProduct", "deleteProduct", "updateProduct", "readProduct"),
+        Inventory: crud("createInventory", "deleteInventory", "updateInventory", "readInventory"),
+        Brand: crud("createBrand", "deleteBrand", "updateBrand", "readBrand"),
+        Supllier: crud("createSupllier", "deleteSupllier", "updateSupllier", "readSupllier"),
+        Customer: crud("createCustomer", "deleteCustomer", "updateCustomer", "readCustomer"),
+        Warehouse: crud("createWarehouse", "deleteWarehouse", "updateWarehouse", "readWarehouse"),
+        Export: crud("createExport", "deleteExport", "updateExport", "readExport"),
+        User: crud("createUser", "deleteUser", "updateUser", "readUser"),
     }
     const GridItem = (props) => {
         const { nameType, ItemName } = props
@@ -170,7 +161,14 @@ const AccessRight = (props) => {
             </Grid>
         </>
     }
-
+    const ComponentGrid = (props) => {
+        const { name, item } = props;
+        return (<>
+            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                <GridItem nameType={name} ItemName={item} />
+            </Grid>
+        </>)
+    }
     return (
         <div>
             <Button variant="contained" onClick={handleOpen}>Open access</Button>
@@ -184,30 +182,14 @@ const AccessRight = (props) => {
                     <Typography id="modal-modal-title" color={"red"} variant="h4" component="h2">
                         Access rights
                     </Typography>
-                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        <GridItem nameType={nameType.Product} ItemName={"Product"} />
-                    </Grid>
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        <GridItem nameType={nameType.Inventory} ItemName={"Inventory"} />
-                    </Grid>
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        <GridItem nameType={nameType.Brand} ItemName={"Brand"} />
-                    </Grid>
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        <GridItem nameType={nameType.Supllier} ItemName={"Supllier"} />
-                    </Grid>
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        <GridItem nameType={nameType.Customer} ItemName={"Customer"} />
-                    </Grid>
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        <GridItem nameType={nameType.Warehouse} ItemName={"Warehouse"} />
-                    </Grid>
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        <GridItem nameType={nameType.Export} ItemName={"Export"} />
-                    </Grid>
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        <GridItem nameType={nameType.User} ItemName={"User"} />
-                    </Grid>
+                    <ComponentGrid name={nameType.Product} item={"Product"} />
+                    <ComponentGrid name={nameType.Inventory} item={"Inventory"} />
+                    <ComponentGrid name={nameType.Brand} item={"Brand"} />
+                    <ComponentGrid name={nameType.Supllier} item={"Supllier"} />
+                    <ComponentGrid name={nameType.Customer} item={"Customer"} />
+                    <ComponentGrid name={nameType.Warehouse} item={"Warehouse"} />
+                    <ComponentGrid name={nameType.Export} item={"Export"} />
+                    <ComponentGrid name={nameType.User} item={"User"} />
                 </Box>
             </Modal>
         </div>
