@@ -32,12 +32,14 @@ const ProductView = () => {
                 const object = []
                 if (Url === "SearchStock") {
                     response?.data?.result?.map((key, index) => {
+                        console.log(key)
                         return object.push(
                             {
                                 index,
                                 label: key?.[keyName],
                                 key: keyName,
                                 _id: key._id,
+                                Category: key.Category,
                                 MaLK: key.MaLK,
                                 MaKho: key.MaKho,
                                 Color: key.Color,
@@ -78,6 +80,12 @@ const ProductView = () => {
             setsearchBox([])
         }
     }
+
+    const defprops ={
+        options : DataProduct , 
+        getOptionLabel: (options) => options.label + ' - ' + options.Category + ' - ' + options.MaKho + ' - ' + options.MaNCC
+    }
+
     return (
         <>
             <Container fixed>
@@ -86,26 +94,26 @@ const ProductView = () => {
                         <h4>Manage: Product</h4>
                     </Grid>
                     <Grid className="content-wrapper" item xs={3} sm={3} md={3}>
-                    <div className="mb-3">
-                        <Autocomplete
-                            disablePortal
-                            id="test"
-                            fullWidth={true}
-                            size="small"
-                            options={DataProduct}
-                            sx={{ width: 500 }}
-                            onChange={Onchangeformtable}
-                            onInputChange={OnCloseAuto}
-                            name={"ID"}
-                            renderInput={
-                                (params) => <TextField {...params}
-                                    label="Search"
-                                    // onChange={Onchangeformtable}
-                                    name={"Product"}
-                                />
-                            }
-                        />
-                    </div>
+                        <div className="mb-3">
+                            <Autocomplete
+                                disablePortal
+                                id="test"
+                                fullWidth={true}
+                                size="small"
+                                {...defprops}
+                                sx={{ width: 800 }}
+                                onChange={Onchangeformtable}
+                                onInputChange={OnCloseAuto}
+                                name={"ID"}
+                                renderInput={
+                                    (params) => <TextField {...params}
+                                        label="Search"
+                                        // onChange={Onchangeformtable}
+                                        name={"Product"}
+                                    />
+                                }
+                            />
+                        </div>
                     </Grid>
                 </Grid>
             </Container>

@@ -74,6 +74,12 @@ const UserView = () => {
         if (newvalue === "")
             setsearchBox([])
     }
+
+    const defprops = {
+        options: DataUser,
+        getOptionLabel: (options) => options.label + ' - ' + options.TenNV + ' - ' + options.SDT
+    }
+
     return (
         <>
             <Container fixed>
@@ -88,8 +94,8 @@ const UserView = () => {
                                 id="test"
                                 fullWidth={true}
                                 size="small"
-                                options={DataUser}
-                                sx={{ width: 200 }}
+                                {...defprops}
+                                sx={{ width: 500 }}
                                 onChange={Onchangeformtable}
                                 onInputChange={OnCloseAuto}
                                 name={"ID"}

@@ -65,6 +65,12 @@ const PaidView = () => {
         if (newvalue === "")
             setsearchBox([])
     }
+
+    const defprops = {
+        options: DataPaidOrder,
+        getOptionLabel: (options) => options.label + ' - ' + options.IDCustomer
+      }
+
     return (
         <>
             <Container fixed>
@@ -80,8 +86,8 @@ const PaidView = () => {
                                 id="test"
                                 fullWidth={true}
                                 size="small"
-                                options={DataPaidOrder}
-                                sx={{ width: 200 }}
+                                {...defprops}
+                                sx={{ width: 500 }}
                                 onChange={Onchangeformtable}
                                 onInputChange={OnCloseAuto}
                                 name={"ID"}

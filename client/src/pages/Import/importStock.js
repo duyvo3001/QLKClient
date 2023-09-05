@@ -33,19 +33,30 @@ const ImportStock = () => {
   const [DataCategory, setDataCategory] = useState([])
   const [DataWarehouse, setDataWarehouse] = useState([]);
   const [DataSupplier, setDataSupplier] = useState([]);
+  const tpyeobj = {
+    label: "",
+    name: ""
+  }
   const [valueAuto, setvalueAuto] = useState({
     Category: "",
     MaThuongHieu: "",
     Color: "",
-    MaKho: "",
-    MaNCC:"",
+    MaKho: tpyeobj,
+    MaNCC: tpyeobj,
     TinhTrangHang: "GOOD",
   })
 
+  function setvalueAutocomplete(newvalue) {
+    if (newvalue?.key === 'MaNCC' || newvalue?.key === 'MaKho')
+      setvalueAuto({ ...valueAuto, [newvalue?.key]: { label: newvalue?.label, name: newvalue?.name } })
+    else
+      setvalueAuto({ ...valueAuto, [newvalue?.key]: newvalue?.label })
+    setFormData({ ...formData, [newvalue?.key]: newvalue?.label });
+  }
+
   const HandleChange = (event, newvalue) => {
     if (newvalue) {
-      setvalueAuto({ ...valueAuto, [newvalue?.key]: newvalue?.label })
-      setFormData({ ...formData, [newvalue?.key]: newvalue?.label });
+      setvalueAutocomplete(newvalue)
     }
     else {
       const { name, value } = event.target;
@@ -119,31 +130,42 @@ const ImportStock = () => {
     });
     setpageindex({ ...pageindex, page: newPage });
   };
-
-  function RequestRouterSearch(Url, keyName, SetData) {
   
-      Request
-        .get(`/${Url}`,
-          { headers: { Authorization: sessionStorage.getItem("access_token") } })
-        .then((response) => {
-          const object = []
-          response?.data?.result?.map((key) => {
-            return object.push({ label: key?.[keyName], key: keyName })
-          })
-          SetData(object)
+  function updateType(response, keyName, SetData, Url) {
+    if (Url !== "SearchSupplier" && Url !== "SearchWarehouse") {
+      const object = []
+      response?.data?.result?.map((key) => {
+        return object.push({ label: key?.[keyName], key: keyName })
+      })
+      SetData(object)
+    }
+    else {
+      const object = []
+      response?.data?.result?.map((key) => {
+        return object.push({
+          label: key?.[keyName],
+          key: keyName,
+          name: key?.[Url === "SearchSupplier" ? "TenNCC" : "TenKho"]
         })
-        .catch((error) => { console.log(error) })
- 
+      })
+      SetData(object)
+    }
   }
- 
+  function RequestRouterSearch(Url, keyName, SetData) {
+    Request
+      .get(`/${Url}`,
+        { headers: { Authorization: sessionStorage.getItem("access_token") } })
+      .then((response) => {
+        updateType(response, keyName, SetData, Url)
+      })
+      .catch((error) => { console.log(error) })
+  }
 
   useEffect(() => {
-
     RequestRouterSearch("SearchCategory", "Category", setDataCategory)
     RequestRouterSearch("SearchBrand", "MaThuongHieu", setDataBrand)
     RequestRouterSearch("SearchWarehouse", "MaKho", setDataWarehouse)
     RequestRouterSearch("SearchSupplier", "MaNCC", setDataSupplier)
-
   }, [])
 
   const ColorArr = [
@@ -178,25 +200,35 @@ const ImportStock = () => {
 
   let valuehidden = true
 
+  const defprops = {
+    options: DataSupplier,
+    getOptionLabel: (options) => options.label + ' - ' + options.name
+  }
+
+  const defpropsWarehouse = {
+    options: DataWarehouse,
+    getOptionLabel: (options) => options.label + ' - ' + options.name
+  }
+
   return (
     <>
       <Container fluid="xxl">
         <h4 className="mb-3">Import : Product</h4>
         <Form onSubmit={HandleData}>
           <Row className='mb-2 row'>
-            <Col md={2}><Form.Label column="sm">Category</Form.Label></Col>
+            <Col md={2}><Form.Label column="sm">{"Category"}</Form.Label></Col>
             <Col md={4}>
               <Autocomplete
                 // disablePortal
                 fullWidth={true}
-                id="Category"
+                id={"Category"}
                 size="small"
                 options={DataCategory}
                 sx={{ width: 350 }}
                 onChange={HandleChange}
-                name="Category"
+                name={"Category"}
                 value={valueAuto.Category}
-                renderInput={(params) => <TextField {...params} onChange={HandleChange} name="Category" />}
+                renderInput={(params) => <TextField {...params} onChange={HandleChange} name={"Category"} />}
               /></Col>
             <Col md={2}><Form.Label column="sm">Name Product</Form.Label></Col>
             <Col md={4}>
@@ -300,7 +332,7 @@ const ImportStock = () => {
                 disablePortal
                 id="combo-box-demo"
                 size="small"
-                options={DataWarehouse}
+                {...defpropsWarehouse}
                 sx={{ width: 350 }}
                 onChange={HandleChange}
                 name="MaKho"
@@ -333,7 +365,7 @@ const ImportStock = () => {
                 disablePortal
                 id="combo-box-demo"
                 size="small"
-                options={DataSupplier}
+                {...defprops}
                 sx={{ width: 350 }}
                 onChange={HandleChange}
                 name="MaNCC"

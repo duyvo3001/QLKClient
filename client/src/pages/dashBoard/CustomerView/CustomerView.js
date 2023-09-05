@@ -66,6 +66,12 @@ const CustomerView = () => {
         if (newvalue === "")
             setsearchBox([])
     }
+
+    const defprops = {
+        options: DataCustomer,
+        getOptionLabel: (options) => options.label + ' - ' + options.NameCustomer + ' - ' + options.Phone + ' - ' + options.Email
+    }
+
     return (
         <>
             <Container fixed>
@@ -80,8 +86,8 @@ const CustomerView = () => {
                                 id="test"
                                 fullWidth={true}
                                 size="small"
-                                options={DataCustomer}
-                                sx={{ width: 200 }}
+                                {...defprops}
+                                sx={{ width: 800 }}
                                 onChange={Onchangeformtable}
                                 onInputChange={OnCloseAuto}
                                 name={"ID"}

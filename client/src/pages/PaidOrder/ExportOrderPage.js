@@ -74,32 +74,41 @@ const ExportOrderPage = () => {
             );
         }
     }
+
+    function updateData(Url, response, keyName, SetData) {
+        const object = []
+        if (Url === "SearchStockExport") {
+            response?.data?.result?.map((key, index) => {
+                return object.push(
+                    {
+                        index,
+                        label: key?.[keyName],
+                        key: keyName,
+                        GiaBanLe: key?.GiaBanLe,
+                        Soluong: key?.Soluong,
+                        TenLK: key?.TenLK
+                    }
+                )
+            })
+        }
+        else {
+            response?.data?.result?.map((key) => {
+                return object.push({
+                    label: key?.[keyName],
+                    key: keyName,
+                    name: key.NameCustomer
+                })
+            })
+        }
+        SetData(object)
+    }
+
     function RequestRouterSearch(Url, keyName, SetData) {
         Request
             .get(`/${Url}`,
                 { headers: { Authorization: sessionStorage.getItem("access_token") } })
             .then((response) => {
-                const object = []
-                if (Url === "SearchStockExport") {
-                    response?.data?.result?.map((key, index) => {
-                        return object.push(
-                            {
-                                index,
-                                label: key?.[keyName],
-                                key: keyName,
-                                GiaBanLe: key?.GiaBanLe,
-                                Soluong: key?.Soluong,
-                                TenLK: key?.TenLK
-                            }
-                        )
-                    })
-                }
-                else {
-                    response?.data?.result?.map((key) => {
-                        return object.push({ label: key?.[keyName], key: keyName })
-                    })
-                }
-                SetData(object)
+                updateData(Url, response, keyName, SetData)
             })
             .catch((error) => { console.log(error) })
     }
@@ -122,6 +131,52 @@ const ExportOrderPage = () => {
         }
 
         // eslint-disable-next-line array-callback-return
+        const checkfunc = checkemptyNameProduct(checkErr)
+
+        if (checkfunc === true) {
+            requestPaidOrder()
+        }
+    }
+
+    function requestPaidOrder() {
+        Request.post('/PaidOrder',
+            {
+                formData, Render
+            },
+            {
+                headers: { 'Authorization': sessionStorage.getItem("access_token") }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    const inputFields = [
+                        'searchCustomer',
+                        'search1',
+                        'Quantity1',
+                    ];
+                    inputFields.forEach((fieldName) => {
+                        const elements = document.getElementsByName(fieldName);
+                        if (elements.length > 0) {
+                            elements[0].value = "";
+                        }
+                    });
+                    setFormData({})
+                    setSuccess({
+                        valueShow: true,
+                        message: response.data.message
+                    })
+                    setPaid({
+                        CreateOrder: true,
+                        Print: false
+                    })
+                    setID(response.data.ID)   
+                }
+            })
+            .catch(err => {
+                console.error("err", err);
+            })
+    }
+
+    function checkemptyNameProduct(checkErr) {
         Render.map((key) => { // check empty the Name Product
             if (key.Qty === "0") {
                 setShow({
@@ -138,48 +193,14 @@ const ExportOrderPage = () => {
                 checkErr = false
             }
         })
-
-        if (checkErr === true) {
-            Request.post('/PaidOrder',
-                {
-                    formData, Render
-                },
-                {
-                    headers: { 'Authorization': sessionStorage.getItem("access_token") }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-
-                        console.log(response);
-                        setFormData({})
-                        setSuccess({
-                            valueShow: true,
-                            message: response.data.message
-                        })
-                        setPaid({
-                            CreateOrder: true,
-                            Print: false
-                        })
-                        setID(response.data.ID)
-                        const inputFields = [
-                            'searchCustomer',
-                            'search1',
-                            'Quantity1',
-                        ];
-
-                        inputFields.forEach((fieldName) => {
-                            const elements = document.getElementsByName(fieldName);
-                            if (elements.length > 0) {
-                                elements[0].value = "";
-                            }
-                        });
-                    }
-                })
-                .catch(err => {
-                    console.error("err", err);
-                })
-        }
+        return checkErr
     }
+
+    const defprops = {
+        options: DataCustomer,
+        getOptionLabel: (options) => options.label + ' - ' + options.name
+    }
+
     return (
         <>
             <Container>
@@ -196,8 +217,8 @@ const ExportOrderPage = () => {
                             disablePortal
                             id="IDCustomer"
                             size="small"
-                            options={DataCustomer}
-                            sx={{ width: 350 }}
+                            {...defprops}
+                            sx={{ width: 500 }}
                             onChange={Onchangeform}
                             name="IDCustomer"
                             renderInput={(params) => <TextField {...params} onChange={Onchangeform} name="IDCustomer" />}

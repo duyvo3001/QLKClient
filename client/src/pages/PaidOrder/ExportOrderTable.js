@@ -141,7 +141,7 @@ const TBodytable = (props) => {
                             />
                         </td>
                         <td>
-                            <Form.Control as="textarea" name={"nameProduct" + index.ID.toString()} ></Form.Control>
+                            <Form.Control as="textarea" name={"nameProduct" + index.ID.toString()} disabled ></Form.Control>
                         </td>
                         <td>
                             <Form.Control

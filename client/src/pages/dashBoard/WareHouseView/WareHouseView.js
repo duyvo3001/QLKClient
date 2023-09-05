@@ -66,6 +66,12 @@ const WareHouseView = () => {
         if (newvalue === "")
             setsearchBox([])
     }
+
+    const defprops = {
+        options: DataWareHouse,
+        getOptionLabel: (options) => options.label + ' - ' + options.TenKho + ' - ' + options.SDT
+    }
+
     return (
         <>
             <Container fixed>
@@ -80,8 +86,8 @@ const WareHouseView = () => {
                                 id="test"
                                 fullWidth={true}
                                 size="small"
-                                options={DataWareHouse}
-                                sx={{ width: 200 }}
+                                {...defprops}
+                                sx={{ width: 800 }}
                                 onChange={Onchangeformtable}
                                 onInputChange={OnCloseAuto}
                                 name={"ID"}

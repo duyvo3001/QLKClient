@@ -45,7 +45,6 @@ const RightSide = () => {
         if (response.status === 200) {
           sessionStorage.setItem('access_token', response.data.access_token);
           sessionStorage.setItem('id', response.data._id);
-          console.info(response.data.user_nv)
           setLoggedIn(true);
           setIsAuthenticated(true);
         }
@@ -167,12 +166,12 @@ const RightSide = () => {
               <Button type='button' onClick={handleSubmit} variant="outline-primary">LOG IN</Button>
             </Stack>
             <div className="mb-3">
-              <p>Account : admin  </p>
-              <p>Password : admin123</p>
+              <p>Account : administrator  </p>
+              <p>Password : 123</p>
             </div>
           </Form>
           <div>
-            <p hidden={propresslogin}>Please wait this may take some time to boost server</p>
+            <p hidden={propresslogin}>Please wait 3 minute to boost server</p>
             <LinearWithValueLabel />
           </div>
         </section>

@@ -82,7 +82,7 @@ const SideBarLeft = () => {
             <ListItemText primary="Dashboard" />
           </ListItemButton>
           {/* ----- Product ------------------------------------------*/}
-          <ListItemButton hidden={false}onClick={() => handleClick("Product")}>
+          <ListItemButton hidden={false} onClick={() => handleClick("Product")}>
             <ListItemIcon>
               <ProductionQuantityLimitsIcon />
             </ListItemIcon>
@@ -103,16 +103,16 @@ const SideBarLeft = () => {
                 </ListItemIcon>
                 <ListItemText primary="Manage" />
               </ListItemButton>
-              <ListItemButton href="/Category" sx={{ pl: 6 }}>
-                <ListItemIcon>
-                  <CategoryIcon />
-                </ListItemIcon>
-                <ListItemText primary="Category" />
-              </ListItemButton>
             </List>
           </Collapse>
+          <ListItemButton href="/Category">
+            <ListItemIcon>
+              <CategoryIcon />
+            </ListItemIcon>
+            <ListItemText primary="Category" />
+          </ListItemButton>
           {/* ----- Inventory  ------------------------------------------*/}
-          <ListItemButton onClick={() => handleClick("Inventory")}>
+          {/* <ListItemButton onClick={() => handleClick("Inventory")}>
             <ListItemIcon>
               <InventoryIcon />
             </ListItemIcon>
@@ -128,7 +128,7 @@ const SideBarLeft = () => {
                 <ListItemText primary="Mangement" />
               </ListItemButton>
             </List>
-          </Collapse>
+          </Collapse> */}
           {/* ----- Brand ------------------------------------------*/}
           <ListItemButton onClick={() => handleClick("Brand")}>
             <ListItemIcon>

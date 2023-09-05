@@ -66,12 +66,18 @@ const SupplierView = () => {
         if (newvalue === "")
             setsearchBox([])
     }
+
+    const defprops ={
+        options:DataSupplier , 
+        getOptionLabel: (options) => options.label + ' - ' + options.TenNCC + ' - ' + options.SDT
+    }
+
     return (
         <>
             <Container fixed>
                 <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
                     <Grid item xs={3} sm={3} md={3} className="mb-3">
-                        <h4>Manage: Brand</h4>
+                        <h4>Manage: Supplier</h4>
                     </Grid>
                     <Grid className="content-wrapper" item xs={3} sm={3} md={3}>
                         <div className="mb-3">
@@ -80,8 +86,8 @@ const SupplierView = () => {
                                 id="test"
                                 fullWidth={true}
                                 size="small"
-                                options={DataSupplier}
-                                sx={{ width: 200 }}
+                                {...defprops}
+                                sx={{ width: 800 }}
                                 onChange={Onchangeformtable}
                                 onInputChange={OnCloseAuto}
                                 name={"ID"}
