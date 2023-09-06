@@ -13,6 +13,8 @@ import UpdatePassword from "../../userManegement/UpdatePassword";
 import UpdateAccess from "../../userManegement/UpdateAccess";
 import { GrDocumentUpdate } from 'react-icons/gr';
 import { MdOutlineCancel } from 'react-icons/md';
+import AccessRight from "../../userManegement/AccessRight";
+
 const TableUser = (props) => {
     const { filters, valuehidden, searchBox } = props;
     return (
@@ -47,12 +49,18 @@ const TBodytable = (props) => {
     const [formData, setFormData] = useState({});
     const [_idItem, setIdItem] = useState(null);
     const [showAlter, setShowAlter] = useState(false);
-
-    const [AccessRight, setAccessRight] = useState({
-        update: "false",
-        create: "false",
-        read: "false",
-        valuedelete: "false",
+    const objCrud = {
+        create: false, delete: false, update: false, read: false
+    }
+    const [Accessright, setAccessright] = useState({
+        Product: objCrud,
+        Inventory: objCrud,
+        Brand: objCrud,
+        Supllier: objCrud,
+        Customer: objCrud,
+        Warehouse: objCrud,
+        Export: objCrud,
+        User: objCrud,
     })
 
     useEffect(() => {
@@ -66,58 +74,7 @@ const TBodytable = (props) => {
         const { name, value } = event.target;
         updateformData(name, value)
         checkPass(name, value)
-        updateAccessRight(name, value)
     };
-    function updateAccessRight(name, value) {
-        switch (name) {
-            case "update":
-                if (value === "false") updatePrevState(name, "true")
-                else updatePrevState(name, "false")
-                break;
-            case "create":
-                if (value === "false") updatePrevState(name, "true")
-                else updatePrevState(name, "false")
-                break;
-            case "delete":
-                if (value === "false") updatePrevState(name, "true")
-                else updatePrevState(name, "false")
-                break;
-            default:
-                if (value === "false") updatePrevState(name, "true")
-                else updatePrevState(name, "false")
-                break;
-        }
-    }
-    function updatePrevState(key, value) {
-        switch (key) {
-            case "update":
-                setAccessRight(prevState => ({
-                    ...prevState,
-                    update: value
-                }));
-                break;
-            case "create":
-                setAccessRight(prevState => ({
-                    ...prevState,
-                    create: value
-                }));
-                break;
-            case "delete":
-                setAccessRight(prevState => ({
-                    ...prevState,
-                    delete: value
-                }));
-                break;
-
-            default:
-                setAccessRight(prevState => ({
-                    ...prevState,
-                    read: value
-                }));
-                break;
-        }
-
-    }
     function updateformData(name, value) {
         if (name !== "pass_nv" && name !== "repass_nv" && name !== "update" && name !== "delete" && name !== "create" && name !== "read") {
             const _id = _idItem;
@@ -143,18 +100,6 @@ const TBodytable = (props) => {
             }
         }
 
-    }
-    function RenderAccess(Data, ID) {
-        return Data?.data?.result !== undefined ? Data?.data?.result
-            ?.filter((key) => {
-                if (key?._id === ID) {
-                    return key
-                }
-            })
-            ?.map((key) => {
-                return key?.AccessRight
-            }
-            ) : Data[0].AccessRight
     }
     const datatable = Data?.data?.result !== undefined ? Data?.data?.result?.map(key =>
         <tr>
@@ -285,7 +230,7 @@ const TBodytable = (props) => {
                     () => UpdateEditUser(
                         key._id,
                         formData,
-                        AccessRight,
+                        Accessright,
                         setIdItem,
                         CancelEdit,
                         RequestRenderTable,
@@ -293,16 +238,17 @@ const TBodytable = (props) => {
                         setData,
                         "User"
                     )}>
-                    <GrDocumentUpdate /></Button>{" "}
+                    Update User</Button>{" "}
                 <UpdatePassword showAlter={showAlter} HandleChange={HandleChange} />{" "}
 
-                <UpdateAccess IDdata={key._id} Data={RenderAccess(Data, key._id)} HandleChange={HandleChange} />{" "}
+                {/* <UpdateAccess IDdata={key._id} Data={RenderAccess(Data, key._id)} HandleChange={HandleChange} />{" "} */}
+                <AccessRight Accessright={Accessright} setAccessright={setAccessright} />
 
                 <Button
                     size="sm"
                     variant="secondary"
                     onClick={() => CancelEdit(key._id, setIdItem)}>
-                    <MdOutlineCancel />
+                    <MdOutlineCancel />Cancel
                 </Button>{" "}
             </td>
         </tr>
@@ -446,13 +392,14 @@ const TBodytable = (props) => {
                     <GrDocumentUpdate /></Button>{" "}
                 <UpdatePassword showAlter={showAlter} HandleChange={HandleChange} />{" "}
 
-                <UpdateAccess IDdata={key._id} Data={RenderAccess(Data, key._id)} HandleChange={HandleChange} />{" "}
+                {/* <UpdateAccess IDdata={key._id} Data={RenderAccess(Data, key._id)} HandleChange={HandleChange} />{" "} */}
+                <AccessRight Accessright={Accessright} setAccessright={setAccessright} />
 
                 <Button
                     size="sm"
                     variant="secondary"
                     onClick={() => CancelEdit(key._id, setIdItem)}>
-                    <MdOutlineCancel />
+                    Cancel
                 </Button>{" "}
             </td>
         </tr>

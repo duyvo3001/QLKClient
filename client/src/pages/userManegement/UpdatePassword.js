@@ -13,7 +13,7 @@ function UpdatePassword(props) {
     return (
         <>
             <Button variant="info" onClick={handleShow} size="sm">
-                <MdPassword/>
+                Password
             </Button>
 
             <Modal show={show} onHide={handleClose}>

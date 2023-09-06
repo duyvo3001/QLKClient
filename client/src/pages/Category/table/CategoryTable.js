@@ -65,8 +65,8 @@ const TBodytable = (props) => {
                         className={key._id + "hidden"}
                         hidden={true}
                         onChange={HandleChange}
-                        name="IDCategory"
-                        value={key['IDCategory']}
+                        name="Category"
+                        value={key['Category']}
                     />
                 </td>
                 <td>
@@ -76,7 +76,7 @@ const TBodytable = (props) => {
                     <DropdownSetting
                         HandleDelete={() =>
                             HandleDelete(
-                                key.IDCategory,
+                                key.Category,
                                 "deleteCategory",
                                 RequestRenderTable,
                                 filters,
@@ -97,7 +97,7 @@ const TBodytable = (props) => {
 
                     <Button variant="warning" onClick={
                         () => UpdateEdit(
-                            key._id,
+                            key?._id,
                             formData,
                             setIdItem,
                             CancelEdit,
@@ -132,12 +132,12 @@ const TBodytable = (props) => {
                     <DropdownSetting
                         HandleDelete={() =>
                             HandleDelete(
-                                key.IDCategory,
+                                key._id,
                                 "deleteCategory",
                                 RequestRenderTable,
                                 filters,
                                 setData,
-                                "CategoryPage"
+                                "/CategoryPage/1"
                             )
                         }
                         handleEdit={() => HandleEdit(key._id, setIdItem)}
@@ -160,7 +160,7 @@ const TBodytable = (props) => {
                             RequestRenderTable,
                             filters,
                             setData,
-                            "Category"
+                            "updateCategory"
                         )}>
                         <BiEdit /></Button>{" "}
                 </td>

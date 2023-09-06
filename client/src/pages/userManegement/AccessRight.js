@@ -32,7 +32,6 @@ const AccessRight = (props) => {
         transform: 'translate(-50%, -50%)',
         width: 1000,
         bgcolor: 'background.paper',
-        // border: '2px solid #000',
         boxShadow: 24,
         p: 4,
     };
@@ -171,7 +170,7 @@ const AccessRight = (props) => {
     }
     return (
         <div>
-            <Button variant="contained" onClick={handleOpen}>Open access</Button>
+            <Button variant="contained" onClick={handleOpen}>Access</Button>
             <Modal
                 open={open}
                 onClose={handleClose}
