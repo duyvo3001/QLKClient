@@ -11,6 +11,7 @@ import { AlterShowSuccess, AlterShowEror } from "../../components/Alter/AlterSho
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import "../../style/styleTable.scss"
+
 const ImportStock = () => {
   const [pageindex, setpageindex] = useState({
     page: 1,

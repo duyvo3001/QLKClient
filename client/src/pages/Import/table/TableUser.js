@@ -10,7 +10,6 @@ import { RequestRenderTable } from "./ActionFunction/RequestRenderTable";
 import { HandleDelete } from "./ActionFunction/HandleDelete";
 import { HandleEdit } from "./ActionFunction/HandleEdit";
 import UpdatePassword from "../../userManegement/UpdatePassword";
-import UpdateAccess from "../../userManegement/UpdateAccess";
 import { GrDocumentUpdate } from 'react-icons/gr';
 import { MdOutlineCancel } from 'react-icons/md';
 import AccessRight from "../../userManegement/AccessRight";
@@ -72,6 +71,7 @@ const TBodytable = (props) => {
 
     const HandleChange = (event) => {
         const { name, value } = event.target;
+        console.log(name, value)
         updateformData(name, value)
         checkPass(name, value)
     };
@@ -82,7 +82,6 @@ const TBodytable = (props) => {
         }
     }
     function checkPass(name, value) {
-        console.log(name, value);
         if (name !== " ") {
             const _id = _idItem;
             setFormData({ ...formData, [name]: value, _id });
@@ -101,50 +100,42 @@ const TBodytable = (props) => {
         }
 
     }
-    const datatable = Data?.data?.result !== undefined ? Data?.data?.result?.map(key =>
+
+    const TextComponent = (props) => {
+        const { Datakey, name } = props
+        // console.log(Datakey?.[name])
+        // console.log(Datakey?._id)
+        // console.log(Datakey?._id + "hidden")
+        return (
+            <>
+                <td>
+                    <div className={Datakey?._id} hidden={false}>
+                        {Datakey?.[name]}{" "}
+                    </div>
+                    <TextArea
+                        className={Datakey?._id + "hidden"}
+                        hidden={true}
+                        onChange={HandleChange}
+                        name={name}
+                        value={Datakey?.[name]}
+                    />
+                </td>
+            </>
+        )
+    }
+    const Datacheck = Data?.data?.result
+    const datatable = Datacheck !== undefined ? Datacheck.map((key) =>
         <tr>
+            <TextComponent Datakey={key} name={'MaNV'} />
+            <TextComponent Datakey={key} name={'TenNV'} />
+            <TextComponent Datakey={key} name={'GioiTinh'} />
+
             <td>
-                <div className={key._id} hidden={false}>
-                    {key['MaNV']}{" "}
-                </div>
-                <TextArea
-                    className={key._id + "hidden"}
-                    hidden={true}
-                    onChange={HandleChange}
-                    name="MaNV"
-                    value={key['MaNV']}
-                />
-            </td>
-            <td>
-                <div className={key._id} hidden={false}>
-                    {key.TenNV}
-                </div>
-                <TextArea
-                    className={key._id + "hidden"}
-                    hidden={true}
-                    onChange={HandleChange}
-                    name="TenNV"
-                    value={key.TenNV}
-                />
-            </td>
-            <td>
-                <div className={key._id} hidden={false}>
-                    {key.GioiTinh}
-                </div>
-                <TextArea
-                    className={key._id + "hidden"}
-                    hidden={true}
-                    onChange={HandleChange}
-                    name="GioiTinh"
-                    value={key.GioiTinh}
-                />
-            </td>
-            <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.DiaChi}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="DiaChi"
@@ -152,11 +143,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.NgaySinh}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="NgaySinh"
@@ -164,11 +155,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.USER_NV}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="USER_NV"
@@ -176,11 +167,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.SDT}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="SDT"
@@ -188,11 +179,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.Email}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="Email"
@@ -200,11 +191,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.NgayTao}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="NgayTao"
@@ -215,20 +206,18 @@ const TBodytable = (props) => {
                 <DropdownSetting
                     HandleDelete={() =>
                         HandleDelete(
-                            key.MaNV,
-                            "deleteUser",
-                            RequestRenderTable,
-                            filters,
-                            setData,
-                            "StaffPage"
+                            key.MaNV, "deleteUser", RequestRenderTable,
+                            filters, setData, "StaffPage"
                         )
                     }
-                    handleEdit={() => HandleEdit(key._id, setIdItem)} />
+
+                    handleEdit={() => HandleEdit(key?._id, setIdItem)}
+                />
             </td>
-            <td className={key._id + "hidden"} hidden={true}>
+            <td className={key?._id + "hidden"} hidden={true}>
                 <Button size="sm" variant="warning" onClick={
                     () => UpdateEditUser(
-                        key._id,
+                        key?._id,
                         formData,
                         Accessright,
                         setIdItem,
@@ -241,13 +230,12 @@ const TBodytable = (props) => {
                     Update User</Button>{" "}
                 <UpdatePassword showAlter={showAlter} HandleChange={HandleChange} />{" "}
 
-                {/* <UpdateAccess IDdata={key._id} Data={RenderAccess(Data, key._id)} HandleChange={HandleChange} />{" "} */}
                 <AccessRight Accessright={Accessright} setAccessright={setAccessright} />
 
                 <Button
                     size="sm"
                     variant="secondary"
-                    onClick={() => CancelEdit(key._id, setIdItem)}>
+                    onClick={() => CancelEdit(key?._id, setIdItem)}>
                     <MdOutlineCancel />Cancel
                 </Button>{" "}
             </td>
@@ -255,11 +243,11 @@ const TBodytable = (props) => {
     ) : Data?.map((key) => (
         <tr>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key['MaNV']}{" "}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="MaNV"
@@ -267,11 +255,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.TenNV}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="TenNV"
@@ -279,11 +267,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.GioiTinh}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="GioiTinh"
@@ -291,11 +279,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.DiaChi}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="DiaChi"
@@ -303,11 +291,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.NgaySinh}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="NgaySinh"
@@ -315,11 +303,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.USER_NV}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="USER_NV"
@@ -327,11 +315,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.SDT}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="SDT"
@@ -339,11 +327,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.Email}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="Email"
@@ -351,11 +339,11 @@ const TBodytable = (props) => {
                 />
             </td>
             <td>
-                <div className={key._id} hidden={false}>
+                <div className={key?._id} hidden={false}>
                     {key.NgayTao}
                 </div>
                 <TextArea
-                    className={key._id + "hidden"}
+                    className={key?._id + "hidden"}
                     hidden={true}
                     onChange={HandleChange}
                     name="NgayTao"
@@ -374,12 +362,12 @@ const TBodytable = (props) => {
                             "StaffPage"
                         )
                     }
-                    handleEdit={() => HandleEdit(key._id, setIdItem)} />
+                    handleEdit={() => HandleEdit(key?._id, setIdItem)} />
             </td>
-            <td className={key._id + "hidden"} hidden={true}>
+            <td className={key?._id + "hidden"} hidden={true}>
                 <Button size="sm" variant="warning" onClick={
                     () => UpdateEditUser(
-                        key._id,
+                        key?._id,
                         formData,
                         AccessRight,
                         setIdItem,
@@ -392,13 +380,12 @@ const TBodytable = (props) => {
                     <GrDocumentUpdate /></Button>{" "}
                 <UpdatePassword showAlter={showAlter} HandleChange={HandleChange} />{" "}
 
-                {/* <UpdateAccess IDdata={key._id} Data={RenderAccess(Data, key._id)} HandleChange={HandleChange} />{" "} */}
                 <AccessRight Accessright={Accessright} setAccessright={setAccessright} />
 
                 <Button
                     size="sm"
                     variant="secondary"
-                    onClick={() => CancelEdit(key._id, setIdItem)}>
+                    onClick={() => CancelEdit(key?._id, setIdItem)}>
                     Cancel
                 </Button>{" "}
             </td>

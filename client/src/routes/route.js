@@ -23,6 +23,7 @@ import ReportOutOfStockPage from '../pages/report/Outofstock/ReportOutOfStockPag
 import PrintReportInventory from '../pages/report/Inventory/print/PrintReportInventory';
 import InventoryManagement from '../pages/inventory/InventoryManagement';
 import UserSetting from '../pages/userManegement/UserSetting';
+import EditProduct from '../pages/Import/editpage/EditProduct';
 //public Route
 const publicRoutes = [
     { path: '/login', component: Login, layout: null },
@@ -53,6 +54,7 @@ const privateRoutes = [
     { path: '/PrintInventory', component: PrintReportInventory },
     { path: '/InventoryManagement', component: InventoryManagement },
     { path: '/UserProfile', component: UserSetting },
+    { path: '/EditProduct', component: EditProduct },
 ]
 
 export { publicRoutes, privateRoutes }
