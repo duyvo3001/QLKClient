@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+
 const AccessRight = (props) => {
     const { setAccessright, Accessright } = props;
     const [open, setOpen] = useState(false);
@@ -114,7 +115,10 @@ const AccessRight = (props) => {
             read: params4,
         }
     }
-
+    useEffect(()=>{
+        setacceptCKbox(Accessright)
+    },[Accessright])
+    
     const nameType = {
         Product: crud("createProduct", "deleteProduct", "updateProduct", "readProduct"),
         Inventory: crud("createInventory", "deleteInventory", "updateInventory", "readInventory"),
@@ -125,6 +129,7 @@ const AccessRight = (props) => {
         Export: crud("createExport", "deleteExport", "updateExport", "readExport"),
         User: crud("createUser", "deleteUser", "updateUser", "readUser"),
     }
+
     const GridItem = (props) => {
         const { nameType, ItemName } = props
         return <>
@@ -178,7 +183,7 @@ const AccessRight = (props) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" color={"red"} variant="h4" component="h2">
+                    <Typography id="modal-modal-title" color={"dimgray"} variant="h4" component="h2">
                         Access rights
                     </Typography>
                     <ComponentGrid name={nameType.Product} item={"Product"} />
