@@ -132,7 +132,7 @@ const TBodytable = (props) => {
             <TextComponent Datakey={key} name={'Email'} />
             <TextComponent Datakey={key} name={'NgayTao'} />
             <td hidden={valuehidden}>
-                <ModalEdit id={key.MaNV} />
+                <ModalEdit id={key.MaNV} idObj={key._id} />
                 <Button variant="contained" onClick={() =>
                     HandleDelete(
                         key.MaNV, "deleteUser", RequestRenderTable,

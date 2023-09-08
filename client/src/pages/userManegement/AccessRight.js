@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import CloseButton from 'react-bootstrap/esm/CloseButton';
 
 const AccessRight = (props) => {
     const { setAccessright, Accessright } = props;
@@ -49,7 +50,7 @@ const AccessRight = (props) => {
                 if (returnType(name) !== undefined) {
                     const objType = { ...Accessright?.[typeOfobj], [returnType(name)]: checked } //update state of setAccessright
                     const objAccessRight = { ...Accessright, [typeOfobj]: objType }
-                    
+
                     setAccessright(objAccessRight)
                     checkedCheckbox(typeOfobj, returnType(name))//set checked Checkbox
                 }
@@ -59,7 +60,7 @@ const AccessRight = (props) => {
         const checkedCheckbox = (typeOfobj, TypeCheck) => {
             const objacceptCKbox = { ...acceptCKbox?.[typeOfobj], [TypeCheck]: checked }
             const objacceptCKboxset = { ...acceptCKbox, [typeOfobj]: objacceptCKbox }
-            
+
             setacceptCKbox(objacceptCKboxset)
         }
 
@@ -115,10 +116,10 @@ const AccessRight = (props) => {
             read: params4,
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         setacceptCKbox(Accessright)
-    },[Accessright])
-    
+    }, [Accessright])
+
     const nameType = {
         Product: crud("createProduct", "deleteProduct", "updateProduct", "readProduct"),
         Inventory: crud("createInventory", "deleteInventory", "updateInventory", "readInventory"),
@@ -183,6 +184,7 @@ const AccessRight = (props) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                    <CloseButton onClick={() => setOpen(false)} />
                     <Typography id="modal-modal-title" color={"dimgray"} variant="h4" component="h2">
                         Access rights
                     </Typography>

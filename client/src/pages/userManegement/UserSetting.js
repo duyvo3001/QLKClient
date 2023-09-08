@@ -118,7 +118,7 @@ const UserSetting = () => {
         .catch((error) => {
           setShowEror({
             valueShow: true,
-            message: "error"
+            message: error
           })
         });
     }
