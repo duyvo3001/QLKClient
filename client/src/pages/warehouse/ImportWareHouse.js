@@ -110,7 +110,7 @@ const ImportWareHouse = () => {
           <Col md={2}><Form.Label column="sm">Address</Form.Label></Col>
           <Col md={4}><Form.Control onChange={HandleChange} size="sm" as="textarea" type="text" name="DiaChi" /></Col>
           <Col md={2}><Form.Label column="sm">Phone</Form.Label></Col>
-          <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="number" name="SDT" /></Col>
+          <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="number" name="SDT" min={0} /></Col>
         </Row>
         <Button variant='contained' onClick={HandleData} disabled={disabledbtn}>Add Warehouse</Button>
       </form>

@@ -11,7 +11,7 @@ import AccessRight from "./AccessRight";
 import UpdatePassword from './UpdatePassword';
 import CloseButton from 'react-bootstrap/esm/CloseButton';
 import Request from '../../api/Request';
-
+import EditIcon from '@mui/icons-material/Edit';
 const ModalEdit = (props) => {
     const { id, idObj } = props
     const [checkonchangeAccess, setcheckonchangeAccess] = useState()
@@ -173,7 +173,7 @@ const ModalEdit = (props) => {
     return (
         <>
             <div>
-                <Button variant="contained" onClick={handleOpen}>edit</Button>
+                <Button size='small' variant="contained" color='info' onClick={handleOpen}><EditIcon/></Button>
                 <Modal
                     open={open}
                     onClose={handleClose}

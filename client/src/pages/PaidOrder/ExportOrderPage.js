@@ -169,7 +169,7 @@ const ExportOrderPage = () => {
                         CreateOrder: true,
                         Print: false
                     })
-                    setID(response.data.ID)   
+                    setID(response.data.ID)
                 }
             })
             .catch(err => {
@@ -205,11 +205,13 @@ const ExportOrderPage = () => {
     return (
         <>
             <Container>
+                <Row>
+                <AlertDismissible />
+                </Row>
                 <Row className="mb-3">
                     <Col className="mb-1"> <h4>
                         Export Order
                     </h4></Col>
-
                 </Row>
                 <Row>
                     <Col className="mb-3" md={2}>Customer ID</Col>
@@ -225,9 +227,7 @@ const ExportOrderPage = () => {
                             renderInput={(params) => <TextField {...params} onChange={Onchangeform} name="IDCustomer" />}
                         />
                     </Col>
-                    <Col className="mb-0" md={5}>
-                        <AlertDismissible />
-                    </Col>
+
                 </Row>
                 <Row>
                     <Col>

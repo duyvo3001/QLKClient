@@ -57,7 +57,7 @@ const ImportStock = () => {
     MaNCC: tpyeobj,
     TinhTrangHang: "GOOD",
   })
-  const [disabledbtn , setdisabledbtn] = useState(true)
+  const [disabledbtn, setdisabledbtn] = useState(true)
   function setvalueAutocomplete(newvalue) {
     if (newvalue?.key === 'MaNCC' || newvalue?.key === 'MaKho')
       setvalueAuto({ ...valueAuto, [newvalue?.key]: { label: newvalue?.label, name: newvalue?.name } })
@@ -169,12 +169,12 @@ const ImportStock = () => {
       })
       .catch((error) => { console.log(error) })
   }
-  
+
   useEffect(() => {
     const { Category, Color, MaNCC, MaKho, Donvi, GiaBanLe, MaThuongHieu, Soluong, TenLK } = formData
     if (Category !== "" && Color !== "" && MaNCC !== "" && MaKho !== "" && Donvi !== ""
       && MaThuongHieu !== "" && GiaBanLe !== "" && Soluong !== "" && TenLK !== "") {
-        setdisabledbtn(false)
+      setdisabledbtn(false)
     }
   }, [formData])
 
@@ -318,6 +318,7 @@ const ImportStock = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                InputProps={{ inputProps: { min: 0 } }}
                 sx={{ width: 350 }}
                 onChange={HandleChange}
                 name="Soluong"
@@ -333,6 +334,7 @@ const ImportStock = () => {
                 fullWidth={true}
                 id="outlined-number"
                 type="number"
+                InputProps={{ inputProps: { min: 0 } }}
                 sx={{ width: 350 }}
                 size="small"
                 InputLabelProps={{
