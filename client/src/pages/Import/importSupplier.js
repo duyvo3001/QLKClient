@@ -1,17 +1,19 @@
 import { tableDTSupplier as TableDT } from "./table/tableDTSupplier";
 import { AlterShowSuccess, AlterShowEror } from "../../components/Alter/AlterShow";
-import { React, useState ,useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import RowCol from "./RowCol";
 import Form from "react-bootstrap/Form";
 import Request from "../../api/Request.js";
-import ButtonSubmit from "./ButtonSubmit";
 import ButtonBottom from "../Import/buttonBot/buttonBottom";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
-
+import { Button } from "@mui/material"
 const ImportSupplier = () => {
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        MaNCC: "", TenNCC: "", DiaChi: "", SDT: "", Email: ""
+    });
+    const [disabledbtn, setdisabledbtn] = useState(true);
     const [pageindex, setpageindex] = useState({
         page: 1,
     });
@@ -92,10 +94,16 @@ const ImportSupplier = () => {
         })
     }, [Show, ShowEror])
 
+    useEffect(() => {
+        const { MaNCC, TenNCC, DiaChi, SDT, Email } = formData
+        if (MaNCC !== "" && TenNCC !== "" && DiaChi !== "" && SDT !== "" && Email !== "")
+            setdisabledbtn(false)
+    }, [formData])
+
     return (
         <Container>
             <h4 className="mb-3">Import : Supplier</h4>
-            <Form onSubmit={HandleData}>
+            <Form >
                 <RowCol
                     handle={HandleChange}
                     text1="ID Supplier"
@@ -113,11 +121,11 @@ const ImportSupplier = () => {
                     <Col md={2}><Form.Label column="sm">Email</Form.Label></Col>
                     <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="email" name="Email" /></Col>
                 </Row>
-                <ButtonSubmit />
+                <Button variant="contained" onClick={HandleData} disabled={disabledbtn} >Add Supplier</Button>
             </Form>
             <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
             <AlterShowSuccess Show={Show} setShow={setShow} />
-            <TableDT filters={filters}  valuehidden={true}/>
+            <TableDT filters={filters} valuehidden={true} />
             <ButtonBottom
                 HandleButtonClick={HandleButtonClick}
                 pageindex={pageindex}

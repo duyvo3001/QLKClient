@@ -9,7 +9,7 @@ import { TableCustomer } from '../Import/table/TableCustomer';
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { AlterShowEror, AlterShowSuccess } from '../../components/Alter/AlterShow';
-
+import {Button} from "@mui/material"
 const ImportCustomer = () => {
   const [pageindex, setpageindex] = useState({
     page: 1,
@@ -17,7 +17,10 @@ const ImportCustomer = () => {
   const [filters, setfilters] = useState({
     page: 1,
   });
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    IDCustomer: "", NameCustomer: "", Phone: "", Email: ""
+  });
+  const [disabledbtn ,setdisabledbtn] = useState(true)
   const [Show, setShow] = useState({
     valueShow: false,
     message: ""
@@ -28,7 +31,6 @@ const ImportCustomer = () => {
   });
   const HandleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setFormData({ ...formData, [name]: value });
   }
   const HandleData = (event) => {
@@ -87,6 +89,13 @@ const ImportCustomer = () => {
       page: 1,
     })
   }, [Show, ShowEror])
+
+  useEffect(() => {
+    const {IDCustomer ,NameCustomer ,Phone ,Email} = formData
+    if(IDCustomer !=="" && NameCustomer !=="" &&Phone !=="" &&Email !=="") 
+    setdisabledbtn(false)
+  },[formData])
+
   return (
     <Container>
       <h4 className="mb-3">Import : Customer</h4>
@@ -98,7 +107,7 @@ const ImportCustomer = () => {
           <Col md={2}><Form.Label column="sm">Email</Form.Label></Col>
           <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="email" name="Email" /></Col>
         </Row>
-        <ButtonSubmit />
+        <Button  variant='contained' onClick={HandleData} disabled={disabledbtn}>Add Customer</Button>
       </Form>
       <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
       <AlterShowSuccess Show={Show} setShow={setShow} />

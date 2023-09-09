@@ -1,12 +1,13 @@
 import { React, useEffect, useState } from "react";
-import { AlterShowEror ,AlterShowSuccess } from "../../components/Alter/AlterShow";
-import {CategoryTable} from "./table/CategoryTable"
+import { AlterShowEror, AlterShowSuccess } from "../../components/Alter/AlterShow";
+import { CategoryTable } from "./table/CategoryTable"
 import ButtonSubmit from "../Import/ButtonSubmit";
 import ButtonBottom from "../Import/buttonBot/buttonBottom";
 import RowCol1 from "../Import/RowColOne";
 import Form from "react-bootstrap/Form";
 import Request from "../../api/Request";
 import Container from "react-bootstrap/Container";
+import { Button } from "@mui/material";
 
 const CategoryPage = () => {
     const [pageindex, setpageindex] = useState({
@@ -15,8 +16,11 @@ const CategoryPage = () => {
     const [filters, setfilters] = useState({
         page: 1,
     });
-    const [formData, setFormData] = useState({});
-
+    const [formData, setFormData] = useState({
+        IDcategory: ""
+    });
+    console.log(formData)
+    const [disabledbtn, setdisabledbtn] = useState(true);
     const [Show, setShow] = useState({
         valueShow: false,
         message: ""
@@ -78,6 +82,10 @@ const CategoryPage = () => {
         })
     }, [Show, ShowEror])
 
+    useEffect(() => {
+        if (formData.IDcategory !== "") setdisabledbtn(false)
+    },[formData])
+
     return (
         <Container>
             <h4 className="mb-3">Import : Category</h4>
@@ -87,7 +95,8 @@ const CategoryPage = () => {
                     text1="ID Category"
                     ID1="IDcategory"
                 />
-                <ButtonSubmit />
+                {/* <ButtonSubmit /> */}
+                <Button variant="contained" disabled={disabledbtn} >Add Category</Button>
             </Form>
             <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
             <AlterShowSuccess Show={Show} setShow={setShow} />

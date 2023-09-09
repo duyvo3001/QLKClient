@@ -7,7 +7,7 @@ import ButtonSubmit from "./ButtonSubmit";
 import Form from "react-bootstrap/Form";
 import Request from "../../api/Request.js";
 import ButtonBottom from '../Import/buttonBot/buttonBottom'
-
+import {Button} from "@mui/material"
 const ImportBrand = () => {
     const [pageindex, setpageindex] = useState({
         page: 1,
@@ -15,8 +15,8 @@ const ImportBrand = () => {
     const [filters, setfilters] = useState({
         page: 1,
     });
-    const [formData, setFormData] = useState({});
-
+    const [formData, setFormData] = useState({MaThuongHieu:""});
+    const [disabledbtn, setdisabledbtn] = useState(true)
     const [Show, setShow] = useState({
         valueShow: false,
         message: ""
@@ -80,16 +80,19 @@ const ImportBrand = () => {
         })
     }, [Show, ShowEror])
 
+    useEffect(()=>{
+        if(formData.MaThuongHieu !== "") setdisabledbtn(false)
+    },[formData])
     return (
         <Container>
             <h4 className="mb-3">Import : Brand</h4>
-            <Form onSubmit={HandleData}>
+            <Form>
                 <RowColOne
                     handle={HandleChange}
                     text1="ID Brand"
                     ID1="MaThuongHieu"
                 />
-                <ButtonSubmit />
+                <Button onClick={HandleData} variant="contained" disabled={disabledbtn}>Add Brand</Button>
             </Form>
             <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
             <AlterShowSuccess Show={Show} setShow={setShow} />

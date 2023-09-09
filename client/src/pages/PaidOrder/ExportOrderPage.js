@@ -139,6 +139,7 @@ const ExportOrderPage = () => {
     }
 
     function requestPaidOrder() {
+        console.info(formData, Render)
         Request.post('/PaidOrder',
             {
                 formData, Render

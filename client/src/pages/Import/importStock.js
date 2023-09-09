@@ -5,12 +5,12 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Request from "../../api/Request.js";
-import ButtonSubmit from "./ButtonSubmit";
 import ButtonBottom from "../Import/buttonBot/buttonBottom";
 import { AlterShowSuccess, AlterShowEror } from "../../components/Alter/AlterShow";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import "../../style/styleTable.scss"
+import { Button } from "@mui/material";
 
 const ImportStock = () => {
   const [pageindex, setpageindex] = useState({
@@ -19,7 +19,18 @@ const ImportStock = () => {
   const [filters, setfilters] = useState({
     page: 1,
   });
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    Category: "",
+    Color: "",
+    Donvi: "",
+    GiaBanLe: "",
+    MaKho: "",
+    MaNCC: "",
+    MaThuongHieu: "",
+    Soluong: "",
+    TenLK: "",
+    TinhTrangHang: "GOOD"
+  });
 
   const [Show, setShow] = useState({
     valueShow: false,
@@ -46,7 +57,7 @@ const ImportStock = () => {
     MaNCC: tpyeobj,
     TinhTrangHang: "GOOD",
   })
-
+  const [disabledbtn , setdisabledbtn] = useState(true)
   function setvalueAutocomplete(newvalue) {
     if (newvalue?.key === 'MaNCC' || newvalue?.key === 'MaKho')
       setvalueAuto({ ...valueAuto, [newvalue?.key]: { label: newvalue?.label, name: newvalue?.name } })
@@ -61,13 +72,10 @@ const ImportStock = () => {
     }
     else {
       const { name, value } = event.target;
-      if (name !== "MaThuongHieu"
-        || name !== "Category"
-        || name !== "TinhTrangHang"
-        || name !== "MaNCC"
-        || name !== "MaKho") {
-        // setvalueAuto({ ...valueAuto, [newvalue?.key]: newvalue?.label })
+      const excludedNames = ["MaThuongHieu", "Category", "TinhTrangHang", "MaNCC", "MaKho"];
+      if (!excludedNames.includes(name)) {
         setFormData({ ...formData, [name]: value });
+        setvalueAuto({ ...valueAuto, [newvalue?.key]: newvalue?.label })
       }
     }
   };
@@ -131,7 +139,7 @@ const ImportStock = () => {
     });
     setpageindex({ ...pageindex, page: newPage });
   };
-  
+
   function updateType(response, keyName, SetData, Url) {
     if (Url !== "SearchSupplier" && Url !== "SearchWarehouse") {
       const object = []
@@ -161,6 +169,14 @@ const ImportStock = () => {
       })
       .catch((error) => { console.log(error) })
   }
+  
+  useEffect(() => {
+    const { Category, Color, MaNCC, MaKho, Donvi, GiaBanLe, MaThuongHieu, Soluong, TenLK } = formData
+    if (Category !== "" && Color !== "" && MaNCC !== "" && MaKho !== "" && Donvi !== ""
+      && MaThuongHieu !== "" && GiaBanLe !== "" && Soluong !== "" && TenLK !== "") {
+        setdisabledbtn(false)
+    }
+  }, [formData])
 
   useEffect(() => {
     RequestRouterSearch("SearchCategory", "Category", setDataCategory)
@@ -215,7 +231,7 @@ const ImportStock = () => {
     <>
       <Container fluid="xxl">
         <h4 className="mb-3">Import : Product</h4>
-        <Form onSubmit={HandleData}>
+        <Form>
           <Row className='mb-2 row'>
             <Col md={2}><Form.Label column="sm">{"Category"}</Form.Label></Col>
             <Col md={4}>
@@ -375,7 +391,8 @@ const ImportStock = () => {
               />
             </Col>
           </Row>
-          <ButtonSubmit />
+          <Button onClick={HandleData} variant="contained" disabled={disabledbtn}>Add Product</Button>
+          {/* <ButtonSubmit /> */}
           <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
           <AlterShowSuccess Show={Show} setShow={setShow} />
         </Form>

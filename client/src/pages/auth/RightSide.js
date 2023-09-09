@@ -1,8 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import React from 'react'
 import Container from 'react-bootstrap/esm/Container'
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Button } from "@mui/material";
 import Stack from 'react-bootstrap/Stack';
 import Request from '../../api/Request.js'
 import Alert from 'react-bootstrap/Alert';
@@ -10,6 +9,7 @@ import PropTypes from 'prop-types';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import { AuthContext } from "../../context/AuthContext.js";
 import { Navigate } from 'react-router-dom';
 
@@ -18,7 +18,10 @@ const RightSide = () => {
 
   const [propresslogin, setProgress] = useState(true)
 
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    pass_nv : "", 
+    user_nv :""
+  });
 
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -26,6 +29,8 @@ const RightSide = () => {
     valueShow: false,
     message: ""
   });
+
+  const [Disabledbtn, setDisabledbtn] = useState(true)
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -83,11 +88,14 @@ const RightSide = () => {
       })
 
   };
-
+  useEffect(() => {
+    if (formData.user_nv !== "" && formData.pass_nv !==""){
+      setDisabledbtn(false)
+    }
+  }, [formData])
   if (loggedIn) {
     return <Navigate to="/" />;
   }
-
   const AlertDismissible = () => {
     if (show?.valueShow === true) {
       return (
@@ -139,37 +147,35 @@ const RightSide = () => {
   }
   return (
     <Container className='body1'>
-
       <div className="mb-3">
         <section>
           <AlertDismissible />
           <h1 className="justify-content-md-center">SIGN IN</h1>
-          <Form >
-            <Form.Control
-              placeholder="User Name"
-              name="user_nv"
-              type="text"
-              id="inputPassword5"
-              onChange={handleChange}
-              className="mb-3"
-            />
-            <Form.Control
-              placeholder="Password"
-              name="pass_nv"
-              type="password"
-              id="inputPassword5"
-              aria-describedby="passwordHelpBlock"
-              onChange={handleChange}
-              className="mb-3"
-            />
-            <Stack className="col-md-7 mx-auto d-flex">
-              <Button type='button' onClick={handleSubmit} variant="outline-primary">LOG IN</Button>
-            </Stack>
-            <div className="mb-3">
-              <p>Account : administrator  </p>
-              <p>Password : 123</p>
-            </div>
-          </Form>
+          <TextField
+            name="user_nv"
+            type="text"
+            fullWidth={true}
+            className="mb-3"
+            size="medium"
+            onChange={handleChange}
+            label="User Name"
+          />
+          <TextField
+            name="pass_nv"
+            type="password"
+            fullWidth={true}
+            className="mb-3"
+            size="medium"
+            onChange={handleChange}
+            label="Password"
+          />
+          <Stack className="col-md-7 mx-auto d-flex">
+            <Button onClick={handleSubmit} variant="contained" disabled={Disabledbtn}>LOG IN</Button>
+          </Stack>
+          <div className="mb-3">
+            <p>Account : administrator  </p>
+            <p>Password : 123</p>
+          </div>
           <div>
             <p hidden={propresslogin}>Please wait 3 minute to boost server</p>
             <LinearWithValueLabel />
