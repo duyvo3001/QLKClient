@@ -66,10 +66,12 @@ const UserView = () => {
     useEffect(() => {
         RequestRouterSearch("SearchUser", "MaNV", setDataUser)
     }, [])
+
     const Onchangeformtable = async (event, newvalue) => { // when click and when type change event
         if (newvalue) // click event
             setsearchBox([newvalue])
     }
+    
     const OnCloseAuto = (event, newvalue) => {
         if (newvalue === "")
             setsearchBox([])

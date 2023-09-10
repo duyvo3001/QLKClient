@@ -11,6 +11,8 @@ import TableUser from "../Import/table/TableUser";
 import ButtonBottom from "../Import/buttonBot/buttonBottom";
 import AccessRight from "./AccessRight";
 import "../../style/styleTable.scss"
+import { AlterShowSuccess, AlterShowEror } from "../../components/Alter/AlterShow";
+
 const UserPage = () => {
   const [pageindex, setpageindex] = useState({
     page: 1,
@@ -18,7 +20,24 @@ const UserPage = () => {
   const [filters, setfilters] = useState({
     page: 1,
   });
-  const [formData, setFormData] = useState({});
+  const [Show, setShow] = useState({
+    valueShow: false,
+    message: "",
+  });
+  const [ShowEror, setShowEror] = useState({
+    valueShow: false,
+    message: ""
+  });
+
+  const [formData, setFormData] = useState({
+    TenNV: "",
+    GioiTinh: "Female",
+    Email: "",
+    SDT: 0,
+    DiaChi: "",
+    pass_nv: "",
+    repass_nv: ""
+  });
   const [Sex, setSex] = useState("Male");
   const objCrud = {
     create: false, delete: false, update: false, read: false
@@ -53,12 +72,24 @@ const UserPage = () => {
 
   const HandleData = (event) => {
     event.preventDefault();
-    console.log(formData, Accessright, Sex)
     Request.post(
       "/createstaff",
       { formData, Accessright, Sex },
       { headers: { Authorization: sessionStorage.getItem("access_token") } }
-    ).then((response) => { console.log(response) })
+    ).then((response) => {
+      if (response.status == 201) {
+        setShow({
+          valueShow: true,
+          message: response.data.message
+        })
+      }
+      else {
+        setShowEror({
+          valueShow: true,
+          message: response.data.message
+        })
+      }
+    })
       .catch((error) => {
         console.log(error);
       });
@@ -76,7 +107,9 @@ const UserPage = () => {
   return (
     <>
       <Container>
-        <h4>User Management</h4>
+        <h3>User Management</h3>
+        <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
+        <AlterShowSuccess Show={Show.valueShow} setShow={setShow} />
         <Form onSubmit={HandleData}>
           <RowCol handle={HandleChange} text1="ID Staff" ID1="MaNV" text2="Name Staff" ID2="TenNV" />
           <Row className='mb-2 row'>
