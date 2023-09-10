@@ -20,6 +20,14 @@ const UserPage = () => {
   const [filters, setfilters] = useState({
     page: 1,
   });
+  const [Show, setShow] = useState({
+    valueShow: false,
+    message: ""
+  });
+  const [ShowEror, setShowEror] = useState({
+    valueShow: false,
+    message: ""
+  });
   const [formData, setFormData] = useState({});
   const [Sex, setSex] = useState("Male");
   const objCrud = {
@@ -45,6 +53,7 @@ const UserPage = () => {
     Export: objCrud,
     User: objCrud,
   }
+  const [disabledbtn, setdisabledbtn] = useState(true)
 
   const HandleChange = async (event) => {
     const { name, value } = event.target;
