@@ -115,7 +115,7 @@ const ImportSupplier = () => {
                     <Col md={2}><Form.Label column="sm">Address</Form.Label></Col>
                     <Col md={4}><Form.Control onChange={HandleChange} size="sm" as="textarea" type="text" name="DiaChi" /></Col>
                     <Col md={2}><Form.Label column="sm">Phone</Form.Label></Col>
-                    <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="number" name="SDT" /></Col>
+                    <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="number" name="SDT" min={0} /></Col>
                 </Row>
                 <Row className='mb-2 row'>
                     <Col md={2}><Form.Label column="sm">Email</Form.Label></Col>

@@ -1,18 +1,9 @@
 import { React, useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
-import DropdownSetting from '../../Import/table/DropdownSetting'
-import { TextArea } from './TextArea';
 import Button from '@mui/material/Button';
-import { CancelEdit } from "./ActionFunction/CancelEdit";
-// import { UpdateEdit } from "./ActionFunction/UpdateEdit";
-import { UpdateEditUser } from "./ActionFunction/UpdateEdit";
 import { RequestRenderTable } from "./ActionFunction/RequestRenderTable";
 import { HandleDelete } from "./ActionFunction/HandleDelete";
-import { HandleEdit } from "./ActionFunction/HandleEdit";
-import UpdatePassword from "../../userManegement/UpdatePassword";
-import { GrDocumentUpdate } from 'react-icons/gr';
-import { MdOutlineCancel } from 'react-icons/md';
-import AccessRight from "../../userManegement/AccessRight";
+import DeleteIcon from '@mui/icons-material/Delete';
 import ModalEdit from "../../userManegement/ModalEdit";
 const TableUser = (props) => {
     const { filters, valuehidden, searchBox } = props;
@@ -53,8 +44,6 @@ const TBodytable = (props) => {
             RequestRenderTable(filters, setData, "StaffPage")
     }, [filters, searchBox])
 
-   
-
     const TextComponent = (props) => {
         const { Datakey, name } = props
         return (
@@ -81,11 +70,11 @@ const TBodytable = (props) => {
             <TextComponent Datakey={key} name={'NgayTao'} />
             <td hidden={valuehidden}>
                 <ModalEdit id={key.MaNV} idObj={key._id} />
-                <Button variant="contained" onClick={() =>
+                <Button size='small' variant="contained" color="error" onClick={() =>
                     HandleDelete(
                         key.MaNV, "deleteUser", RequestRenderTable,
                         filters, setData, "StaffPage"
-                    )}>delete</Button>
+                    )}><DeleteIcon/></Button>
             </td>
         </tr>
     ) : Data?.map((key) => (
@@ -101,11 +90,11 @@ const TBodytable = (props) => {
             <TextComponent Datakey={key} name={'NgayTao'} />
             <td hidden={valuehidden}>
                 <ModalEdit id={key?.MaNV} />
-                <Button variant="contained" onClick={() =>
+                <Button variant="contained"  color="error"  onClick={() =>
                     HandleDelete(
                         key.MaNV, "deleteUser", RequestRenderTable,
                         filters, setData, "StaffPage"
-                    )}>delete</Button>
+                    )}><DeleteIcon/></Button>
             </td>
         </tr>
     ))
