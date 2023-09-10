@@ -71,13 +71,10 @@ const DataProvider = () => {
                 { headers: { Authorization: sessionStorage.getItem("access_token") } })
             .then((response) => { setDataProduct(response.data.result) })
             .catch((error) => { console.log(error) })
-        console.log(formData)
-        // context?.Setformdatafunc(formData)
 
     }, [formData])
 
     const HandleChange = (event, newvalue) => {
-        console.log(newvalue)
         if (newvalue) {
             switchUpdate(newvalue)
         }

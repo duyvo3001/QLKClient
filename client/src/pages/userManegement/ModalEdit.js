@@ -15,12 +15,22 @@ import EditIcon from '@mui/icons-material/Edit';
 const ModalEdit = (props) => {
     const { id, idObj } = props
     const [checkonchangeAccess, setcheckonchangeAccess] = useState()
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [formData, setFormData] = useState({ _id: idObj });
-    const [valueform, setvalueform] = useState({
+    const [formData, setFormData] = useState({
+        _id: idObj,
         TenNV: "",
         GioiTinh: "Female",
+        Email: "",
+        SDT: 0,
+        DiaChi: "",
+        pass_nv: "",
+        repass_nv: ""
+    });
+    const [valueform, setvalueform] = useState({
+        TenNV: "",
+        GioiTinh: "",
         Email: "",
         SDT: 0,
         DiaChi: "",
@@ -46,7 +56,6 @@ const ModalEdit = (props) => {
         SDT: 0,
         Email: ""
     })
-    const [open, setOpen] = useState(false);
     const [Sex, setSex] = useState("Male");
     const objCrud = {
         create: false, delete: false, update: false, read: false
@@ -97,7 +106,6 @@ const ModalEdit = (props) => {
                 },
                 { headers: { Authorization: sessionStorage.getItem("access_token") } }
             ).then((response) => {
-                console.log(response)
                 setOpen(false)
             })
             .catch((error) => {
@@ -140,15 +148,12 @@ const ModalEdit = (props) => {
 
     useEffect(() => {//set disable button info
         function checkValueform() {
-            if (valueform.TenNV === ""
-                && valueform.GioiTinh === "Female"
-                && valueform.SDT == 0
-                && valueform.Email === ""
-                && valueform.DiaChi === "")
-                return true
+            const checkinfo = valueform.TenNV === "" || valueform.GioiTinh === "Female" || valueform.SDT === 0
+                || valueform.Email === "" || valueform.DiaChi === ""
+            if (checkinfo) return true
             else return false
         }
-        setdisableButton({ ...disableButton, info: checkValueform() === true ? true : false })
+        setdisableButton({ ...disableButton, info: checkValueform() === true ? false : true })
     }, [formData])
 
     useEffect(() => {//set disable button pass
@@ -173,7 +178,7 @@ const ModalEdit = (props) => {
     return (
         <>
             <div>
-                <Button size='small' variant="contained" color='info' onClick={handleOpen}><EditIcon/></Button>
+                <Button size='small' variant="contained" color='info' onClick={handleOpen}><EditIcon /></Button>
                 <Modal
                     open={open}
                     onClose={handleClose}
@@ -221,7 +226,7 @@ const ModalEdit = (props) => {
                                         {" "}</Col>
                                 </Row>
                             </Form>
-                            <Button onClick={HandleData} variant="contained">Update data</Button>
+                            <Button onClick={HandleData} variant="contained" color='success' disabled={disableButton.info}>Update data</Button>
                         </Container>
                     </Box>
                 </Modal>

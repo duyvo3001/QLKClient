@@ -1,13 +1,11 @@
 import Request from "../../../../api/Request"
 export const HandleDelete = (ID, PostUrl, RequestRenderTable, filters, setData, url) => {
-    console.log(ID)
     Request
         .post(`/${PostUrl}/${ID}`, {},
             {
                 headers: { Authorization: sessionStorage.getItem("access_token") }
             })
         .then(Response => {
-            console.log(Response)
             RequestRenderTable(filters, setData, url)
         }
         )

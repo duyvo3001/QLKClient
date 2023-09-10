@@ -112,7 +112,7 @@ const ImportWareHouse = () => {
           <Col md={2}><Form.Label column="sm">Phone</Form.Label></Col>
           <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="number" name="SDT" min={0} /></Col>
         </Row>
-        <Button variant='contained' onClick={HandleData} disabled={disabledbtn}>Add Warehouse</Button>
+        <Button variant='contained' color="success" onClick={HandleData} disabled={disabledbtn}>Add Warehouse</Button>
       </form>
       <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
       <AlterShowSuccess Show={Show} setShow={setShow} />

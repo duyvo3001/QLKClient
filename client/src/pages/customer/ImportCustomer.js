@@ -107,7 +107,7 @@ const ImportCustomer = () => {
           <Col md={2}><Form.Label column="sm">Email</Form.Label></Col>
           <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="email" name="Email" /></Col>
         </Row>
-        <Button  variant='contained' onClick={HandleData} disabled={disabledbtn}>Add Customer</Button>
+        <Button color="success" variant='contained' onClick={HandleData} disabled={disabledbtn}>Add Customer</Button>
       </Form>
       <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
       <AlterShowSuccess Show={Show} setShow={setShow} />

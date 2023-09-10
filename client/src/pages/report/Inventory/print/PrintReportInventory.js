@@ -14,7 +14,6 @@ const TableInventory = (props) => {
   const {hidden} = props
 
   // const context = useContext(DataContext)
-  // console.log(context._formData)
   return (
     <>
       <Table hidden={hidden}>

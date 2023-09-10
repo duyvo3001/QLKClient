@@ -92,7 +92,7 @@ const ImportBrand = () => {
                     text1="ID Brand"
                     ID1="MaThuongHieu"
                 />
-                <Button onClick={HandleData} variant="contained" disabled={disabledbtn}>Add Brand</Button>
+                <Button onClick={HandleData} variant="contained" color="success" disabled={disabledbtn}>Add Brand</Button>
             </Form>
             <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
             <AlterShowSuccess Show={Show} setShow={setShow} />

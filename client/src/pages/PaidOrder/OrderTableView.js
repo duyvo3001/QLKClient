@@ -5,8 +5,8 @@ import "./table.style.scss"
 import { AiOutlinePrinter, AiOutlineEdit } from "react-icons/ai";
 import { RiDeleteBin2Line } from "react-icons/ri"
 import { HandleDelete } from '../Import/table/ActionFunction/HandleDelete';
-
-import Button from 'react-bootstrap/esm/Button';
+import ModalEditExport from './ModalEditExport';
+import { Button } from '@mui/material';
 const OrderTableView = (props) => {
     const { filters, searchBox } = props;
     return (
@@ -39,7 +39,7 @@ const TBodytable = (props) => {
             setData(searchBox)
         else
             RequestRenderTable(filters, setData, "HomePaid");
-    }, [filters,searchBox]);
+    }, [filters, searchBox]);
 
     const datatable = Data?.data?.result !== undefined ? Data?.data.result?.map((key) => (
         <tr>
@@ -70,9 +70,9 @@ const TBodytable = (props) => {
                 </div>
             </td>
             <td>
-                <Button className='mb-3' href={'Invoice' + "/" + key.IDPaidOrder}><AiOutlinePrinter /></Button>
-                <Button className='mb-3' variant='warning'><AiOutlineEdit /></Button>
-                <Button className='mb-3'
+                <Button variant='contained' href={'Invoice' + "/" + key.IDPaidOrder}><AiOutlinePrinter /></Button>
+                <ModalEditExport id={""} />
+                <Button
                     onClick={() =>
                         HandleDelete(
                             key.IDPaidOrder,
@@ -81,7 +81,7 @@ const TBodytable = (props) => {
                             filters, setData,
                             "HomePaid")
                     }
-                    variant='danger'>
+                    variant='contained' color='error'>
                     <RiDeleteBin2Line />
                 </Button>
             </td>

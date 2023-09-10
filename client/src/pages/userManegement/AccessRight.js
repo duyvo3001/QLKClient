@@ -176,7 +176,7 @@ const AccessRight = (props) => {
     }
     return (
         <div>
-            <Button variant="contained" onClick={handleOpen}>Access</Button>
+            <Button variant="contained" color='info' onClick={handleOpen}>Access</Button>
             <Modal
                 open={open}
                 onClose={handleClose}

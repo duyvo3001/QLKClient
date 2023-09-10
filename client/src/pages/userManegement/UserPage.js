@@ -157,7 +157,7 @@ const UserPage = () => {
               <AccessRight Accessright={Accessright} setAccessright={setAccessright} />
             </Col>
           </Row>
-          <Button onClick={HandleData} variant="contained" disabled={disabledbtn}> Add User </Button>
+          <Button onClick={HandleData} variant="contained" color="success" disabled={disabledbtn}> Add User </Button>
         </Form>
       </Container>
       <div className="content-table">

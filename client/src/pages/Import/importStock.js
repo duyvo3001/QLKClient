@@ -393,8 +393,7 @@ const ImportStock = () => {
               />
             </Col>
           </Row>
-          <Button onClick={HandleData} variant="contained" disabled={disabledbtn}>Add Product</Button>
-          {/* <ButtonSubmit /> */}
+          <Button onClick={HandleData} variant="contained" color="success" disabled={disabledbtn}>Add Product</Button>
           <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
           <AlterShowSuccess Show={Show} setShow={setShow} />
         </Form>

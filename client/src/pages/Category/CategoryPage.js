@@ -19,7 +19,6 @@ const CategoryPage = () => {
     const [formData, setFormData] = useState({
         IDcategory: ""
     });
-    console.log(formData)
     const [disabledbtn, setdisabledbtn] = useState(true);
     const [Show, setShow] = useState({
         valueShow: false,
@@ -96,7 +95,7 @@ const CategoryPage = () => {
                     ID1="IDcategory"
                 />
                 {/* <ButtonSubmit /> */}
-                <Button variant="contained" disabled={disabledbtn} >Add Category</Button>
+                <Button variant="contained" color="success" disabled={disabledbtn} >Add Category</Button>
             </Form>
             <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />
             <AlterShowSuccess Show={Show} setShow={setShow} />

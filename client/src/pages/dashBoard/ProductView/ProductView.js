@@ -32,7 +32,6 @@ const ProductView = () => {
                 const object = []
                 if (Url === "SearchStock") {
                     response?.data?.result?.map((key, index) => {
-                        console.log(key)
                         return object.push(
                             {
                                 index,
