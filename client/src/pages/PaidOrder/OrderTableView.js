@@ -7,6 +7,7 @@ import { RiDeleteBin2Line } from "react-icons/ri"
 import { HandleDelete } from '../Import/table/ActionFunction/HandleDelete';
 import ModalEditExport from './ModalEditExport';
 import { Button } from '@mui/material';
+import {ConvertDatetime} from "../../components/convertDateTime/DateTimeConvert"
 const OrderTableView = (props) => {
     const { filters, searchBox } = props;
     return (
@@ -66,7 +67,7 @@ const TBodytable = (props) => {
             </td>
             <td>
                 <div className={key._id}>
-                    {key.Date?.toLocaleString()}{" "}
+                    {ConvertDatetime(key.Date?.toLocaleString())}{" "}
                 </div>
             </td>
             <td>

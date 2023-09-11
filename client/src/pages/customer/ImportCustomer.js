@@ -9,7 +9,7 @@ import { TableCustomer } from '../Import/table/TableCustomer';
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { AlterShowEror, AlterShowSuccess } from '../../components/Alter/AlterShow';
-import {Button} from "@mui/material"
+import { Button } from "@mui/material"
 const ImportCustomer = () => {
   const [pageindex, setpageindex] = useState({
     page: 1,
@@ -18,9 +18,9 @@ const ImportCustomer = () => {
     page: 1,
   });
   const [formData, setFormData] = useState({
-    IDCustomer: "", NameCustomer: "", Phone: "", Email: ""
+    NameCustomer: "", Phone: "", Email: ""
   });
-  const [disabledbtn ,setdisabledbtn] = useState(true)
+  const [disabledbtn, setdisabledbtn] = useState(true)
   const [Show, setShow] = useState({
     valueShow: false,
     message: ""
@@ -91,21 +91,25 @@ const ImportCustomer = () => {
   }, [Show, ShowEror])
 
   useEffect(() => {
-    const {IDCustomer ,NameCustomer ,Phone ,Email} = formData
-    if(IDCustomer !=="" && NameCustomer !=="" &&Phone !=="" &&Email !=="") 
-    setdisabledbtn(false)
-  },[formData])
+    const { NameCustomer, Phone } = formData
+    const checkform = NameCustomer !== "" && Phone !== "" 
+    if (checkform) setdisabledbtn(false)
+  }, [formData])
 
   return (
     <Container>
       <h4 className="mb-3">Import : Customer</h4>
       <Form onSubmit={HandleData}>
-        <RowCol handle={HandleChange} text1="ID Customer" ID1="IDCustomer" text2="Name Customer" ID2="NameCustomer" />
+        {/* <RowCol handle={HandleChange} text1="ID Customer" ID1="IDCustomer" text2="Name Customer" ID2="NameCustomer" /> */}
         <Row className='mb-2 row'>
           <Col md={2}><Form.Label column="sm">Phone</Form.Label></Col>
-          <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="number" name="Phone" min={0}/></Col>
+          <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="number" name="Phone" min={0} /></Col>
           <Col md={2}><Form.Label column="sm">Email</Form.Label></Col>
           <Col md={4}><Form.Control onChange={HandleChange} size="sm" type="email" name="Email" /></Col>
+        </Row>
+        <Row className='mb-2 row'>
+          <Col md={2}><Form.Label column="sm">Name Customer</Form.Label></Col>
+          <Col md={4}><Form.Control multiple={true} onChange={HandleChange} size="sm" type="text" name="NameCustomer" /></Col>
         </Row>
         <Button color="success" variant='contained' onClick={HandleData} disabled={disabledbtn}>Add Customer</Button>
       </Form>

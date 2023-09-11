@@ -52,7 +52,19 @@ const TBodytable = (props) => {
         const _id = _idItem;
         setFormData({ ...formData, [name]: value, _id });
     };
-
+    const options = {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      };
+    function convertDatetim(params) {
+        const inputDate = new Date(params);
+        const formattedDate = inputDate.toLocaleString('en-GB', options);
+        return formattedDate
+    }
     //handle data table
     const datatable = Data?.data?.result !== undefined ? Data?.data?.result?.map((key) => (
         <>
@@ -70,7 +82,7 @@ const TBodytable = (props) => {
                     />
                 </td>
                 <td>
-                    <div>{key.Date}</div>
+                    <div>{convertDatetim(key.Date)}</div>
                 </td>
                 <td hidden={valuehidden}>
                     <DropdownSetting

@@ -10,6 +10,7 @@ import { CancelEdit } from "./ActionFunction/CancelEdit";
 import { TextArea } from "./TextArea";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
+import {ConvertDatetime} from "../../../components/convertDateTime/DateTimeConvert"
 function TableDT(props) {
     const { filters, valuehidden, searchBox } = props;
     return (
@@ -137,7 +138,7 @@ const TBodytable = (props) => {
             </td>
             <td>
                 <div>
-                    {key.NgayNhap}{" "}
+                    {ConvertDatetime(key.NgayNhap)}{" "}
                 </div>
             </td>
             <td>

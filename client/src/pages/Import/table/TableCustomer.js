@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { ConvertDatetime } from "../../../components/convertDateTime/DateTimeConvert";
 // import Request from "../../../api/Request";
 import Table from "react-bootstrap/Table";
 import DropdownSetting from "../../Import/table/DropdownSetting";
@@ -60,7 +61,6 @@ const TBodytable = (props) => {
         const _id = _idItem;
         setFormData({ ...formData, [name]: value, _id });
     };
-
     //handle data table
     const datatable = Data?.data?.result !== undefined ? Data?.data.result?.map((key) => (
         <>
@@ -114,18 +114,18 @@ const TBodytable = (props) => {
                     />
                 </td>
                 <td>
-                    <div className={cx("dateImport")}>{key.NgayTao}</div>
+                    <div>{ConvertDatetime(key.NgayTao)}</div>
                 </td>
                 <td hidden={valuehidden}>
                     <DropdownSetting
                         HandleDelete={() =>
                             HandleDelete(
                                 key.IDCustomer,
-                                "deleteCustomer",
+                                "DeleteCustomer",
                                 RequestRenderTable,
                                 filters,
                                 setData,
-                                "ImportCustomer"
+                                "CustomerPage"
                             )
                         }
                         handleEdit={() => HandleEdit(key._id, setIdItem)}
@@ -211,11 +211,11 @@ const TBodytable = (props) => {
                         HandleDelete={() =>
                             HandleDelete(
                                 key.IDCustomer,
-                                "deleteCustomer",
+                                "DeleteCustomer",
                                 RequestRenderTable,
                                 filters,
                                 setData,
-                                "ImportCustomer"
+                                "CustomerPage"
                             )
                         }
                         handleEdit={() => HandleEdit(key._id, setIdItem)}

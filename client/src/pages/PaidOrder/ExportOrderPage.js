@@ -139,7 +139,6 @@ const ExportOrderPage = () => {
     }
 
     function requestPaidOrder() {
-        console.info(formData, Render)
         Request.post('/PaidOrder',
             {
                 formData, Render
@@ -179,7 +178,7 @@ const ExportOrderPage = () => {
 
     function checkemptyNameProduct(checkErr) {
         Render.map((key) => { // check empty the Name Product
-            if (key.Qty === "0") {
+            if (key.Qty == "0") {
                 setShow({
                     valueShow: true,
                     message: `Out of stock : ${key.NameProduct}`

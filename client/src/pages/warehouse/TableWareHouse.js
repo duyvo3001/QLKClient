@@ -12,6 +12,7 @@ import { UpdateEdit } from "../Import/table/ActionFunction/UpdateEdit";
 import { TextArea } from "../Import/table/TextArea";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
+import {ConvertDatetime} from "../../components/convertDateTime/DateTimeConvert"
 const cx = classnames.bind(style);
 const TableWareHouse = (props) => {
     const { filters, valuehidden, searchBox } = props;
@@ -110,7 +111,7 @@ const TBodytable = (props) => {
                     />
                 </td>
                 <td>
-                    <div className={cx("dateImport")}>{key.NgayTao}</div>
+                    <div className={cx("dateImport")}>{ConvertDatetime(key.NgayTao)}</div>
                 </td>
                 <td hidden={valuehidden}>
                     <DropdownSetting

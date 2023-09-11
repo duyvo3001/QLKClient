@@ -13,6 +13,7 @@ import { HandleEdit } from "./ActionFunction/HandleEdit";
 import { UpdateEdit } from "./ActionFunction/UpdateEdit";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
+import { ConvertDatetime } from "../../../components/convertDateTime/DateTimeConvert";
 const cx = classnames.bind(style);
 
 function tableDTBrand(props) {
@@ -58,7 +59,6 @@ const TBodytable = (props) => {
         const _id = _idItem;
         setFormData({ ...formData, [name]: value, _id });
     };
-
     //handle data table
     const datatable = Data?.data?.result !== undefined ? Data?.data?.result?.map((key) => (
         <>
@@ -76,7 +76,7 @@ const TBodytable = (props) => {
                     />
                 </td>
                 <td>
-                    <div className={cx("dateImport")}>{key.NgayNhap}</div>
+                    <div>{ConvertDatetime(key.NgayNhap)}</div>
                 </td>
                 <td hidden={valuehidden}>
                     <DropdownSetting

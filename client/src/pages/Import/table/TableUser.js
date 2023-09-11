@@ -5,6 +5,7 @@ import { RequestRenderTable } from "./ActionFunction/RequestRenderTable";
 import { HandleDelete } from "./ActionFunction/HandleDelete";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModalEdit from "../../userManegement/ModalEdit";
+import { ConvertDatetime } from "../../../components/convertDateTime/DateTimeConvert"
 const TableUser = (props) => {
     const { filters, valuehidden, searchBox } = props;
     return (
@@ -67,14 +68,18 @@ const TBodytable = (props) => {
             <TextComponent Datakey={key} name={'USER_NV'} />
             <TextComponent Datakey={key} name={'SDT'} />
             <TextComponent Datakey={key} name={'Email'} />
-            <TextComponent Datakey={key} name={'NgayTao'} />
+            <td>
+                <div className={key?._id} >
+                    {ConvertDatetime(key?.NgayTao)}{" "}
+                </div>
+            </td>
             <td hidden={valuehidden}>
                 <ModalEdit id={key.MaNV} idObj={key._id} />
                 <Button size='small' variant="contained" color="error" onClick={() =>
                     HandleDelete(
                         key.MaNV, "deleteUser", RequestRenderTable,
                         filters, setData, "StaffPage"
-                    )}><DeleteIcon/></Button>
+                    )}><DeleteIcon /></Button>
             </td>
         </tr>
     ) : Data?.map((key) => (
@@ -87,14 +92,18 @@ const TBodytable = (props) => {
             <TextComponent Datakey={key} name={'USER_NV'} />
             <TextComponent Datakey={key} name={'SDT'} />
             <TextComponent Datakey={key} name={'Email'} />
-            <TextComponent Datakey={key} name={'NgayTao'} />
+            <td>
+                <div className={key?._id} >
+                    {ConvertDatetime(key?.NgayTao)}{" "}
+                </div>
+            </td>
             <td hidden={valuehidden}>
                 <ModalEdit id={key?.MaNV} />
-                <Button variant="contained"  color="error"  onClick={() =>
+                <Button variant="contained" color="error" onClick={() =>
                     HandleDelete(
                         key.MaNV, "deleteUser", RequestRenderTable,
                         filters, setData, "StaffPage"
-                    )}><DeleteIcon/></Button>
+                    )}><DeleteIcon /></Button>
             </td>
         </tr>
     ))
