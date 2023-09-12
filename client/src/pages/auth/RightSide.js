@@ -19,8 +19,8 @@ const RightSide = () => {
   const [propresslogin, setProgress] = useState(true)
 
   const [formData, setFormData] = useState({
-    pass_nv : "", 
-    user_nv :""
+    pass_nv: "",
+    user_nv: ""
   });
 
   const [loggedIn, setLoggedIn] = useState(false);
@@ -57,6 +57,7 @@ const RightSide = () => {
             valueShow: true,
             message: response?.data?.message
           })
+          setDisabledbtn(true)
         }
       })
       .catch(error => {
@@ -65,12 +66,14 @@ const RightSide = () => {
             valueShow: false,
             message: "Server no response"
           })
+          setDisabledbtn(true)
         }
         else if (error.res?.status === 400) {
           setShow({
             valueShow: false,
             message: "Server no response"
           })
+          setDisabledbtn(true)
         }
         else if (error.res?.status === 401) {
           setShow({
@@ -88,7 +91,7 @@ const RightSide = () => {
 
   };
   useEffect(() => {
-    if (formData.user_nv !== "" && formData.pass_nv !==""){
+    if (formData.user_nv !== "" && formData.pass_nv !== "") {
       setDisabledbtn(false)
     }
   }, [formData])
@@ -172,8 +175,8 @@ const RightSide = () => {
             <Button onClick={handleSubmit} variant="contained" disabled={Disabledbtn}>LOG IN</Button>
           </Stack>
           <div className="mb-3">
-            <p>Account : administrator  </p>
-            <p>Password : 123</p>
+            <p>Account : administrator</p>
+            <p>Password : Admin123</p>
           </div>
           <div>
             <p hidden={propresslogin}>Please wait 3 minute to boost server</p>

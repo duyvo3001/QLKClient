@@ -39,12 +39,15 @@ const UpdateEdit = (_id, formData, setIdItem, CancelEdit, RequestRenderTable, fi
                 RequestRenderTable(filters, setData, KindServiceUrl.homeUrl)
             }
             else {
+                setIdItem(_id)
                 CancelEdit(_id)
                 RequestRenderTable(filters, setData, KindServiceUrl.homeUrl)
             }
         })
         .catch((error) => {
-            console.error(error);
+            setIdItem(_id)
+            CancelEdit(_id)
+            RequestRenderTable(filters, setData, KindServiceUrl.homeUrl)
         });
 }
 const UpdateEditUser = (_id, formData, AccessRight, setIdItem, CancelEdit, RequestRenderTable, filters, setData, UrlLink) => {
