@@ -179,12 +179,12 @@ const RightSide = () => {
             <p>Password : Admin123</p>
           </div>
           <div>
-            <p hidden={propresslogin}>Please wait 3 minute to boost server</p>
+            <p hidden={propresslogin}>Free web services use <a href="https://render.com/">Render</a> server</p>
+            <p hidden={propresslogin}>Please wait 3 minute  to boost server !!!</p>
             <LinearWithValueLabel />
           </div>
         </section>
       </div>
-
     </Container>
   )
 }
