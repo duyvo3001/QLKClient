@@ -75,7 +75,7 @@ const RightSide = () => {
           })
           setDisabledbtn(true)
         }
-        else if (error.res?.status === 401) {
+        else if (error.res?.status === 404) {
           setShow({
             valueShow: false,
             message: "Unauthorized"
