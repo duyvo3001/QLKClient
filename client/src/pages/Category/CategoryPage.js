@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { AlterShowEror, AlterShowSuccess } from "../../components/Alter/AlterShow";
 import { CategoryTable } from "./table/CategoryTable"
-import ButtonSubmit from "../Import/ButtonSubmit";
 import ButtonBottom from "../Import/buttonBot/buttonBottom";
 import RowCol1 from "../Import/RowColOne";
 import Form from "react-bootstrap/Form";
@@ -94,7 +93,6 @@ const CategoryPage = () => {
                     text1="ID Category"
                     ID1="IDcategory"
                 />
-                {/* <ButtonSubmit /> */}
                 <Button variant="contained" color="success" disabled={disabledbtn} >Add Category</Button>
             </Form>
             <AlterShowEror ShowEror={ShowEror} setShowEror={setShowEror} />

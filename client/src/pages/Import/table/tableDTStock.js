@@ -10,7 +10,9 @@ import { CancelEdit } from "./ActionFunction/CancelEdit";
 import { TextArea } from "./TextArea";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
-import {ConvertDatetime} from "../../../components/convertDateTime/DateTimeConvert"
+import { ConvertDatetime } from "../../../components/convertDateTime/DateTimeConvert"
+import { Navigate } from 'react-router-dom';
+
 function TableDT(props) {
     const { filters, valuehidden, searchBox } = props;
     return (
@@ -66,10 +68,12 @@ const TBodytable = (props) => {
         const _id = _idItem;
         setFormData({ ...formData, [name]: value, _id });
     };
-
+    const HandelClickTR = (MaLK) => {
+        return <Navigate to="/" />
+    }
     //Render table when searchbox changes and if searchbox null render full data table
     const datatable = Data?.data?.result !== undefined ? Data?.data?.result?.map((key) => (
-        <tr key={key.MaLK}>
+        <tr key={key.MaLK} onClick={HandelClickTR(key.MaLK)}>
             <td>
                 <div>{key.MaLK}{" "}</div>
             </td>

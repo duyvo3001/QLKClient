@@ -1,8 +1,7 @@
 import { useState, useContext, useEffect } from "react";
+import imgSignin from "../auth/images/signin-image.jpg"
 import React from 'react'
-import Container from 'react-bootstrap/esm/Container'
 import { Button } from "@mui/material";
-import Stack from 'react-bootstrap/Stack';
 import Request from '../../api/Request.js'
 import Alert from 'react-bootstrap/Alert';
 import PropTypes from 'prop-types';
@@ -12,7 +11,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { AuthContext } from "../../context/AuthContext.js";
 import { Navigate } from 'react-router-dom';
-
+import '../auth/styleLogin.scss'
 const RightSide = () => {
   const { setIsAuthenticated } = useContext(AuthContext);
 
@@ -95,6 +94,7 @@ const RightSide = () => {
       setDisabledbtn(false)
     }
   }, [formData])
+  
   if (loggedIn) {
     return <Navigate to="/" />;
   }
@@ -148,44 +148,56 @@ const RightSide = () => {
     );
   }
   return (
-    <Container className='body1'>
-      <div className="mb-3">
-        <section>
-          <AlertDismissible />
-          <h1 className="justify-content-md-center">SIGN IN</h1>
-          <TextField
-            name="user_nv"
-            type="text"
-            fullWidth={true}
-            className="mb-3"
-            size="medium"
-            onChange={handleChange}
-            label="User Name"
-          />
-          <TextField
-            name="pass_nv"
-            type="password"
-            fullWidth={true}
-            className="mb-3"
-            size="medium"
-            onChange={handleChange}
-            label="Password"
-          />
-          <Stack className="col-md-7 mx-auto d-flex">
-            <Button onClick={handleSubmit} variant="contained" disabled={Disabledbtn}>LOG IN</Button>
-          </Stack>
-          <div className="mb-3">
-            <p>Account : administrator</p>
-            <p>Password : Admin123</p>
+    <div class="main">
+      <section class="signup">
+        <div class="container">
+          <div class="signin-content">
+            <div class="signin-image">
+              <figure><img src={imgSignin} alt="sing up image" /></figure>
+              {/* <a href="#" class="signup-image-link">Create an account</a> */}
+            </div>
+            <div class="signin-form">
+              <h2 class="form-title">Sign in</h2>
+              <AlertDismissible />
+              <div>
+                <TextField
+                  name="user_nv"
+                  type="text"
+                  fullWidth={true}
+                  className="mb-3"
+                  size="medium"
+                  onChange={handleChange}
+                  label="User Name"
+                />
+              </div>
+              <div>
+                <TextField
+                  name="pass_nv"
+                  type="password"
+                  fullWidth={true}
+                  className="mb-3"
+                  size="medium"
+                  onChange={handleChange}
+                  label="Password"
+                />
+              </div>
+              <div class="form-group form-button">
+                <Button onClick={handleSubmit} variant="contained" disabled={Disabledbtn}>LOG IN</Button>
+              </div>
+              <div className="mb-3">
+                <p>Account : administrator</p>
+                <p>Password : Admin123</p>
+              </div>
+              <div>
+                <p hidden={propresslogin}>Free web services use <a href="https://render.com/">Render</a> server</p>
+                <p hidden={propresslogin}>Please wait 3 minute  to boost server !!!</p>
+                <LinearWithValueLabel />
+              </div>
+            </div>
           </div>
-          <div>
-            <p hidden={propresslogin}>Free web services use <a href="https://render.com/">Render</a> server</p>
-            <p hidden={propresslogin}>Please wait 3 minute  to boost server !!!</p>
-            <LinearWithValueLabel />
-          </div>
-        </section>
-      </div>
-    </Container>
+        </div>
+      </section>
+    </div>
   )
 }
 
