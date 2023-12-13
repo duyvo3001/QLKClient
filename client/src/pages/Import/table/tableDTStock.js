@@ -68,12 +68,12 @@ const TBodytable = (props) => {
         const _id = _idItem;
         setFormData({ ...formData, [name]: value, _id });
     };
-    const HandelClickTR = () => {
-        return <Navigate to="/" replace={true} />
+    const HandelClickTR = (MaLK) => {
+        return <Navigate to="/" />
     }
     //Render table when searchbox changes and if searchbox null render full data table
     const datatable = Data?.data?.result !== undefined ? Data?.data?.result?.map((key) => (
-        <tr key={key.MaLK} name="MaLK" value={key.MaLK} onClick={HandelClickTR()}>
+        <tr key={key.MaLK} name="MaLK" value={key.MaLK} onClick={() => HandelClickTR(key.MaLK)}>
             <td>
                 <div>{key.MaLK}{" "}</div>
             </td>
