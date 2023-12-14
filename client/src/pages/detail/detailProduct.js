@@ -6,19 +6,22 @@ const DetailProduct = () => {
   const [Data,setData] = useState(null)
   const params = useParams()
   const MaLK = params.id;
+
   RequestRouterSearch("SearchDetailProduct",MaLK,setData)
-  console.log(Data)
+
+  function RequestRouterSearch(Url, MaLK, setData) {
+    Request
+      .get(`/${Url}/${MaLK}`,
+        { headers: { Authorization: sessionStorage.getItem("access_token") } })
+      .then((response) => {
+        setData(response.data.result[0])
+      })
+      .catch((error) => { console.log(error) })
+  }
+  // console.log(Data)
   return (
-    <div>{Data}</div>
+    <div>{}</div>
   )
 }
-function RequestRouterSearch(Url, MaLK, SetData) {
-  Request
-    .get(`/${Url}/${MaLK}`,
-      { headers: { Authorization: sessionStorage.getItem("access_token") } })
-    .then((response) => {
-      SetData(response)
-    })
-    .catch((error) => { console.log(error) })
-}
+
 export default DetailProduct
