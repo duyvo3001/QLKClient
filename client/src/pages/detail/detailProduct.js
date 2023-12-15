@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Request from '../../api/Request';
 import { useParams } from 'react-router-dom';
+import Container from "react-bootstrap/Container";
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const DetailProduct = () => {
-  const [Data,setData] = useState(null)
+  const [Data, setData] = useState(null)
   const params = useParams()
   const MaLK = params.id;
-
-  RequestRouterSearch("SearchDetailProduct",MaLK,setData)
-
+  console.log(Data)
   function RequestRouterSearch(Url, MaLK, setData) {
     Request
       .get(`/${Url}/${MaLK}`,
@@ -18,9 +20,45 @@ const DetailProduct = () => {
       })
       .catch((error) => { console.log(error) })
   }
-  // console.log(Data)
+
+  useEffect(() => {
+    if (Data === null) {
+      RequestRouterSearch("SearchDetailProduct", MaLK, setData)
+    }
+  }, [Data])
+
   return (
-    <div>{}</div>
+    <>
+      <Container fluid="xxl">
+        <h4 className="mb-3">Detail : Product</h4>
+        <Form>
+          <Row className='mb-2 row'>
+            <Col md={2}><Form.Label column="sm">{"ID Product"}</Form.Label></Col>
+            <Col md={4}><Form.Label column="sm">{"Category"}</Form.Label></Col>
+            <Col md={2}><Form.Label column="sm">{"ID Product"}</Form.Label></Col>
+            <Col md={4}><Form.Label column="sm">{"Category"}</Form.Label></Col>
+          </Row>
+          <Row className='mb-2 row'>
+            <Col md={2}><Form.Label column="sm">{"ID Product"}</Form.Label></Col>
+            <Col md={4}><Form.Label column="sm">{"Category"}</Form.Label></Col>
+            <Col md={2}><Form.Label column="sm">{"ID Product"}</Form.Label></Col>
+            <Col md={4}><Form.Label column="sm">{"Category"}</Form.Label></Col>
+          </Row>
+          <Row className='mb-2 row'>
+            <Col md={2}><Form.Label column="sm">{"ID Product"}</Form.Label></Col>
+            <Col md={4}><Form.Label column="sm">{"Category"}</Form.Label></Col>
+            <Col md={2}><Form.Label column="sm">{"ID Product"}</Form.Label></Col>
+            <Col md={4}><Form.Label column="sm">{"Category"}</Form.Label></Col>
+          </Row>
+          <Row className='mb-2 row'>
+            <Col md={2}><Form.Label column="sm">{"ID Product"}</Form.Label></Col>
+            <Col md={4}><Form.Label column="sm">{"Category"}</Form.Label></Col>
+            <Col md={2}><Form.Label column="sm">{"ID Product"}</Form.Label></Col>
+            <Col md={4}><Form.Label column="sm">{"Category"}</Form.Label></Col>
+          </Row>
+        </Form>
+      </Container>
+    </>
   )
 }
 
